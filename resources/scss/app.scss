@@ -1,0 +1,53 @@
+$background-color: #e6ebe7;
+
+$primary-color:#47BE7D;
+$primary-color-light: #E8FFF3;
+
+
+
+.aside-fixed .aside {
+    background-color: white;
+}
+.aside .aside-logo {
+    height: 130px;
+}
+
+.header-fixed.toolbar-fixed .wrapper, .header-fixed .header{
+    background-color: $background-color;
+}
+
+.btn-check:active+.btn.btn-active-color-primary .svg-icon, .btn-check:active+.btn.btn-active-color-primary i, .btn-check:checked+.btn.btn-active-color-primary .svg-icon, .btn-check:checked+.btn.btn-active-color-primary i, .btn.btn-active-color-primary.active .svg-icon, .btn.btn-active-color-primary.active i, .btn.btn-active-color-primary.active .svg-icon, .btn.btn-active-color-primary.active i, .btn.btn-active-color-primary:active:not(.btn-active) .svg-icon, .btn.btn-active-color-primary:active:not(.btn-active) i, .btn.btn-active-color-primary:focus:not(.btn-active) .svg-icon, .btn.btn-active-color-primary:focus:not(.btn-active) i, .btn.btn-active-color-primary:hover:not(.btn-active) .svg-icon, .btn.btn-active-color-primary:hover:not(.btn-active) i, .active>.btn.btn-active-color-primary .svg-icon, .active>.btn.btn-active-color-primary i,
+.menu .menu-item.active>.menu-link .menu-title, .menu .menu-item .menu-link.active .menu-title,
+.menu-state-icon-primary .menu-item.active .menu-link .menu-icon, .menu-state-icon-primary .menu-item .menu-link.active .menu-icon .svg-icon, .menu-state-icon-primary .menu-item .menu-link.active .menu-icon i,
+.menu .menu-item>.menu-link.active .menu-icon, .menu .menu-item.active>.menu-link .menu-icon .svg-icon, .menu .menu-item.active>.menu-link .menu-icon i {
+    color: $primary-color;
+}
+
+.menu .menu-item .menu-link.active {
+    background-color: $primary-color-light;
+}
+
+.menu-item .menu-content ul.support-contact {
+    list-style: none;
+    padding-left: 0;
+    margin-top: .5rem;
+}
+
+.menu-item .menu-content ul.support-contact li {
+    padding: 0.25rem;
+}
+
+.menu-item .menu-content ul.support-contact .text-success {
+    width: 25px;
+    display: inline-block;
+}
+
+.social-icons a.text-success:hover {
+    color: #009ef7!important;
+}
+
+
+// top menu
+.header-fixed.toolbar-fixed .wrapper {
+    padding-top: calc(10px + var(--kt-toolbar-height));
+}
