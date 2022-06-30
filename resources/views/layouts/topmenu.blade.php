@@ -20,7 +20,7 @@
         <div class="d-flex align-items-center flex-grow-1">
             <!--begin::Navbar-->
             <div class="d-flex align-items-center flex-grow-1" id="kt_header_nav">
-                <a href="../../demo1/dist/index.html" class="d-lg-none">
+                <a href="/" class="d-lg-none">
                     <img alt="Logo" src="{{ asset('images/logo.png') }}" class="h-30px">
                 </a>
             </div>
@@ -39,7 +39,7 @@
                                 </svg>
                             </span>
                         </div>
-                        Mijn Account
+                        <span class="">Logged in as <b>{{ $user['name'] }}</b></span>
                         <span class="svg-icon svg-icon-1">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor"/>
@@ -58,9 +58,9 @@
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
-                                    <div class="fw-bolder d-flex align-items-center fs-5">Max Smith
-                                    <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Pro</span></div>
-                                    <a href="#" class="fw-bold text-muted text-hover-primary fs-7">max@kt.com</a>
+                                    <div class="fw-bolder d-flex align-items-center fs-5">{{ $user['name'] }}
+                                    <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">{{ $user['role'] }}</span></div>
+                                    <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{ $user['email'] }}</a>
                                 </div>
                                 <!--end::Username-->
                             </div>
@@ -71,7 +71,7 @@
                         <!--end::Menu separator-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-5">
-                            <a href="../../demo1/dist/account/overview.html" class="menu-link px-5">My Profile</a>
+                            <a href="{{ route('profile') }}" class="menu-link px-5">My Profile</a>
                         </div>
                         <!--end::Menu item-->
                         
@@ -88,9 +88,7 @@
                     <!--end::Menu wrapper-->
                 </div>
                 <!--end::User menu-->
-                <div class="d-flex align-items-center ms-1 ms-lg-3">
-                    <span class="">Logged in as <b>Patrick Krijnen</b></span>
-                </div>
+                
                 <div class="d-flex align-items-center ms-1 ms-lg-3">
                     <div class="btn btn-icon btn-icon-success btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px position-relative">
                         <span class="svg-icon svg-icon-1">
@@ -116,12 +114,13 @@
     <!--begin::Page title-->
     <div class="page-title me-3 mb-5 mb-lg-0">
         <!--begin::Title-->
-        <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Mijn Dashboard</h1>
+        <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1"> {{ $title }}</h1>
         <!--begin::Description-->
+        @if(isset($description))
         <div class="text-muted fs-7 mt-2">
-            Successvol ingelogd als <b>Patrick Krijnen</b>. Welkom terug!<br>
-            Bekijk je berichten, vervul taken en kom in contact met de juiste personen.
+            {!! $description !!}
         </div>
+        @endif
         <!--end::Description-->
         <!--end::Title-->
     </div>

@@ -56,8 +56,24 @@ var KTSignupGeneral = (function () {
                             type: "POST",
                             data: data,
                             success: function (response) {
+                                // console.log(response);
                                 if (response.code == 200) {
                                     location.href = "/";
+                                } else if (response.code == 201) {
+                                    Swal.fire({
+                                        text: response.message,
+                                        icon: "warning",
+                                        buttonsStyling: !1,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary",
+                                        },
+                                    });
+                                    signin_btn.setAttribute(
+                                        "data-kt-indicator",
+                                        "off"
+                                    );
+                                    signin_btn.disabled = !1;
                                 } else {
                                     Swal.fire({
                                         text: "Oppes! You have entered invalid credentials",

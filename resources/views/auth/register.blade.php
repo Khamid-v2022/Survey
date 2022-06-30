@@ -4,7 +4,7 @@
     <!--begin::Content-->
     <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
         <!--begin::Logo-->
-        <a href="{{ route('/') }}" class="mb-12">
+        <a href="{{ route('dashboard') }}" class="mb-12">
             <img alt="Logo" src="{{ asset('images/logo.png') }}" class="h-60px" />
         </a>
         <!--end::Logo-->

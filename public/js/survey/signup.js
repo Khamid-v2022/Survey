@@ -146,6 +146,20 @@ var KTSignupGeneral = (function () {
                                         // t.isConfirmed && (e.reset(), s.reset());
                                         location.href = "/login";
                                     });
+                                }else if(response.code == 422){
+                                    t.setAttribute("data-kt-indicator", "off");
+                                    t.disabled = !1;
+                                    Swal.fire({
+                                        text: response.message,
+                                        icon: "error",
+                                        buttonsStyling: !1,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary",
+                                        },
+                                    }).then(function (t) {
+                                       
+                                    });
                                 }
                             },
                             error: function (response) {
@@ -158,6 +172,8 @@ var KTSignupGeneral = (function () {
                                         confirmButton: "btn btn-primary",
                                     },
                                 });
+                                t.setAttribute("data-kt-indicator", "off");
+                                t.disabled = !1;
                             },
                         });
                     } else {
@@ -170,6 +186,8 @@ var KTSignupGeneral = (function () {
                                 confirmButton: "btn btn-primary",
                             },
                         });
+                        t.setAttribute("data-kt-indicator", "off");
+                        t.disabled = !1;
                     }
                 });
             });

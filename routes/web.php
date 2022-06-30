@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminDashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +15,28 @@ use App\Http\Controllers\AuthController;
 |
 */
 // SuperAdmin
-Route::resource('/super/companies', AuthController::class);
+// Route::resource('/admin_dashboard', CompanyController::class)->middleware('auth', 'admin');
 
-Route::get('/', [HomeController::class, 'index'])->name('/')->middleware('auth');
+// Route::get('/', [DashboardController::class, 'index'])->middleware('auth', 'user')->name('dashboard');
+
+
+// user protected routes
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/profile', [AuthController::class, 'profile_page'])->name('profile');
+    Route::post('/update_profile', [AuthController::class, 'update_profile']);
+    Route::post('/change_password', [AuthController::class, 'change_password']);
+
+    Route::group(['middleware' => ['auth', 'user']], function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        
+    });
+
+    // admin protected routes
+    Route::group(['middleware' => ['auth', 'admin']], function () {
+        Route::resource('/admin_dashboard', AdminDashboardController::class);
+        
+    });
+});
 
 // Auth
 Route::get('/registratie', [AuthController::class, 'signup_page']);

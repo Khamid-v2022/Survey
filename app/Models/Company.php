@@ -12,5 +12,5 @@ class Company extends Model
     protected $table = 'companies';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $fillable = ['company_name', 'first_name', 'last_name', 'chamber_commerce', 'city', 'email', 'tel'];
+    protected $fillable = ['company_name', 'first_name', 'last_name', 'chamber_commerce', 'city', 'email', 'tel', 'active'];
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 
 use App\Models\Company;
+use App\Models\User;
 use Hash;
 
 class AuthController extends Controller
@@ -29,7 +30,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-
+    
     /**
      *
      *
@@ -44,9 +45,11 @@ class AuthController extends Controller
         ]);
    
         $credentials = $request->only('email', 'password');
-        // return response()->json(Hash::make($credentials['password']));
         if (Auth::attempt($credentials)) {
-            return response()->json(['code'=>200, 'message'=>'You have Successfully loggedin'], 200);
+            if(Auth::user()->active == 'inactive')
+                return response()->json(['code'=>201, 'message'=>'Please wait for approval from the Administrator'], 201);
+            else
+                return response()->json(['code'=>200, 'message'=>'You have Successfully loggedin'], 200);
         }
   
         return response()->json(['code'=>401, 'message'=>'Oppes! You have entered invalid credentials'], 401);
@@ -63,6 +66,75 @@ class AuthController extends Controller
   
         return Redirect('login');
     }
+
+
+    public function profile_page(){
+        $title = "Profile";
+        $user = Auth::user();
+        
+        if(!Auth::check()){
+            redirect('login');
+            return;
+        }
+        return view('auth.profile', [
+            'title' => $title,
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Update.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update_profile(Request $request){
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+       
+        if(!(Hash::check($request->password, Auth::user()->password))){
+            return response()->json(['code'=>401, 'message'=>'Failed authentication'], 200);
+        }
+        
+        $user = Auth::user();
+        $user->email = $request->email;
+        $user->save();
+ 
+        return response()->json(['code'=>200, 'message'=>'Successfully udpated email'], 200);
+    }
+
+     /**
+     * Change password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function change_password(Request $request){
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required',
+        ]);
+       
+        if(!(Hash::check($request->current_password, Auth::user()->password))){
+            return response()->json(['code'=>401, 'message'=>'Failed authentication'], 200);
+        }
+
+        if(strcmp($request->current_password, $request->new_password) == 0){
+            //Current password and new password are same
+            return response()->json(['code'=>402, 'message'=>'New Password cannot be same as your current password. Please choose a different password.'], 200);
+        }
+        
+        // change password
+        $user = Auth::user();
+        $user->password = Hash::make($request->new_password);
+        // $user->password = bcrypt($request->new_password);
+        $user->save();
+ 
+        return response()->json(['code'=>200, 'message'=>'Successfully udpated password'], 200);
+    }
+
 
 
 
@@ -92,7 +164,15 @@ class AuthController extends Controller
             'email'             => 'required',
             'tel'               => 'required'
         ]);
-    
+
+        // check email has used or not
+        $user = new User;
+        $users = $user->where('email', $request->email)->get();
+        if(count($users) > 0){
+            return response()->json(['code'=>422, 'message'=>'Het e-mailadres dat je hebt ingevoerd, is al in gebruik door een andere gebruiker.'], 200);
+        }
+ 
+        
         $company = Company::updateOrCreate(['id' => $request->id], [
                     'company_name' => $request->company_name,
                     'first_name' => $request->first_name,
@@ -102,6 +182,18 @@ class AuthController extends Controller
                     'email' => $request->email,
                     'tel' => $request->tel
                 ]);
+
+        
+        // Company user register
+        $user = new User;
+        $user->name = $request->first_name . ' ' . $request->last_name;
+        $user->email = $request->email;
+        $user->role = 'company';
+        $user->active = 'inactive';
+        $user->company_id = $company['id'];
+        $user->password = Hash::make($request->password);
+        $user->save();
+
     
         return response()->json(['code'=>200, 'message'=>'Created successfully','data' => $company], 200);
     }

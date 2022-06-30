@@ -13,17 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('company_name');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('chamber_commerce');
-            $table->string('city');
-            $table->string('email');
-            $table->string('tel');
+        Schema::table('companies', function (Blueprint $table) {
+            //
             $table->enum('active', ['active', 'inactive'])->default('inactive');
-            $table->timestamps();
         });
     }
 
@@ -34,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::table('companies', function (Blueprint $table) {
+            //
+            $table->dropColumn('active');
+        });
     }
 };

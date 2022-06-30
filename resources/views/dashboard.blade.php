@@ -1,6 +1,5 @@
     @extends('layouts.app')
     @section('content')
-
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Post-->
@@ -194,9 +193,6 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <div class="symbol symbol-45px me-5">
-                                                            <img src="assets/media/avatars/300-14.jpg" alt="" />
-                                                        </div>
                                                         <div class="d-flex justify-content-start flex-column">
                                                             <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">Ana Simmons</a>
                                                             <span class="text-muted fw-bold text-muted d-block fs-7">HTML, JS, ReactJS</span>
@@ -261,9 +257,6 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <div class="symbol symbol-45px me-5">
-                                                            <img src="assets/media/avatars/300-2.jpg" alt="" />
-                                                        </div>
                                                         <div class="d-flex justify-content-start flex-column">
                                                             <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">Jessie Clarcson</a>
                                                             <span class="text-muted fw-bold text-muted d-block fs-7">C#, ASP.NET, MS SQL</span>
