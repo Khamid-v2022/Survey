@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
 
-use App\Models\Company;
 use App\Models\User;
 use Hash;
 
@@ -172,30 +171,25 @@ class AuthController extends Controller
             return response()->json(['code'=>422, 'message'=>'Het e-mailadres dat je hebt ingevoerd, is al in gebruik door een andere gebruiker.'], 200);
         }
  
-        
-        $company = Company::updateOrCreate(['id' => $request->id], [
-                    'company_name' => $request->company_name,
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'chamber_commerce' => $request->chamber_commerce,
-                    'city' => $request->city,
-                    'email' => $request->email,
-                    'tel' => $request->tel
-                ]);
+        $user = User::updateOrCreate(['id' => $request->id], [
+            'name' => $request->company_name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'chamber_commerce' => $request->chamber_commerce,
+            'city' => $request->city,
+            'email' => $request->email,
+            'tel' => $request->tel,
+            'role' => 'company',
+            'active' => 'inactive',
+            'password' => Hash::make($request->password),
+            'parent_id' => 0                // company: parent 0
+        ]);
 
-        
-        // Company user register
-        $user = new User;
-        $user->name = $request->first_name . ' ' . $request->last_name;
-        $user->email = $request->email;
-        $user->role = 'company';
-        $user->active = 'inactive';
-        $user->company_id = $company['id'];
-        $user->password = Hash::make($request->password);
-        $user->save();
+        // tree_code update
+        // company tree_code is own id
+        User::where('id', $user['id'])->update(['tree_code' => $user['id']]);
 
-    
-        return response()->json(['code'=>200, 'message'=>'Created successfully','data' => $company], 200);
+        return response()->json(['code'=>200, 'message'=>'Created successfully'], 200);
     }
 
     /**
@@ -207,8 +201,8 @@ class AuthController extends Controller
     public function show($id)
     {
         //
-        $company = Company::find($id);
-        return response()->json($company);
+        $user = User::find($id);
+        return response()->json($user);
     }
 
     /**
@@ -243,7 +237,7 @@ class AuthController extends Controller
     public function destroy($id)
     {
         //
-        $company = Company::find($id)->delete();
+        $user = User::find($id)->delete();
 
         return response()->json(['success'=>'Deleted successfully']);
     }

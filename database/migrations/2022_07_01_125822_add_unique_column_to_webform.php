@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('webforms', function (Blueprint $table) {
             //
-            $table->integer('company_id');
+            $table->string('unique_str')->nullable();
         });
     }
 
@@ -26,9 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('webforms', function (Blueprint $table) {
             //
-            $table->dropColumn('company_id');
         });
     }
 };

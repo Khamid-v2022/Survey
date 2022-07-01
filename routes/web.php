@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\UserManagementController;
+
+use App\Http\Controllers\EnquetesController;
+use App\Http\Controllers\DistributieController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,12 +32,28 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['auth', 'user']], function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         
+        // User Management
+        Route::get('/user_management', [UserManagementController::class, 'user_manage_page'])->name('user_management');
+        Route::post('/user_management/getUserTreeByRole', [UserManagementController::class, 'getUserTreeByRole'])->name('getUserTreeByRole');
+        Route::post('/user_management/addUpdateUser', [UserManagementController::class, 'addUpdateUser'])->name('addUpdateUser');
+        Route::get('/user_management/userInfo/{id}', [UserManagementController::class, 'userInfo'])->where('id', '[0-9]+');
+        Route::post('/user_management/changeActive', [UserManagementController::class, 'changeActive']);
+        Route::delete('/user_management/deleteUser/{id}', [UserManagementController::class, 'deleteUser'])->where('id', '[0-9]+');
+
+        Route::get('/trainee_management', [UserManagementController::class, 'trainee_manage_page'])->name('trainee_management');
+
+        Route::get('/enquetes', [EnquetesController::class, 'index'])->name('enquetes');
+        Route::post('/enquetes/addUpdateForm', [EnquetesController::class, 'addUpdateForm']);
+        Route::post('/enquetes/changeActive', [EnquetesController::class, 'changeActive']);
+        Route::delete('/enquetes/deleteForm/{id}', [EnquetesController::class, 'deleteForm'])->where('id', '[0-9]+');
+
+
+        Route::get('/distributie', [DistributieController::class, 'index'])->name('distributie');
     });
 
     // admin protected routes
     Route::group(['middleware' => ['auth', 'admin']], function () {
-        Route::resource('/admin_dashboard', AdminDashboardController::class);
-        
+        Route::resource('/admin_dashboard', UserManagementController::class);
     });
 });
 

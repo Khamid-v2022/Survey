@@ -57,7 +57,7 @@
                                         @foreach($companies as $item)
                                         <tr company_id = "{{ $item['id'] }}">
                                             <td>
-                                                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{ $item['company_name'] }}</a>    
+                                                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{ $item['name'] }}</a>    
                                             </td>
                                             <td>
                                                 {{ $item['first_name'] . ' ' . $item['last_name'] }}

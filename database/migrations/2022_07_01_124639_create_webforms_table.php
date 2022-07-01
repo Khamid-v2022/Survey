@@ -13,9 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['admin', 'company', 'coach', 'trainer', 'student']);
-            
+        Schema::create('webforms', function (Blueprint $table) {
+            $table->id();
+            $table->string('form_name');
+            $table->integer('created_id');
+            $table->integer('company_id');
+            $table->enum('active', ['active', 'inactive'])->default('active');
+            $table->timestamps();
         });
     }
 
@@ -26,9 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->dropColumn('role');
-        });
+        Schema::dropIfExists('webforms');
     }
 };

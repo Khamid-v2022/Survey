@@ -39,7 +39,7 @@
                                 </svg>
                             </span>
                         </div>
-                        <span class="">Logged in as <b>{{ $user['name'] }}</b></span>
+                        <span class="">Logged in as <b>{{ $user['first_name'] . ' ' . $user['last_name'] }}</b></span>
                         <span class="svg-icon svg-icon-1">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor"/>
@@ -58,7 +58,7 @@
                                 <!--end::Avatar-->
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
-                                    <div class="fw-bolder d-flex align-items-center fs-5">{{ $user['name'] }}
+                                    <div class="fw-bolder d-flex align-items-center fs-5">{{ $user['first_name'] . ' ' . $user['last_name'] }}
                                     <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">{{ $user['role'] }}</span></div>
                                     <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{ $user['email'] }}</a>
                                 </div>

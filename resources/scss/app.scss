@@ -51,3 +51,13 @@ $primary-color-light: #E8FFF3;
 .header-fixed.toolbar-fixed .wrapper {
     padding-top: calc(10px + var(--kt-toolbar-height));
 }
+
+
+// components
+.page-item.active .page-link, .form-check.form-check-solid .form-check-input:checked, .menu-state-bullet-primary .menu-item .menu-link.active .menu-bullet .bullet {
+    background-color: $primary-color;
+}
+
+.menu-state-title-primary .menu-item.show>.menu-link .menu-title, .menu-state-icon-primary .menu-item.show>.menu-link .menu-icon, .menu-state-icon-primary .menu-item.show>.menu-link .menu-icon .svg-icon, .menu-state-icon-primary .menu-item.show>.menu-link .menu-icon i {
+    color: $primary-color;
+}
