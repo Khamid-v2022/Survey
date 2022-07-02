@@ -7,6 +7,7 @@ use App\Http\Controllers\UserManagementController;
 
 use App\Http\Controllers\EnquetesController;
 use App\Http\Controllers\DistributieController;
+use App\Http\Controllers\SurveyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,6 +50,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 
         Route::get('/distributie', [DistributieController::class, 'index'])->name('distributie');
+        Route::post('/distributie/sendFormToTranees', [DistributieController::class, 'sendFormToTranees']);
+        
     });
 
     // admin protected routes
@@ -64,4 +67,7 @@ Route::get('/login', [AuthController::class, 'signin_page'])->name('login');
 Route::post('/login', [AuthController::class, 'sign_in'])->name('signin');
 Route::get('/logout', [AuthController::class, 'sign_out'])->name('signout');
 
+
+// Public Survey link
+Route::get('/survey/{unique_str}', [SurveyController::class, 'index'])->name('survey');
 

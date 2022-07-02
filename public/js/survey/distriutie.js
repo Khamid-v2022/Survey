@@ -24,6 +24,24 @@ $(function () {
             datatable.search(e.target.value).draw();
         });
 
+    // when click check box of datatable
+    $("#kt_datatable tbody input.form-check-input").on("click", function () {
+        let ids = $("#kt_datatable tbody")
+            .find("tr")
+            .map(function () {
+                if ($(this).find("input.form-check-input").prop("checked"))
+                    return $(this).attr("trainee_id");
+            });
+
+        if (ids.length > 0) $("#send_form_btn").removeAttr("disabled");
+        else $("#send_form_btn").attr("disabled", true);
+    });
+
+    $("#kt_datatable thead input.form-check-input").on("click", function () {
+        if ($(this).prop("checked")) $("#send_form_btn").removeAttr("disabled");
+        else $("#send_form_btn").attr("disabled", true);
+    });
+
     var t, e, n, a, o, i;
     i = document.querySelector("#kt_modal_add_form");
     o = new bootstrap.Modal(i);
@@ -56,37 +74,59 @@ $(function () {
             n &&
                 n.validate().then(function (e) {
                     if ("Valid" == e) {
+                        let ids = $("#kt_datatable tbody")
+                            .find("tr")
+                            .map(function () {
+                                if (
+                                    $(this)
+                                        .find("input.form-check-input")
+                                        .prop("checked")
+                                ) {
+                                    return parseInt($(this).attr("trainee_id"));
+                                }
+                            })
+                            .toArray();
                         t.setAttribute("data-kt-indicator", "on");
                         t.disabled = !0;
 
-                        // let _url = "/enquetes/addUpdateForm";
+                        let _url = "/distributie/sendFormToTranees";
+                        let data = {
+                            form_id: $("#m_sel_form").val(),
+                            tranee_ids: ids,
+                        };
 
-                        // let data = {
-                        //     form_name: $("#m_form_name").val(),
-                        //     active: $("#m_active").val(),
-                        //     action_type: $(".action-type").html(),
-                        // };
-
-                        // if ($(".action-type").html() == "Edit") {
-                        //     data["id"] = $("#m_form_id").val();
-                        // }
-                        // $.ajax({
-                        //     type: "POST",
-                        //     url: _url,
-                        //     data: data,
-                        //     success: function (response) {
-                        //         // console.log(response);
-                        //         if (response.code == 200) {
-                        //             location.reload();
-                        //         }
-                        //     },
-                        //     error: function (data) {
-                        //         console.log("Error:", data);
-                        //         t.removeAttribute("data-kt-indicator");
-                        //         t.disabled = !1;
-                        //         o.hide();
-                        //     },
-                        // });
+                        $.ajax({
+                            type: "POST",
+                            url: _url,
+                            data: data,
+                            success: function (response) {
+                                if (response.code == 200) {
+                                    t.removeAttribute("data-kt-indicator");
+                                    t.disabled = !1;
+                                    o.hide();
+                                    $("input.form-check-input").prop(
+                                        "checked",
+                                        false
+                                    );
+                                    $("#send_form_btn").attr("disabled", true);
+                                    Swal.fire({
+                                        text: response.message,
+                                        icon: "success",
+                                        buttonsStyling: !1,
+                                        confirmButtonText: "Ok, got it!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary",
+                                        },
+                                    }).then(function (t) {});
+                                }
+                            },
+                            error: function (data) {
+                                console.log("Error:", data);
+                                t.removeAttribute("data-kt-indicator");
+                                t.disabled = !1;
+                                o.hide();
+                            },
+                        });
                     } else {
                         Swal.fire({
                             text: "Sorry, looks like there are some errors detected, please try again.",

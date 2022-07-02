@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a company">
-                                <a href="#" class="btn btn-sm btn-success btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_form">
+                                <button href="#" class="btn btn-sm btn-success btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_form" id="send_form_btn" disabled>
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                 <span class="svg-icon svg-icon-3">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                Versturen</a>
+                                Versturen</button>
                             </div>
                         </div>
                         <!--end::Header-->
@@ -68,7 +68,7 @@
                                     <!--begin::Table body-->
                                     <tbody>
                                         @foreach($trainees as $item)
-                                        <tr form_id = "{{ $item['id'] }}">
+                                        <tr trainee_id = "{{ $item['id'] }}">
                                             <td>
                                                 <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                     <input class="form-check-input widget-9-check" type="checkbox" value="1" />
@@ -157,8 +157,9 @@
                     <div class="flex-column mb-8 fv-row">
                         <label class="required fs-6 fw-bold mb-2">Form name</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Form" name="m_sel_form" id="m_sel_form">
-                            <option value="active" selected>Yes</option>
-                            <option value="inactive">No</option>
+                            @foreach($forms as $item)
+                                <option value="{{ $item['id'] }}">{{ $item['form_name'] }}</option>
+                            @endforeach
                         </select>
                     </div>
 

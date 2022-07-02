@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Webform;
 use App\Models\User;
+use App\Models\User_Form;
 use Illuminate\Http\Request;
+
+use Hash;
+use DateTime;
 
 class DistributieController extends MyController
 {
@@ -61,5 +65,38 @@ class DistributieController extends MyController
             'trainees' => $our_trainee,
             'forms' => $forms,
         ]);
+    }
+
+    public function sendFormToTranees(Request $request){
+        // get webform info
+        $form = Webform::where('id', $request->form_id)->first();
+
+        foreach($request->tranee_ids as $trainee_id){
+            // check if registred already or not
+            $exist = User_Form::where('user_id', $trainee_id)
+                ->where('form_id', $request->form_id)
+                ->where('progress_status', '!=', 'end')->get();
+            
+
+
+            $date = new DateTime();
+            $timestamp = $date->getTimestamp();
+
+            if(count($exist) == 0){
+                User_Form::create([
+                    'user_id' => $trainee_id, 
+                    'form_id' => $request->form_id,
+                    // 'unique_str' => $form['unique_str'],
+                    'unique_str' => base64_encode(Hash::make($request->form_id . '.' . $trainee_id . '.' . $timestamp)),
+                    'progress_status' => 'start',
+                    'active' => 'active'
+                ]);
+            }
+                
+        }
+
+        // email send to user_id
+
+        return response()->json(['code'=>200, 'message'=>'Is succesvol verzonden', 'data'=>$form], 200);
     }
 }
