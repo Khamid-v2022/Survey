@@ -38,7 +38,7 @@ $(function () {
             m_form_name: {
                 validators: {
                     notEmpty: {
-                        message: "Form Name is required",
+                        message: "Formuliernaam is vereist",
                     },
                 },
             },
@@ -108,12 +108,12 @@ $(function () {
                         });
                     } else {
                         Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            text: "Sorry, het lijkt erop dat er enkele fouten zijn gedetecteerd, probeer het opnieuw.",
                             icon: "error",
                             buttonsStyling: !1,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "OK ik snap het!",
                             customClass: {
-                                confirmButton: "btn btn-primary",
+                                confirmButton: "btn btn-success",
                             },
                         });
                     }

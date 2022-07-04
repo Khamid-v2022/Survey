@@ -8,6 +8,10 @@ use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\EnquetesController;
 use App\Http\Controllers\DistributieController;
 use App\Http\Controllers\SurveyController;
+
+
+// Email
+use App\Mail\SignupMail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,8 +70,17 @@ Route::post('/registratie', [AuthController::class, 'store']);
 Route::get('/login', [AuthController::class, 'signin_page'])->name('login');
 Route::post('/login', [AuthController::class, 'sign_in'])->name('signin');
 Route::get('/logout', [AuthController::class, 'sign_out'])->name('signout');
+Route::get('/password_reset', [AuthController::class, 'password_reset_page'])->name('password_reset');
+Route::post('/password_reset', [AuthController::class, 'password_reset']);
 
 
 // Public Survey link
 Route::get('/survey/{unique_str}', [SurveyController::class, 'index'])->name('survey');
+
+
+
+// Email
+Route::get('/signupemail', function(){
+    return new SignupMail();
+});
 

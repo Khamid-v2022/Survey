@@ -194,13 +194,13 @@
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="d-flex justify-content-start flex-column">
-                                                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">Ana Simmons</a>
+                                                            <a href="#" class="text-dark fw-bolder text-hover-success fs-6">Ana Simmons</a>
                                                             <span class="text-muted fw-bold text-muted d-block fs-7">HTML, JS, ReactJS</span>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6">Intertico</a>
+                                                    <a href="#" class="text-dark fw-bolder text-hover-success d-block fs-6">Intertico</a>
                                                     <span class="text-muted fw-bold text-muted d-block fs-7">Web, UI/UX Design</span>
                                                 </td>
                                                 <td class="text-end">
@@ -209,13 +209,13 @@
                                                             <span class="text-muted me-2 fs-7 fw-bold">50%</span>
                                                         </div>
                                                         <div class="progress h-6px w-100">
-                                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-end flex-shrink-0">
-                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
                                                             <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                             <span class="svg-icon svg-icon-3">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -225,7 +225,7 @@
                                                             </span>
                                                             <!--end::Svg Icon-->
                                                         </a>
-                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
                                                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                             <span class="svg-icon svg-icon-3">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -235,7 +235,7 @@
                                                             </span>
                                                             <!--end::Svg Icon-->
                                                         </a>
-                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm">
                                                             <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                             <span class="svg-icon svg-icon-3">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -258,13 +258,13 @@
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="d-flex justify-content-start flex-column">
-                                                            <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">Jessie Clarcson</a>
+                                                            <a href="#" class="text-dark fw-bolder text-hover-success fs-6">Jessie Clarcson</a>
                                                             <span class="text-muted fw-bold text-muted d-block fs-7">C#, ASP.NET, MS SQL</span>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6">Agoda</a>
+                                                    <a href="#" class="text-dark fw-bolder text-hover-success d-block fs-6">Agoda</a>
                                                     <span class="text-muted fw-bold text-muted d-block fs-7">Houses &amp; Hotels</span>
                                                 </td>
                                                 <td class="text-end">
@@ -279,7 +279,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-end flex-shrink-0">
-                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
                                                             <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                             <span class="svg-icon svg-icon-3">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -289,7 +289,7 @@
                                                             </span>
                                                             <!--end::Svg Icon-->
                                                         </a>
-                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1">
                                                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                             <span class="svg-icon svg-icon-3">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -299,7 +299,7 @@
                                                             </span>
                                                             <!--end::Svg Icon-->
                                                         </a>
-                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm">
                                                             <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                             <span class="svg-icon svg-icon-3">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

@@ -51,8 +51,8 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex">
-                                                <button id="kt_signin_submit" type="button" class="btn btn-primary me-2 px-6">Update Email</button>
-                                                <button id="kt_signin_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">Cancel</button>
+                                                <button id="kt_signin_submit" type="button" class="btn btn-success me-2 px-6">Update Email</button>
+                                                <button id="kt_signin_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-success px-6">Cancel</button>
                                             </div>
                                         </form>
                                         <!--end::Form-->
@@ -60,7 +60,7 @@
                                     <!--end::Edit-->
                                     <!--begin::Action-->
                                     <div id="kt_signin_email_button" class="ms-auto">
-                                        <button class="btn btn-light btn-active-light-primary">Change Email</button>
+                                        <button class="btn btn-light btn-active-light-success">Change Email</button>
                                     </div>
                                     <!--end::Action-->
                                 </div>
@@ -102,8 +102,8 @@
                                             </div>
                                             <div class="form-text mb-5">Password must be at least 8 character and contain symbols</div>
                                             <div class="d-flex">
-                                                <button id="kt_password_submit" type="button" class="btn btn-primary me-2 px-6">Update Password</button>
-                                                <button id="kt_password_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">Cancel</button>
+                                                <button id="kt_password_submit" type="button" class="btn btn-success me-2 px-6">Update Password</button>
+                                                <button id="kt_password_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-success px-6">Cancel</button>
                                             </div>
                                         </form>
                                         <!--end::Form-->
@@ -111,7 +111,7 @@
                                     <!--end::Edit-->
                                     <!--begin::Action-->
                                     <div id="kt_signin_password_button" class="ms-auto">
-                                        <button class="btn btn-light btn-active-light-primary">Reset Password</button>
+                                        <button class="btn btn-light btn-active-light-success">Reset Password</button>
                                     </div>
                                     <!--end::Action-->
                                 </div>

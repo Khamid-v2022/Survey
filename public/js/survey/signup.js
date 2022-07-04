@@ -20,47 +20,46 @@ var KTSignupGeneral = (function () {
                 fields: {
                     first_name: {
                         validators: {
-                            notEmpty: { message: "Voornaam is required" },
+                            notEmpty: { message: "Voornaam is verplicht" },
                         },
                     },
                     last_name: {
                         validators: {
-                            notEmpty: { message: "Achternaam is required" },
+                            notEmpty: { message: "Achternaam is verplicht" },
                         },
                     },
                     chamber_commerce: {
                         validators: {
-                            notEmpty: { message: "KvK# is required" },
+                            notEmpty: { message: "KvK# is verplicht" },
                         },
                     },
                     city: {
                         validators: {
-                            notEmpty: { message: "Stad is required" },
+                            notEmpty: { message: "Stad is verplicht" },
                         },
                     },
                     tel: {
                         validators: {
-                            notEmpty: { message: "Tel is required" },
+                            notEmpty: { message: "Tel is verplicht" },
                         },
                     },
                     email: {
                         validators: {
                             notEmpty: {
-                                message: "Email address is required",
+                                message: "E-mailadres is verplicht",
                             },
                             emailAddress: {
-                                message:
-                                    "The value is not a valid email address",
+                                message: "De waarde is geen geldig e-mailadres",
                             },
                         },
                     },
                     password: {
                         validators: {
                             notEmpty: {
-                                message: "The password is required",
+                                message: "Het wachtwoord is vereist",
                             },
                             callback: {
-                                message: "Please enter valid password",
+                                message: "Voer een geldig wachtwoord in",
                                 callback: function (e) {
                                     if (e.value.length > 0) return r();
                                 },
@@ -70,8 +69,7 @@ var KTSignupGeneral = (function () {
                     "confirm-password": {
                         validators: {
                             notEmpty: {
-                                message:
-                                    "The password confirmation is required",
+                                message: "De wachtwoordbevestiging is vereist",
                             },
                             identical: {
                                 compare: function () {
@@ -79,15 +77,7 @@ var KTSignupGeneral = (function () {
                                         .value;
                                 },
                                 message:
-                                    "The password and its confirm are not the same",
-                            },
-                        },
-                    },
-                    toc: {
-                        validators: {
-                            notEmpty: {
-                                message:
-                                    "You must accept the terms and conditions",
+                                    "Het wachtwoord en de bevestiging zijn niet hetzelfde",
                             },
                         },
                     },
@@ -138,38 +128,36 @@ var KTSignupGeneral = (function () {
                                         text: response.message,
                                         icon: "success",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Ok, got it!",
+                                        confirmButtonText: "Oké, snap het!",
                                         customClass: {
-                                            confirmButton: "btn btn-primary",
+                                            confirmButton: "btn btn-success",
                                         },
                                     }).then(function (t) {
                                         // t.isConfirmed && (e.reset(), s.reset());
                                         location.href = "/login";
                                     });
-                                }else if(response.code == 422){
+                                } else if (response.code == 422) {
                                     t.setAttribute("data-kt-indicator", "off");
                                     t.disabled = !1;
                                     Swal.fire({
                                         text: response.message,
                                         icon: "error",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Ok, got it!",
+                                        confirmButtonText: "Oké, snap het!",
                                         customClass: {
-                                            confirmButton: "btn btn-primary",
+                                            confirmButton: "btn btn-success",
                                         },
-                                    }).then(function (t) {
-                                       
-                                    });
+                                    }).then(function (t) {});
                                 }
                             },
                             error: function (response) {
                                 Swal.fire({
-                                    text: "Sorry, looks like there are some errors detected, please try again later.",
+                                    text: "Sorry, het lijkt erop dat er fouten zijn gedetecteerd, probeer het later opnieuw.",
                                     icon: "warning",
                                     buttonsStyling: !1,
-                                    confirmButtonText: "Ok, got it!",
+                                    confirmButtonText: "Oké, snap het!",
                                     customClass: {
-                                        confirmButton: "btn btn-primary",
+                                        confirmButton: "btn btn-success",
                                     },
                                 });
                                 t.setAttribute("data-kt-indicator", "off");
@@ -178,12 +166,12 @@ var KTSignupGeneral = (function () {
                         });
                     } else {
                         Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            text: "Sorry, het lijkt erop dat er enkele fouten zijn gedetecteerd, probeer het opnieuw.",
                             icon: "error",
                             buttonsStyling: !1,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Oké, snap het!",
                             customClass: {
-                                confirmButton: "btn btn-primary",
+                                confirmButton: "btn btn-success",
                             },
                         });
                         t.setAttribute("data-kt-indicator", "off");

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Session;
 
 use App\Models\User;
 use Hash;
+
+use App\Mail\SignupMail;
 
 class AuthController extends Controller
 {
@@ -29,7 +32,48 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function password_reset_page(){
+        return view('auth.password_reset');
+    }
     
+
+    public function password_reset(Request $request){
+        $request->validate([
+            'email' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if(!$user)
+            return response()->json(['code'=>201, 'message'=>'Oppe! Dit is een niet-geregistreerde e-mail.'], 200);
+
+        $new_pass = $this->randomPassword();
+
+        $details = [
+            'title' => 'Welkom bij coachingsupport',
+            'body' => 'Uw account is geactiveerd.
+            U kunt inloggen met de volgende gegevens:' . $new_pass
+        ];
+
+        Mail::to($user['email'])->send(new SignupMail($details));
+
+        $user->password = Hash::make($new_pass);
+        $user->save();
+        
+        return response()->json(['code'=>200, 'message'=>'Success'], 200);
+    }
+
+
+    private function randomPassword() {
+	    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+	    $pass = array();
+	    $alphaLength = strlen($alphabet) - 1;
+	    for ($i = 0; $i < 8; $i++) {
+	        $n = rand(0, $alphaLength);
+	        $pass[] = $alphabet[$n];
+	    }
+	    return implode($pass);
+	}
+
     /**
      *
      *
@@ -46,13 +90,15 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             if(Auth::user()->active == 'inactive')
-                return response()->json(['code'=>201, 'message'=>'Please wait for approval from the Administrator'], 201);
+                return response()->json(['code'=>201, 'message'=>'Wacht op goedkeuring van de beheerder'], 201);
             else
-                return response()->json(['code'=>200, 'message'=>'You have Successfully loggedin'], 200);
+                return response()->json(['code'=>200, 'message'=>'Je bent succesvol ingelogd'], 200);
         }
   
-        return response()->json(['code'=>401, 'message'=>'Oppes! You have entered invalid credentials'], 401);
+        return response()->json(['code'=>401, 'message'=>'Oppe! U heeft ongeldige inloggegevens ingevoerd'], 401);
     }
+
+    
 
     /**
      * Write code on Method
@@ -94,14 +140,14 @@ class AuthController extends Controller
         ]);
        
         if(!(Hash::check($request->password, Auth::user()->password))){
-            return response()->json(['code'=>401, 'message'=>'Failed authentication'], 200);
+            return response()->json(['code'=>401, 'message'=>'Verificatie mislukt'], 200);
         }
         
         $user = Auth::user();
         $user->email = $request->email;
         $user->save();
  
-        return response()->json(['code'=>200, 'message'=>'Successfully udpated email'], 200);
+        return response()->json(['code'=>200, 'message'=>'E-mail geüpdatet'], 200);
     }
 
      /**
@@ -117,21 +163,20 @@ class AuthController extends Controller
         ]);
        
         if(!(Hash::check($request->current_password, Auth::user()->password))){
-            return response()->json(['code'=>401, 'message'=>'Failed authentication'], 200);
+            return response()->json(['code'=>401, 'message'=>'Verificatie mislukt'], 200);
         }
 
         if(strcmp($request->current_password, $request->new_password) == 0){
             //Current password and new password are same
-            return response()->json(['code'=>402, 'message'=>'New Password cannot be same as your current password. Please choose a different password.'], 200);
+            return response()->json(['code'=>402, 'message'=>'Nieuw wachtwoord mag niet hetzelfde zijn als uw huidige wachtwoord. Kies een ander wachtwoord.'], 200);
         }
         
         // change password
         $user = Auth::user();
         $user->password = Hash::make($request->new_password);
-        // $user->password = bcrypt($request->new_password);
         $user->save();
  
-        return response()->json(['code'=>200, 'message'=>'Successfully udpated password'], 200);
+        return response()->json(['code'=>200, 'message'=>'Wachtwoord geüpdatet'], 200);
     }
 
 
@@ -189,8 +234,37 @@ class AuthController extends Controller
         // company tree_code is own id
         User::where('id', $user['id'])->update(['tree_code' => $user['id']]);
 
-        return response()->json(['code'=>200, 'message'=>'Created successfully'], 200);
+
+
+        // send Email
+        $code = $this->send_signup_email($user);
+
+        return response()->json(['code'=>400, 'message'=>'Met succes gemaakt', 'data'=>$code], 200);
     }
+
+    private function send_signup_email($info){
+        // get SuperAdmin Email
+        $admin = User::where('role', 'admin')->where('active', 'active')->first();
+
+        $info_body_html = '';
+        $info_body_html .= '<br/>Bedrijfsnaam:' . $info['name'];
+        $info_body_html .= '<br/>Voornaam:' . $info['first_name'];
+        $info_body_html .= '<br/>Achternaam:' . $info['last_name'];
+        $info_body_html .= '<br/>KvK#:' . $info['chamber_commerce'];
+        $info_body_html .= '<br/>Stad:' . $info['city'];
+        $info_body_html .= '<br/>Email:' . $info['email'];
+        $info_body_html .= '<br/>Tel:' . $info['tel'] . '<br/>';
+
+        $details = [
+            'title' => 'Registratie coachingsupport',
+            'body' => 'Er heeft een nieuw bedrijf geregistreerd:' . $info_body_html
+        ];
+        
+        $resonse = Mail::to($admin['email'])->send(new SignupMail($details));
+        
+        return $resonse;
+    }
+
 
     /**
      * Display the specified resource.
@@ -239,6 +313,6 @@ class AuthController extends Controller
         //
         $user = User::find($id)->delete();
 
-        return response()->json(['success'=>'Deleted successfully']);
+        return response()->json(['success'=>'Met succes verwijderd']);
     }
 }

@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a company">
-                                <a href="#" class="btn btn-sm btn-success btn-active-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_form">
+                                <a href="#" class="btn btn-sm btn-success btn-active-success" data-bs-toggle="modal" data-bs-target="#kt_modal_add_form">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                 <span class="svg-icon svg-icon-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -65,7 +65,7 @@
                                         @foreach($forms as $item)
                                         <tr form_id = "{{ $item['id'] }}" form_name = "{{ $item['form_name'] }}" form_active = "{{ $item['active']  }}">
                                             <td>
-                                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-trigger="hover" title="View"> {{ $item['form_name'] }}</a>
+                                                <a href="#" class="text-dark fw-bolder text-hover-success d-block fs-6" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-trigger="hover" title="View"> {{ $item['form_name'] }}</a>
                                             </td>
                                             <td>
                                                 <a href="#" class="text-dark d-block fs-6">{{ $item['first_name'] . ' ' . $item['last_name'] }}</a>
@@ -97,7 +97,7 @@
                                                     <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Active">
                                                         <input class="form-check-input active-form-btn" type="checkbox" {{ $item['active']=='active'?'checked':'' }} />
                                                     </label>
-                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 edit-form-btn">
+                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1 edit-form-btn">
                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Edit">
@@ -107,7 +107,7 @@
                                                         </span>
                                                         <!--end::Svg Icon-->
                                                     </a>
-                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm delete-form-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Delete">
+                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-form-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Delete">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -153,7 +153,7 @@
             <!--begin::Modal header-->
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                <div class="btn btn-sm btn-icon btn-active-color-success" data-bs-dismiss="modal">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     <span class="svg-icon svg-icon-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -202,7 +202,7 @@
                     <!--begin::Actions-->
                     <div class="text-center">
                         <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">Cancel</button>
-                        <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
+                        <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
                             <span class="indicator-label">Submit</span>
                             <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

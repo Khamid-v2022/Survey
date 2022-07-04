@@ -19,7 +19,7 @@
                     <!--end::Title-->
                     <!--begin::Link-->
                     <div class="text-gray-400 fw-bold fs-4">New Here?
-                    <a href="/registratie" class="link-primary fw-bolder">Create an Account</a></div>
+                    <a href="/registratie" class="link-success fw-bolder">Create an Account</a></div>
                     <!--end::Link-->
                 </div>
                 <!--begin::Heading-->
@@ -41,7 +41,7 @@
                         <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
                         <!--end::Label-->
                         <!--begin::Link-->
-                        <a href="/forgot_password" class="link-primary fs-6 fw-bolder">Forgot Password ?</a>
+                        <a href="{{ route('password_reset') }}" class="link-success fs-6 fw-bolder">Forgot Password ?</a>
                         <!--end::Link-->
                     </div>
                     <!--end::Wrapper-->
@@ -53,7 +53,7 @@
                 <!--begin::Actions-->
                 <div class="text-center">
                     <!--begin::Submit button-->
-                    <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
+                    <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-success w-100 mb-5">
                         <span class="indicator-label">Continue</span>
                         <span class="indicator-progress">Please wait...
                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

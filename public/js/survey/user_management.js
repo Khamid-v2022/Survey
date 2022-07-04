@@ -42,35 +42,35 @@ $(function () {
             m_user_role: {
                 validators: {
                     notEmpty: {
-                        message: "Role is required",
+                        message: "Rol is vereist",
                     },
                 },
             },
             m_user_parent: {
                 validators: {
                     notEmpty: {
-                        message: "Organisatie is required",
+                        message: "Organisatie is verplicht",
                     },
                 },
             },
             m_first_name: {
                 validators: {
                     notEmpty: {
-                        message: "Voornaam is required",
+                        message: "Voornaam is verplicht",
                     },
                 },
             },
             m_last_name: {
                 validators: {
                     notEmpty: {
-                        message: "Achternaam is required",
+                        message: "Achternaam is verplicht",
                     },
                 },
             },
             m_email: {
                 validators: {
                     notEmpty: {
-                        message: "Email is required",
+                        message: "E-mail is verplicht",
                     },
                 },
             },
@@ -239,9 +239,9 @@ $(function () {
                                         text: response.message,
                                         icon: "warning",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Ok, got it!",
+                                        confirmButtonText: "OK ik snap het!",
                                         customClass: {
-                                            confirmButton: "btn btn-primary",
+                                            confirmButton: "btn btn-success",
                                         },
                                     }).then(function (t) {
                                         // t.isConfirmed && o.hide();
@@ -257,12 +257,12 @@ $(function () {
                         });
                     } else {
                         Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            text: "Sorry, het lijkt erop dat er enkele fouten zijn gedetecteerd, probeer het opnieuw.",
                             icon: "error",
                             buttonsStyling: !1,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "OK ik snap het!",
                             customClass: {
-                                confirmButton: "btn btn-primary",
+                                confirmButton: "btn btn-success",
                             },
                         });
                     }

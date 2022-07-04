@@ -50,7 +50,7 @@ class UserManagementController extends MyController
                     'active' => $request->active
                 ]);
 
-        return response()->json(['code'=>200, 'message'=>'Successfully changed satus','data' => $user], 200);
+        return response()->json(['code'=>200, 'message'=>'Status succesvol gewijzigd','data' => $user], 200);
     }
 
     /**
@@ -97,7 +97,7 @@ class UserManagementController extends MyController
     {
         $user = User::where('id', $id)->delete();
    
-        return response()->json(['code'=>200, 'message'=>'Successfully deleted'], 200);
+        return response()->json(['code'=>200, 'message'=>'Succesvol verwijderd'], 200);
     }
 
 
@@ -214,7 +214,7 @@ class UserManagementController extends MyController
             'active' => $request->active
         ]);
 
-        return response()->json(['code'=>200, 'message'=>'Successfully changed satus','data' => $user], 200);
+        return response()->json(['code'=>200, 'message'=>'Status succesvol gewijzigd','data' => $user], 200);
     }
 
     public function deleteUser($id){
@@ -225,7 +225,7 @@ class UserManagementController extends MyController
         $user = User::find($id);
         User::where('tree_code', 'LIKE', $user['tree_code'] . '%')->delete();
    
-        return response()->json(['code'=>200, 'message'=>'Successfully deleted'], 200);
+        return response()->json(['code'=>200, 'message'=>'Succesvol verwijderd'], 200);
     }
 
 
@@ -246,8 +246,5 @@ class UserManagementController extends MyController
             'users' => $users
         ]);
     }
-
-
-
 
 }

@@ -43,15 +43,15 @@ $(function () {
             fields: {
                 emailaddress: {
                     validators: {
-                        notEmpty: { message: "Email is required" },
+                        notEmpty: { message: "E-mail is vereist" },
                         emailAddress: {
-                            message: "The value is not a valid email address",
+                            message: "De waarde is geen geldig e-mailadres",
                         },
                     },
                 },
                 confirmemailpassword: {
                     validators: {
-                        notEmpty: { message: "Password is required" },
+                        notEmpty: { message: "Een wachtwoord is verplicht" },
                     },
                 },
             },
@@ -86,10 +86,10 @@ $(function () {
                                         text: response.message,
                                         icon: "success",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Ok, got it!",
+                                        confirmButtonText: "OK ik snap het!",
                                         customClass: {
                                             confirmButton:
-                                                "btn font-weight-bold btn-light-primary",
+                                                "btn font-weight-bold btn-light-success",
                                         },
                                     }).then(function () {
                                         $("#user_email").html(
@@ -115,10 +115,10 @@ $(function () {
                                         text: response.message,
                                         icon: "warning",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Ok, got it!",
+                                        confirmButtonText: "OK ik snap het!",
                                         customClass: {
                                             confirmButton:
-                                                "btn font-weight-bold btn-light-primary",
+                                                "btn font-weight-bold btn-light-success",
                                         },
                                     }).then(function () {});
                                 }
@@ -129,13 +129,13 @@ $(function () {
                         });
                     } else {
                         swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            text: "Sorry, het lijkt erop dat er enkele fouten zijn gedetecteerd, probeer het opnieuw.",
                             icon: "error",
                             buttonsStyling: !1,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "OK ik snap het!",
                             customClass: {
                                 confirmButton:
-                                    "btn font-weight-bold btn-light-primary",
+                                    "btn font-weight-bold btn-light-success",
                             },
                         });
                     }
@@ -149,21 +149,21 @@ $(function () {
                     currentpassword: {
                         validators: {
                             notEmpty: {
-                                message: "Current Password is required",
+                                message: "Huidig wachtwoord is vereist",
                             },
                         },
                     },
                     newpassword: {
                         validators: {
                             notEmpty: {
-                                message: "New Password is required",
+                                message: "Nieuw wachtwoord is vereist",
                             },
                         },
                     },
                     confirmpassword: {
                         validators: {
                             notEmpty: {
-                                message: "Confirm Password is required",
+                                message: "Bevestig dat wachtwoord vereist is",
                             },
                             identical: {
                                 compare: function () {
@@ -172,7 +172,7 @@ $(function () {
                                     ).value;
                                 },
                                 message:
-                                    "The password and its confirm are not the same",
+                                    "Het wachtwoord en de bevestiging zijn niet hetzelfde",
                             },
                         },
                     },
@@ -209,10 +209,10 @@ $(function () {
                                                 icon: "success",
                                                 buttonsStyling: !1,
                                                 confirmButtonText:
-                                                    "Ok, got it!",
+                                                    "OK ik snap het!",
                                                 customClass: {
                                                     confirmButton:
-                                                        "btn font-weight-bold btn-light-primary",
+                                                        "btn font-weight-bold btn-light-success",
                                                 },
                                             }).then(function () {
                                                 n.reset(), e.resetForm();
@@ -223,10 +223,10 @@ $(function () {
                                                 icon: "warning",
                                                 buttonsStyling: !1,
                                                 confirmButtonText:
-                                                    "Ok, got it!",
+                                                    "OK ik snap het!",
                                                 customClass: {
                                                     confirmButton:
-                                                        "btn font-weight-bold btn-light-primary",
+                                                        "btn font-weight-bold btn-light-success",
                                                 },
                                             }).then(function () {});
                                         } else if (response.code == 402) {
@@ -235,10 +235,10 @@ $(function () {
                                                 icon: "warning",
                                                 buttonsStyling: !1,
                                                 confirmButtonText:
-                                                    "Ok, got it!",
+                                                    "OK ik snap het!",
                                                 customClass: {
                                                     confirmButton:
-                                                        "btn font-weight-bold btn-light-primary",
+                                                        "btn font-weight-bold btn-light-success",
                                                 },
                                             }).then(function () {});
                                         }
@@ -249,17 +249,17 @@ $(function () {
                                 });
                             } else {
                                 swal.fire({
-                                    text: "Sorry, looks like there are some errors detected, please try again.",
+                                    text: "Sorry, het lijkt erop dat er enkele fouten zijn gedetecteerd, probeer het opnieuw.",
                                     icon: "error",
                                     buttonsStyling: !1,
-                                    confirmButtonText: "Ok, got it!",
+                                    confirmButtonText: "OK ik snap het!",
                                     customClass: {
                                         confirmButton:
-                                            "btn font-weight-bold btn-light-primary",
+                                            "btn font-weight-bold btn-light-success",
                                     },
                                 });
                             }
                         });
                     });
-        })();
+        })();;
 });

@@ -10,18 +10,17 @@ var KTSignupGeneral = (function () {
                     email: {
                         validators: {
                             notEmpty: {
-                                message: "Email address is required",
+                                message: "E-mailadres is vereist",
                             },
                             emailAddress: {
-                                message:
-                                    "The value is not a valid email address",
+                                message: "De waarde is geen geldig e-mailadres",
                             },
                         },
                     },
                     password: {
                         validators: {
                             notEmpty: {
-                                message: "The password is required",
+                                message: "Het wachtwoord is vereist",
                             },
                         },
                     },
@@ -57,6 +56,11 @@ var KTSignupGeneral = (function () {
                             data: data,
                             success: function (response) {
                                 // console.log(response);
+                                signin_btn.setAttribute(
+                                    "data-kt-indicator",
+                                    "off"
+                                );
+                                signin_btn.disabled = !1;
                                 if (response.code == 200) {
                                     location.href = "/";
                                 } else if (response.code == 201) {
@@ -64,41 +68,31 @@ var KTSignupGeneral = (function () {
                                         text: response.message,
                                         icon: "warning",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Ok, got it!",
+                                        confirmButtonText: "Oké, snap het!",
                                         customClass: {
-                                            confirmButton: "btn btn-primary",
+                                            confirmButton: "btn btn-success",
                                         },
                                     });
-                                    signin_btn.setAttribute(
-                                        "data-kt-indicator",
-                                        "off"
-                                    );
-                                    signin_btn.disabled = !1;
                                 } else {
                                     Swal.fire({
-                                        text: "Oppes! You have entered invalid credentials",
+                                        text: "Oppe! U heeft ongeldige inloggegevens ingevoerd",
                                         icon: "warning",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Ok, got it!",
+                                        confirmButtonText: "Oké, snap het!",
                                         customClass: {
-                                            confirmButton: "btn btn-primary",
+                                            confirmButton: "btn btn-success",
                                         },
                                     });
-                                    signin_btn.setAttribute(
-                                        "data-kt-indicator",
-                                        "off"
-                                    );
-                                    signin_btn.disabled = !1;
                                 }
                             },
                             error: function (response) {
                                 Swal.fire({
-                                    text: "Oppes! You have entered invalid credentials",
+                                    text: "Oppe! U heeft ongeldige inloggegevens ingevoerd",
                                     icon: "warning",
                                     buttonsStyling: !1,
-                                    confirmButtonText: "Ok, got it!",
+                                    confirmButtonText: "Oké, snap het!",
                                     customClass: {
-                                        confirmButton: "btn btn-primary",
+                                        confirmButton: "btn btn-success",
                                     },
                                 });
                                 signin_btn.setAttribute(
@@ -110,12 +104,12 @@ var KTSignupGeneral = (function () {
                         });
                     } else {
                         Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            text: "Sorry, het lijkt erop dat er fouten zijn gedetecteerd, probeer het opnieuw.",
                             icon: "error",
                             buttonsStyling: !1,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Oké, snap het!",
                             customClass: {
-                                confirmButton: "btn btn-primary",
+                                confirmButton: "btn btn-success",
                             },
                         });
                     }
