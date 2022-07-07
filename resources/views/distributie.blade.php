@@ -28,6 +28,24 @@
                                     <!--end::Svg Icon-->
                                     <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Permissions" />
                                 </div>
+                                <div class="d-flex align-items-center position-relative my-1 me-5 w-200px">
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select a Form..." name="sel_form" id="sel_form">
+                                        <option value="">Select a Form...</option>
+                                        <option value=" ">All</option>
+                                        @foreach($forms as $item)
+                                            <option value="{{ $item['form_name'] }}">{{ $item['form_name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="d-flex align-items-center position-relative my-1 me-5 w-200px">
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select a Status..." name="sel_status" id="sel_status">
+                                        <option value="">Select a Status...</option>
+                                        <option value=" ">All</option>
+                                        <option value="pendding">Pending</option>
+                                        <option value="progressing">Progressing</option>
+                                        <option value="submitted">Submitted</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a company">
@@ -61,7 +79,8 @@
                                             <th class="min-w-80px">Name</th>
                                             <th class="min-w-100px">Email</th>
                                             <th class="min-w-100px">Trainer/Coach Name</th>
-                                            <th class="min-w-100px">Trainer/Coach Email</th>
+                                            <th class="min-w-100px">WebForm name</th>
+                                            <th class="min-w-70px">Status</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
@@ -92,9 +111,28 @@
                                                         <span class="badge badge-light-success fs-7 m-1">{{ $item['parent_role'] }}</span>
                                                         @break
                                                 @endswitch
+                                                <br/>
+                                                <span class="text-muted">{{ $item['parent_email'] }}</span>
                                             </td>
                                             <td>
-                                                {{ $item['parent_email'] }}
+                                               {{ $item['form_name'] }}
+                                            </td>
+                                            <td>
+                                                @switch($item['progress_status'])
+                                                    @case('start')
+                                                        <span class="badge badge-light-danger fs-7 m-1">pendding</span>
+                                                        @break
+                                                    @case('progressing')
+                                                        <span class="badge badge-light-info fs-7 m-1">progressing</span>
+                                                        <br>
+                                                        <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="Started Datetime">{{ $item['started_at'] }}</span>
+                                                        @break
+                                                    @case('end')
+                                                        <span class="badge badge-light-success fs-7 m-1">submitted</span>
+                                                        <br>
+                                                        <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="Submitted Datetime">{{ $item['ended_at'] }}</span>
+                                                        @break
+                                                @endswitch
                                             </td>
                                         </tr>
                                         @endforeach

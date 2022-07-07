@@ -95,10 +95,10 @@
                                                         <span class="badge badge-light-info fs-7 m-1 ms-10">{{ $item['role'] }}</span>
                                                         @break
                                                     @case('trainer')
-                                                        <span class="badge badge-light-success fs-7 m-1 ms-15">{{ $item['role'] }}</span>
+                                                        <span class="badge badge-light-success fs-7 m-1 ms-10">{{ $item['role'] }}</span>
                                                         @break
                                                     @case('trainee')
-                                                        <span class="badge badge-light-warning fs-7 m-1 ms-20">{{ $item['role'] }}</span>
+                                                        <span class="badge badge-light-warning fs-7 m-1 ms-15">{{ $item['role'] }}</span>
                                                         @break
                                                     @default
                                                         <span class="badge badge-light-dark fs-7 m-1">{{ $item['role'] }}</span>

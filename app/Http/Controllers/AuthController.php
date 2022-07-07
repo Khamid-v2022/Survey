@@ -10,7 +10,7 @@ use Session;
 use App\Models\User;
 use Hash;
 
-use App\Mail\SignupMail;
+use App\Mail\SurveyMail;
 
 class AuthController extends Controller
 {
@@ -49,12 +49,18 @@ class AuthController extends Controller
         $new_pass = $this->randomPassword();
 
         $details = [
-            'title' => 'Welkom bij coachingsupport',
-            'body' => 'Uw account is geactiveerd.
-            U kunt inloggen met de volgende gegevens:' . $new_pass
+            'title' => 'Coachingsupport Update wachtwoord',
+            'body' => 'Uw wachtwoord is successvol veranderd<br/>
+            U kunt inloggen met de volgende gegevens: <b>' . $new_pass . '</b>'
         ];
 
-        Mail::to($user['email'])->send(new SignupMail($details));
+        try {
+            Mail::to($user['email'])->send(new SurveyMail($details));
+        } catch (Exception $e) {
+            if (count(Mail::failures()) > 0) {
+                return response()->json(['code'=>202, 'message'=>'Kan e-mail niet verzenden'], 200);
+            }
+        }
 
         $user->password = Hash::make($new_pass);
         $user->save();
@@ -234,12 +240,10 @@ class AuthController extends Controller
         // company tree_code is own id
         User::where('id', $user['id'])->update(['tree_code' => $user['id']]);
 
-
-
         // send Email
         $code = $this->send_signup_email($user);
 
-        return response()->json(['code'=>400, 'message'=>'Met succes gemaakt', 'data'=>$code], 200);
+        return response()->json(['code'=>200, 'message'=>'Met succes gemaakt', 'data'=>$code], 200);
     }
 
     private function send_signup_email($info){
@@ -247,20 +251,20 @@ class AuthController extends Controller
         $admin = User::where('role', 'admin')->where('active', 'active')->first();
 
         $info_body_html = '';
-        $info_body_html .= '<br/>Bedrijfsnaam:' . $info['name'];
-        $info_body_html .= '<br/>Voornaam:' . $info['first_name'];
-        $info_body_html .= '<br/>Achternaam:' . $info['last_name'];
-        $info_body_html .= '<br/>KvK#:' . $info['chamber_commerce'];
-        $info_body_html .= '<br/>Stad:' . $info['city'];
-        $info_body_html .= '<br/>Email:' . $info['email'];
-        $info_body_html .= '<br/>Tel:' . $info['tel'] . '<br/>';
+        $info_body_html .= '<br/>Bedrijfsnaam: <b>' . $info['name'] . '</b>';
+        $info_body_html .= '<br/>Voornaam: <b>' . $info['first_name'] . '</b>';
+        $info_body_html .= '<br/>Achternaam: <b>' . $info['last_name'] . '</b>';
+        $info_body_html .= '<br/>KvK#: <b>' . $info['chamber_commerce'] . '</b>';
+        $info_body_html .= '<br/>Stad: <b>' . $info['city'] . '</b>';
+        $info_body_html .= '<br/>Email: <b>' . $info['email'] . '</b>';
+        $info_body_html .= '<br/>Tel: <b>' . $info['tel'] . '</b><br/>';
 
         $details = [
             'title' => 'Registratie coachingsupport',
             'body' => 'Er heeft een nieuw bedrijf geregistreerd:' . $info_body_html
         ];
         
-        $resonse = Mail::to($admin['email'])->send(new SignupMail($details));
+        $resonse = Mail::to($admin['email'])->send(new SurveyMail($details));
         
         return $resonse;
     }

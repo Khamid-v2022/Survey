@@ -7,6 +7,8 @@ use App\Models\User;
 use Hash;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SurveyMail;
 
 class UserManagementController extends MyController
 {
@@ -15,6 +17,7 @@ class UserManagementController extends MyController
      *
      * @return \Illuminate\Http\Response
      */
+    // admin role for register company
     public function index()
     {
         $title = "Registratie coachingsupport";
@@ -46,11 +49,37 @@ class UserManagementController extends MyController
     public function store(Request $request)
     {
         
-        $user = User::updateOrCreate(['id' => $request->id], [
-                    'active' => $request->active
-                ]);
+        // $user = User::updateOrCreate(['id' => $request->id], [
+        //             'active' => $request->active
+        //         ]);
 
-        return response()->json(['code'=>200, 'message'=>'Status succesvol gewijzigd','data' => $user], 200);
+        $user = User::where('id', $request->id)->first();
+        
+         // send email
+        if($request->active == 'active'){
+            $details = [
+                'title' => 'Welkom bij coachingsupport',
+                'body' => 'Uw account is geactiveerd.'
+            ];
+        }else{
+            $details = [
+                'title' => 'Oop!',
+                'body' => 'Uw account is gedeactiveerd.'
+            ];
+        }
+
+        try {
+            Mail::to($user['email'])->send(new SurveyMail($details));
+        } catch (Exception $e) {
+            if (count(Mail::failures()) > 0) {
+                return response()->json(['code'=>202, 'message'=>'Kan e-mail niet verzenden'], 200);
+            }
+        }
+        
+        $user->active = $request->active;
+        $user->save();
+
+        return response()->json(['code'=>200, 'message'=>'Er is een e-mail verzonden naar die gebruiker.','data' => $user], 200);
     }
 
     /**
@@ -187,8 +216,6 @@ class UserManagementController extends MyController
             
         $user->save();
 
-        // send email
-
         return response()->json(['code'=>200, 'message'=>'Successfully','data' => $user], 200);
     }
 
@@ -202,6 +229,7 @@ class UserManagementController extends MyController
 	    }
 	    return implode($pass);
 	}
+
 
 
     public function userInfo($id){

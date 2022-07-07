@@ -117,6 +117,9 @@
 </div>
 <!--end::Content-->
 
+
+
+
 {{-- modal --}}
 {{-- <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->

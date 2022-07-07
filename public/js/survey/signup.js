@@ -123,6 +123,8 @@ var KTSignupGeneral = (function () {
                             type: "POST",
                             data: data,
                             success: function (response) {
+                                t.setAttribute("data-kt-indicator", "off");
+                                t.disabled = !1;
                                 if (response.code == 200) {
                                     Swal.fire({
                                         text: response.message,
@@ -137,8 +139,6 @@ var KTSignupGeneral = (function () {
                                         location.href = "/login";
                                     });
                                 } else if (response.code == 422) {
-                                    t.setAttribute("data-kt-indicator", "off");
-                                    t.disabled = !1;
                                     Swal.fire({
                                         text: response.message,
                                         icon: "error",

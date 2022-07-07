@@ -5,6 +5,12 @@ $(function () {
         },
     });
 
+    // Toast
+    const container = document.getElementById("kt_docs_toast_stack_container");
+    const targetElement = document.querySelector(
+        '[data-kt-docs-toast="stack"]'
+    );
+
     $("#kt_modal_add_form").on("hidden.bs.modal", function (event) {
         $(this).find("form").trigger("reset");
         $(this).find("select").trigger("change");
@@ -40,6 +46,14 @@ $(function () {
     $("#kt_datatable thead input.form-check-input").on("click", function () {
         if ($(this).prop("checked")) $("#send_form_btn").removeAttr("disabled");
         else $("#send_form_btn").attr("disabled", true);
+    });
+
+    $("#sel_form").on("change", function () {
+        datatable.columns(4).search($(this).val()).draw();
+    });
+
+    $("#sel_status").on("change", function () {
+        datatable.columns(5).search($(this).val()).draw();
     });
 
     var t, e, n, a, o, i;
@@ -100,18 +114,35 @@ $(function () {
                             url: _url,
                             data: data,
                             success: function (response) {
+                                t.removeAttribute("data-kt-indicator");
+                                t.disabled = !1;
+                                o.hide();
+                                $("input.form-check-input").prop(
+                                    "checked",
+                                    false
+                                );
+                                $("#send_form_btn").attr("disabled", true);
+
                                 if (response.code == 200) {
-                                    t.removeAttribute("data-kt-indicator");
-                                    t.disabled = !1;
-                                    o.hide();
-                                    $("input.form-check-input").prop(
-                                        "checked",
-                                        false
-                                    );
-                                    $("#send_form_btn").attr("disabled", true);
+                                    $(".toast-body").html(response.message);
+                                    const newToast =
+                                        targetElement.cloneNode(true);
+                                    container.append(newToast);
+
+                                    // Create new toast instance --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#getorcreateinstance
+                                    const toast =
+                                        bootstrap.Toast.getOrCreateInstance(
+                                            newToast
+                                        );
+
+                                    // Toggle toast to show --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#show
+                                    toast.show();
+
+                                    location.reload();
+                                } else if (response.code == 202) {
                                     Swal.fire({
                                         text: response.message,
-                                        icon: "success",
+                                        icon: "warning",
                                         buttonsStyling: !1,
                                         confirmButtonText: "OK ik snap het!",
                                         customClass: {

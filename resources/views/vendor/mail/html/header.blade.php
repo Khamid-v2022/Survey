@@ -1,11 +1,7 @@
 <tr>
-<td class="header">
-<a href="{{ $url }}" style="display: inline-block;">
-@if (trim($slot) === 'Laravel')
-<img src="{{ asset('images/logo.png') }}" class="logo" alt="Survey Logo">
-@else
-{{ $slot }}
-@endif
-</a>
-</td>
+    <td class="header">
+        {{-- <a href="{{ route('login') }}" style="display: inline-block;">
+            <img src="{{ asset('images/logo.png') }}" class="logo" alt="Logo">
+        </a> --}}
+    </td>
 </tr>

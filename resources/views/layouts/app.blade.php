@@ -54,6 +54,24 @@
 		</div>
 		<!--end::Root-->
 		
+		<!--begin::Toast-->
+		<div id="kt_docs_toast_stack_container" class="toast-container position-fixed top-100px end-0 p-3 z-index-3">
+			<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-kt-docs-toast="stack">
+				<div class="toast-header">
+					<span class="svg-icon svg-icon-2 svg-icon-primary me-3">...</span>
+					<strong class="me-auto">Note</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					
+				</div>
+			</div>
+		</div>
+		<!--end::Toast-->
+
+
+
+
         
 		<!--begin::Javascript-->
 		<script>var hostUrl = "assets/";</script>

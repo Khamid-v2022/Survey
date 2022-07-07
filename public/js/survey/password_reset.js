@@ -69,7 +69,7 @@ var KTPasswordResetGeneral = (function () {
                                             }).then(function (e) {
                                                 location.href = "/";
                                             });
-                                        } else if (response.code == 201) {
+                                        } else {
                                             Swal.fire({
                                                 text: response.message,
                                                 icon: "warning",
@@ -84,6 +84,8 @@ var KTPasswordResetGeneral = (function () {
                                         }
                                     },
                                     error: function (response) {
+                                        e.removeAttribute("data-kt-indicator");
+                                        e.disabled = !1;
                                         Swal.fire({
                                             text: "Oppe! Kan e-mail niet verzenden",
                                             icon: "warning",
@@ -94,8 +96,6 @@ var KTPasswordResetGeneral = (function () {
                                                     "btn btn-success",
                                             },
                                         });
-                                        e.removeAttribute("data-kt-indicator");
-                                        e.disabled = !1;
                                     },
                                 });
                             } else {

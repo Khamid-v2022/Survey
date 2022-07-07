@@ -1,15 +1,12 @@
 @component('mail::message')
-# Registratie coachingsupport
 
-Er heeft een nieuw bedrijf geregistreerd:
+# {{ $details['title'] }}
 
-{{-- # {{ $details['title'] }}
+{!! $details['body'] !!}
 
-{{ $details['body'] }} --}}
-
-@component('mail::button', ['url' => '/login'])
+@component('mail::button', ['url' => route('login')])
 Ga naar de site
 @endcomponent
 
-{{ config('app.name') }}
+{{-- {{ config('app.name') }} --}}
 @endcomponent
