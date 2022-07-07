@@ -19,6 +19,8 @@ class User_Form extends Model
         'progress_status',
         'started_at',
         'ended_at',
-        'active'
+        'active',
+        'emailled_at',
+        'emailled_times'
     ];
 }

@@ -5,8 +5,15 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\Console\Commands\EmailTrainees;
+
 class Kernel extends ConsoleKernel
 {
+
+    protected $commands = [
+        EmailTrainees::class,
+    ];
+
     /**
      * Define the application's command schedule.
      *
@@ -15,7 +22,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('email:trainees')->everyMinute();
+        // $schedule->command('email:trainees')->daily();
     }
 
     /**

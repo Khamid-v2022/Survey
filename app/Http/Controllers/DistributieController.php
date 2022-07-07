@@ -13,6 +13,7 @@ use App\Mail\SurveyMail;
 
 use Hash;
 use DateTime;
+use Carbon\Carbon;
 
 class DistributieController extends MyController
 {
@@ -96,7 +97,7 @@ class DistributieController extends MyController
                     'form_id' => $request->form_id,
                     'unique_str' => base64_encode(Hash::make($request->form_id . '.' . $trainee_id . '.' . $timestamp)),
                     'progress_status' => 'start',
-                    'active' => 'active'
+                    'active' => 'active',
                 ]);
 
                 $queue[] = $user_form;
@@ -121,6 +122,12 @@ class DistributieController extends MyController
             
             try {
                 Mail::to($user['email'])->send(new SurveyMail($details));
+                
+                // update emilled field
+                $user_form = User_Form::where('id', $item['id'])->first();
+                $user_form->emailled_at =  Carbon::now();
+                $user_form->save();
+
             } catch (Exception $e) {
                 if (count(Mail::failures()) > 0) {
                     $email_success_flag = false;
