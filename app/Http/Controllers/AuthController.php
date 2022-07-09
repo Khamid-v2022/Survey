@@ -42,7 +42,7 @@ class AuthController extends Controller
             'email' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', strtolower($request->email))->first();
         if(!$user)
             return response()->json(['code'=>201, 'message'=>'Oppe! Dit is een niet-geregistreerde e-mail.'], 200);
 
@@ -149,8 +149,13 @@ class AuthController extends Controller
             return response()->json(['code'=>401, 'message'=>'Verificatie mislukt'], 200);
         }
         
+        $exist = User::where('email', strtolower($request->email))->get();
+        if(count($exist) > 0){
+            return response()->json(['code'=>422, 'message'=>'Het e-mailadres dat je hebt ingevoerd, is al in gebruik door een andere gebruiker'], 200);
+        }
+
         $user = Auth::user();
-        $user->email = $request->email;
+        $user->email = strtolower($request->email);
         $user->save();
  
         return response()->json(['code'=>200, 'message'=>'E-mail geüpdatet'], 200);
@@ -217,7 +222,7 @@ class AuthController extends Controller
 
         // check email has used or not
         $user = new User;
-        $users = $user->where('email', $request->email)->get();
+        $users = $user->where('email', strtolower($request->email))->get();
         if(count($users) > 0){
             return response()->json(['code'=>422, 'message'=>'Het e-mailadres dat je hebt ingevoerd, is al in gebruik door een andere gebruiker.'], 200);
         }
@@ -228,7 +233,7 @@ class AuthController extends Controller
             'last_name' => $request->last_name,
             'chamber_commerce' => $request->chamber_commerce,
             'city' => $request->city,
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'tel' => $request->tel,
             'role' => 'company',
             'active' => 'inactive',

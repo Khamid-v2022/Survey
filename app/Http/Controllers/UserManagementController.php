@@ -182,7 +182,12 @@ class UserManagementController extends MyController
     }
 
     public function addUpdateUser(Request $request){
-        $exist = User::where('email', $request->email)->get();
+
+        if(isset($request->id)){
+            $exist = User::where('id', '!=', $request->id)->where('email', strtolower($request->email))->get();
+        }else{
+            $exist = User::where('email', strtolower($request->email))->get();
+        }
         if(count($exist) > 0){
             return response()->json(['code'=>422, 'message'=>'Het e-mailadres dat je hebt ingevoerd, is al in gebruik door een andere gebruiker.'], 200);
         }
@@ -192,7 +197,7 @@ class UserManagementController extends MyController
         $user = User::updateOrCreate(['id' => $request->id], [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'name' => $request->name,
             'address' => $request->address,
             'post_code' => $request->post_code,
@@ -200,8 +205,7 @@ class UserManagementController extends MyController
             'num_add' => $request->num_add,
             'tel' => $request->tel,
             'role' => $request->role,
-            'parent_id' => $request->parent_id,
-            'active' => 'inactive'
+            'parent_id' => $request->parent_id
         ]);
 
 

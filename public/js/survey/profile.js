@@ -110,6 +110,17 @@ $(function () {
                                             )
                                             .classList.toggle("d-none");
                                     });
+                                } else if (response.code == 422) {
+                                    swal.fire({
+                                        text: response.message,
+                                        icon: "warning",
+                                        buttonsStyling: !1,
+                                        confirmButtonText: "OK ik snap het!",
+                                        customClass: {
+                                            confirmButton:
+                                                "btn font-weight-bold btn-light-success",
+                                        },
+                                    }).then(function () {});
                                 } else if (response.code == 401) {
                                     swal.fire({
                                         text: response.message,
