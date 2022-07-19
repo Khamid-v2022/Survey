@@ -26,12 +26,12 @@
                                         </svg>
                                     </span>
                                     <!--end::Svg Icon-->
-                                    <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Permissions" />
+                                    <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="" />
                                 </div>
                                 <div class="d-flex align-items-center position-relative my-1 me-5 w-150px">
-                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select a Role" name="target_assign" id="target_assign">
-                                        <option value="">Select role...</option>
-                                        <option value=" ">All</option>
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer een rol" name="target_assign" id="target_assign">
+                                        <option value="">Selecteer rol...</option>
+                                        <option value=" ">Allemaal</option>
                                         @foreach($roles as $item)
                                             <option value="{{ $item }}">{{ $item }}</option>
                                         @endforeach
@@ -49,7 +49,7 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                New User</a>
+                                Nieuwe gebruiker</a>
                             </div>
                         </div>
                         <!--end::Header-->
@@ -65,8 +65,8 @@
                                             <th class="min-w-80px">Voornaam</th>
                                             <th class="min-w-80px">Achternaam</th>
                                             <th class="min-w-100px">Email</th>
-                                            <th class="min-w-100px">Role</th>
-                                            <th class="min-w-100px text-end">Actions</th>
+                                            <th class="min-w-100px">Rol</th>
+                                            <th class="min-w-100px text-end">Acties</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
@@ -86,19 +86,19 @@
                                             <td>
                                                 @switch($item['role'])
                                                     @case('department')
-                                                        <span class="badge badge-light-danger fs-7 m-1 ms-0">{{ $item['role'] }}</span>
+                                                        <span class="badge badge-light-danger fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
                                                     @case('program')
-                                                        <span class="badge badge-light-primary fs-7 m-1 ms-5">{{ $item['role'] }}</span>
+                                                        <span class="badge badge-light-primary fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
                                                     @case('coach')
-                                                        <span class="badge badge-light-info fs-7 m-1 ms-10">{{ $item['role'] }}</span>
+                                                        <span class="badge badge-light-info fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
                                                     @case('trainer')
-                                                        <span class="badge badge-light-success fs-7 m-1 ms-10">{{ $item['role'] }}</span>
+                                                        <span class="badge badge-light-success fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
                                                     @case('trainee')
-                                                        <span class="badge badge-light-warning fs-7 m-1 ms-15">{{ $item['role'] }}</span>
+                                                        <span class="badge badge-light-warning fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
                                                     @default
                                                         <span class="badge badge-light-dark fs-7 m-1">{{ $item['role'] }}</span>
@@ -106,11 +106,11 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end flex-shrink-0">
-                                                    <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Active">
+                                                    <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Actief">
                                                         <input class="form-check-input active-company-btn" type="checkbox" {{ $item['active']=='active'?'checked':'' }} />
                                                     </label>
                                                     
-                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-company-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Delete">
+                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-company-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Verwijderen">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -176,7 +176,7 @@
                     <!--begin::Heading-->
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
-                        <h1 class="mb-3"><span class="action-type">Add</span> User</h1>
+                        <h1 class="mb-3"><span class="action-type">Toevoegen</span> Gebruiker</h1>
                         <!--end::Title-->
                     </div>
                     <!--end::Heading-->
@@ -186,7 +186,7 @@
                         <input type="hidden" id="m_user_id" value="">
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row">
-                            <label class="required fs-6 fw-bold mb-2">Role</label>
+                            <label class="required fs-6 fw-bold mb-2">Rol</label>
                             <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select a Role" name="m_user_role" id="m_user_role">
                                 {{-- @foreach($roles as $item) --}}
                                 @for($i = 0; $i < count($roles); $i++)
@@ -197,18 +197,50 @@
                         <!--end::Col-->
 
                         <!--begin::Col-->
+                        @if($user['role'] == 'coach' || $user['role'] == 'trainer')
+                            <div class="col-md-6 fv-row" style="display: none">
+                        @else
+                            <div class="col-md-6 fv-row">
+                        @endif
+                                <label class="required fs-6 fw-bold mb-2">Organisatie</label>
+                                <!--begin::Input-->
+                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Organisatie" id="m_user_parent" name="m_user_parent">
+                                    <option value="{{ $user['id'] }}">{{ $user['first_name'] . ' ' . $user['last_name'] }} ({{ $user['role'] }})
+                                    </option>
+                                </select>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Col-->
+                        @if($user['role'] == 'coach' || $user['role'] == 'trainer')
                         <div class="col-md-6 fv-row">
-                            <label class="required fs-6 fw-bold mb-2">Organisatie</label>
-                            <!--begin::Input-->
-                            <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Organisatie" id="m_user_parent" name="m_user_parent">
-                                <option value="{{ $user['id'] }}">{{ $user['first_name'] . ' ' . $user['last_name'] }} ({{ $user['role'] }})
-                                </option>
-                            </select>
-                            <!--end::Input-->
+                            <label class="fs-6 fw-bold mb-2">Company</label>
+                            <input type="text" class="form-control form-control-solid" value={{ $user['company_name'] }} readonly/>
+                        </div>
+                        @endif
+                    </div>
+                    <!--end::Input group-->
+
+                    @if($user['role'] == 'coach' || $user['role'] == 'trainer')
+                    <!--begin::Input group-->
+                    <div class="row g-9 mb-8">
+
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="fs-6 fw-bold mb-2">Department</label>
+                            <input type="text" class="form-control form-control-solid" value={{ $user['department_name'] }} readonly/>
+                        </div>
+                        <!--end::Col-->
+                        
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="fs-6 fw-bold mb-2">Program</label>
+                            <input type="text" class="form-control form-control-solid" value={{ $user['program_name'] }} readonly/>
                         </div>
                         <!--end::Col-->
                     </div>
                     <!--end::Input group-->
+                    @endif
+
 
                     <!--begin::Input group-->
                     <div class="flex-column mb-8 fv-row department-program">
@@ -301,10 +333,10 @@
 
                     <!--begin::Actions-->
                     <div class="text-center">
-                        <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">Cancel</button>
+                        <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">Annuleren</button>
                         <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
-                            <span class="indicator-label">Submit</span>
-                            <span class="indicator-progress">Please wait...
+                            <span class="indicator-label">Indienen</span>
+                            <span class="indicator-progress">Even geduld aub...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
                     </div>

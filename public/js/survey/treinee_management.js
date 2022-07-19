@@ -22,4 +22,22 @@ $(function () {
         .addEventListener("keyup", function (e) {
             datatable.search(e.target.value).draw();
         });
+
+    
+    $(".delete-btn").on("click", function () {
+        let user_id = $(this).parents("tr").attr("user_id");
+
+        let _url = "/user_management/deleteUser/" + user_id;
+
+        $.ajax({
+            type: "DELETE",
+            url: _url,
+            success: function (response) {
+                if (response.code == 200) {
+                    location.reload();
+                }
+            },
+            error: function (data) {},
+        });
+    });
 });

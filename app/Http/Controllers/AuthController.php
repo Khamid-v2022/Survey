@@ -44,7 +44,7 @@ class AuthController extends Controller
 
         $user = User::where('email', strtolower($request->email))->first();
         if(!$user)
-            return response()->json(['code'=>201, 'message'=>'Oppe! Dit is een niet-geregistreerde e-mail.'], 200);
+            return response()->json(['code'=>201, 'message'=>'Dit is een niet-geregistreerde e-mail.'], 200);
 
         $new_pass = $this->randomPassword();
 
@@ -101,7 +101,7 @@ class AuthController extends Controller
                 return response()->json(['code'=>200, 'message'=>'Je bent succesvol ingelogd'], 200);
         }
   
-        return response()->json(['code'=>401, 'message'=>'Oppe! U heeft ongeldige inloggegevens ingevoerd'], 401);
+        return response()->json(['code'=>401, 'message'=>'U heeft ongeldige inloggegevens ingevoerd'], 401);
     }
 
     

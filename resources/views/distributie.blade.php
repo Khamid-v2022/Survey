@@ -26,24 +26,24 @@
                                         </svg>
                                     </span>
                                     <!--end::Svg Icon-->
-                                    <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Permissions" />
+                                    <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="" />
                                 </div>
                                 <div class="d-flex align-items-center position-relative my-1 me-5 w-200px">
-                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select a Form..." name="sel_form" id="sel_form">
-                                        <option value="">Select a Form...</option>
-                                        <option value=" ">All</option>
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer een formulier..." name="sel_form" id="sel_form">
+                                        <option value="">Selecteer een formulier...</option>
+                                        <option value=" ">Allemaal</option>
                                         @foreach($forms as $item)
                                             <option value="{{ $item['form_name'] }}">{{ $item['form_name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="d-flex align-items-center position-relative my-1 me-5 w-200px">
-                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select a Status..." name="sel_status" id="sel_status">
-                                        <option value="">Select a Status...</option>
-                                        <option value=" ">All</option>
-                                        <option value="pendding">Pending</option>
-                                        <option value="progressing">Progressing</option>
-                                        <option value="submitted">Submitted</option>
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer een status..." name="sel_status" id="sel_status">
+                                        <option value="">Selecteer een status...</option>
+                                        <option value=" ">Allemaal</option>
+                                        <option value="pendding">In afwachting</option>
+                                        <option value="progressing">Vordert</option>
+                                        <option value="submitted">Ingediend</option>
                                     </select>
                                 </div>
                             </div>
@@ -76,18 +76,20 @@
                                                     <input class="form-check-input" type="checkbox" value="1" data-kt-check="true" data-kt-check-target=".widget-9-check" />
                                                 </div>
                                             </th>
-                                            <th class="min-w-80px">Name</th>
+                                            <th class="min-w-80px">Naam</th>
                                             <th class="min-w-100px">Email</th>
-                                            <th class="min-w-100px">Trainer/Coach Name</th>
-                                            <th class="min-w-100px">WebForm name</th>
-                                            <th class="min-w-70px">Status</th>
+                                            <th class="min-w-100px">Trainer</th>
+                                            <th class="min-w-100px">Coach</th>
+                                            <th class="min-w-100px">Enquete</th>
+                                            <th class="min-w-70px">Toestand</th>
+                                            <th class="min-w-70px">Actie</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
                                     <!--begin::Table body-->
                                     <tbody>
                                         @foreach($trainees as $item)
-                                        <tr trainee_id = "{{ $item['id'] }}">
+                                        <tr trainee_id = "{{ $item['id'] }}" survey_id = "{{ $item['survey_id'] }}">
                                             <td>
                                                 <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                     <input class="form-check-input widget-9-check" type="checkbox" value="1" />
@@ -102,7 +104,15 @@
                                                 {{ $item['email'] }}
                                             </td>
                                             <td>
-                                                <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
+                                                @if($item['parent_role'] == 'coach')
+                                                    <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($item['parent_role'] == 'trainer')
+                                                    <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
+                                                @endif
+                                                {{-- <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
                                                 @switch($item['parent_role'])
                                                     @case('coach')
                                                         <span class="badge badge-light-info fs-7 m-1">{{ $item['parent_role'] }}</span>
@@ -112,7 +122,7 @@
                                                         @break
                                                 @endswitch
                                                 <br/>
-                                                <span class="text-muted">{{ $item['parent_email'] }}</span>
+                                                <span class="text-muted">{{ $item['parent_email'] }}</span> --}}
                                             </td>
                                             <td>
                                                {{ $item['form_name'] }}
@@ -120,19 +130,32 @@
                                             <td>
                                                 @switch($item['progress_status'])
                                                     @case('start')
-                                                        <span class="badge badge-light-danger fs-7 m-1">pendding</span>
+                                                        <span class="badge badge-light-danger fs-7 m-1">in afwachting</span>
                                                         @break
                                                     @case('progressing')
-                                                        <span class="badge badge-light-info fs-7 m-1">progressing</span>
+                                                        <span class="badge badge-light-info fs-7 m-1">vordert</span>
                                                         <br>
                                                         <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="Started Datetime">{{ $item['started_at'] }}</span>
                                                         @break
                                                     @case('end')
-                                                        <span class="badge badge-light-success fs-7 m-1">submitted</span>
+                                                        <span class="badge badge-light-success fs-7 m-1">ingediend</span>
                                                         <br>
                                                         <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="Submitted Datetime">{{ $item['ended_at'] }}</span>
                                                         @break
                                                 @endswitch
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Verwijderen">
+                                                    <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                                                    <span class="svg-icon svg-icon-3">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
+                                                            <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
+                                                            <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
+                                                        </svg>
+                                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                </a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -187,13 +210,13 @@
                     <!--begin::Heading-->
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
-                        <h1 class="mb-3">Versturen Form</h1>
+                        <h1 class="mb-3">Versturen Het formulier</h1>
                         <!--end::Title-->
                     </div>
                     <!--end::Heading-->
                       
                     <div class="flex-column mb-8 fv-row">
-                        <label class="required fs-6 fw-bold mb-2">Form name</label>
+                        <label class="required fs-6 fw-bold mb-2">Het formulier naam</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Form" name="m_sel_form" id="m_sel_form">
                             @foreach($forms as $item)
                                 <option value="{{ $item['id'] }}">{{ $item['form_name'] }}</option>
@@ -203,10 +226,10 @@
 
                     <!--begin::Actions-->
                     <div class="text-center">
-                        <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">Cancel</button>
+                        <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">Annuleren</button>
                         <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
                             <span class="indicator-label">Versturen</span>
-                            <span class="indicator-progress">Please wait...
+                            <span class="indicator-progress">Even geduld aub...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
                     </div>

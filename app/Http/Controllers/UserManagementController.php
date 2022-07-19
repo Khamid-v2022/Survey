@@ -63,7 +63,7 @@ class UserManagementController extends MyController
             ];
         }else{
             $details = [
-                'title' => 'Oop!',
+                'title' => 'Oope!',
                 'body' => 'Uw account is gedeactiveerd.'
             ];
         }
@@ -138,8 +138,10 @@ class UserManagementController extends MyController
         
         $my_role = $this->user['role'];
         $roles = Config::get('constants.roles.user');
-        $index = array_search($my_role, $roles);
 
+        $index = array_search($my_role, $roles);
+        if($my_role == 'coach')
+            $index++;
         $include_roles = array_slice($roles, $index + 1);
         
         $users = User::wherein('role', $include_roles)
@@ -147,10 +149,30 @@ class UserManagementController extends MyController
         ->orderBy('tree_code', 'asc')
         ->get();
         
+        $user_info = $this->user;
+        // if user role = trainer or coarch  need to get company, department, program
+        if($my_role == 'coach' || $my_role == 'trainer'){
+            $codes = explode('.', $this->user['tree_code']);
+            
+            $program_code = array_slice($codes, 0, 3);
+            $the_code = implode('.', $program_code);
+            $program = User::where('tree_code', 'LIKE', $the_code)->first();
+            $user_info['program_name'] = $program['first_name'] . ' ' . $program['last_name'];
+
+            $department_code = array_slice($codes, 0, 2);
+            $the_code = implode('.', $department_code); 
+            $department = User::where('tree_code', 'LIKE', $the_code)->first();
+            $user_info['department_name'] = $department['first_name'] . ' ' . $department['last_name'];
+
+            $company_code = array_slice($codes, 0, 1);
+            $the_code = implode('.', $company_code);
+            $company = User::where('tree_code', 'LIKE', $the_code)->first();
+            $user_info['company_name'] = $company['first_name'] . ' ' . $company['last_name'];
+        }
        
         return view('userManagement', [
             'title' => $title,
-            'user' => $this->user, 
+            'user' => $user_info, 
             'users' => $users,
             'roles' => $include_roles
         ]);
@@ -215,7 +237,8 @@ class UserManagementController extends MyController
         
         if($request->action_type == "Add"){
             $user->password = Hash::make('123456!');
-            // $user->password = Hash::make($this->randomPassword());  
+            // $user->password = Hash::make($this->randomPassword()); 
+            // send email 
         }
             
         $user->save();
@@ -242,10 +265,36 @@ class UserManagementController extends MyController
     }
 
     public function changeActive(Request $request){
-        $user = User::where('id', $request->id)->update([
+        User::where('id', $request->id)->update([
             'active' => $request->active
         ]);
 
+        $user = User::where('id', $request->id)->first();
+       
+        if($request->active == 'active'){
+            $password = $this->randomPassword();
+            $user->password = Hash::make($password);
+
+            $details = [
+                'title' => '',
+                'body' => 'Uw account is geactiveerd.<br>Gelieve in te loggen met dit wachtwoord: ' . $password
+            ];
+        }else{
+            $details = [
+                'title' => 'Oope!',
+                'body' => 'Uw account is gedeactiveerd.'
+            ];
+        }
+
+        try {
+            Mail::to($user['email'])->send(new SurveyMail($details));
+        } catch (Exception $e) {
+            if (count(Mail::failures()) > 0) {
+                return response()->json(['code'=>202, 'message'=>'Kan e-mail niet verzenden'], 200);
+            }
+        }
+
+        $user->save();
         return response()->json(['code'=>200, 'message'=>'Status succesvol gewijzigd','data' => $user], 200);
     }
 
@@ -266,11 +315,18 @@ class UserManagementController extends MyController
         $title = "Trainee";
         
         $my_role = $this->user['role'];
-        $users = User::where('role', 'trainee')
-        ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')
-        ->orderBy('tree_code', 'asc')
-        ->get();
-        
+        if($my_role == 'company'){
+            $users = User::wherein('role', ['trainee', 'coach', 'trainer'])
+            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')
+            ->orderBy('tree_code', 'asc')
+            ->get();
+        }
+        else {
+            $users = User::where('role', 'trainee')
+            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')
+            ->orderBy('tree_code', 'asc')
+            ->get();
+        }        
        
         return view('treineeManagement', [
             'title' => $title,

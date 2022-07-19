@@ -87,7 +87,7 @@ var KTPasswordResetGeneral = (function () {
                                         e.removeAttribute("data-kt-indicator");
                                         e.disabled = !1;
                                         Swal.fire({
-                                            text: "Oppe! Kan e-mail niet verzenden",
+                                            text: "Kan e-mail niet verzenden",
                                             icon: "warning",
                                             buttonsStyling: !1,
                                             confirmButtonText: "Oké, snap het!",

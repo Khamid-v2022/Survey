@@ -49,11 +49,34 @@ $(function () {
     });
 
     $("#sel_form").on("change", function () {
-        datatable.columns(4).search($(this).val()).draw();
+        datatable.columns(5).search($(this).val()).draw();
     });
 
     $("#sel_status").on("change", function () {
-        datatable.columns(5).search($(this).val()).draw();
+        datatable.columns(6).search($(this).val()).draw();
+    });
+
+    $(".delete-btn").on("click", function () {
+        let survey_id = $(this).parents("tr").attr("survey_id");
+
+        let _url = "/distributie/deleteSurveyItem";
+        let data = {
+            survey_id: survey_id,
+        };
+
+        $.ajax({
+            type: "DELETE",
+            url: _url,
+            data: data,
+            success: function (response) {
+                if (response.code == 200) {
+                    location.reload();
+                }
+            },
+            error: function (data) {
+                console.log("Error:", data);
+            },
+        });
     });
 
     var t, e, n, a, o, i;

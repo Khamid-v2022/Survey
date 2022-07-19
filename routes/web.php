@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/distributie', [DistributieController::class, 'index'])->name('distributie');
         Route::post('/distributie/sendFormToTranees', [DistributieController::class, 'sendFormToTranees']);
+        Route::delete('/distributie/deleteSurveyItem', [DistributieController::class, 'deleteSurveyItem']);
         
     });
 

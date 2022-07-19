@@ -16,7 +16,7 @@
                         <!--begin::Header-->
                         <div class="card-header border-0 pt-5">
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bolder fs-3 mb-1">Company Statistics</span>
+                                <span class="card-label fw-bolder fs-3 mb-1">Company Statistieken</span>
                                 {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                             </h3>
                             {{-- <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a company">
@@ -44,11 +44,9 @@
                                         <tr class="fw-bolder text-muted">
                                             <th class="min-w-100px">Bedrijfsnaam</th>
                                             <th class="min-w-80px">Voornaam</th>
-                                            <th class="min-w-80px">KvK#</th>
-                                            <th class="min-w-100px">Stad</th>
+                                            <th class="min-w-80px">Role</th>
                                             <th class="min-w-100px">Email</th>
-                                            <th class="min-w-100px">Tel</th>
-                                            <th class="min-w-100px text-end">Actions</th>
+                                            <th class="min-w-100px text-end">Acties</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
@@ -63,16 +61,10 @@
                                                 {{ $item['first_name'] . ' ' . $item['last_name'] }}
                                             </td>
                                             <td>
-                                                {{ $item['chamber_commerce'] }}
-                                            </td>
-                                            <td>
-                                                {{ $item['city'] }}
+                                                <span class="badge badge-light-dark fs-7 m-1">{{ $item['role'] }}</span>
                                             </td>
                                             <td>
                                                 {{ $item['email'] }}
-                                            </td>
-                                            <td>
-                                                {{ $item['tel'] }}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end flex-shrink-0">

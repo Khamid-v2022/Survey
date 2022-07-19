@@ -75,7 +75,7 @@ var KTSignupGeneral = (function () {
                                     });
                                 } else {
                                     Swal.fire({
-                                        text: "Oppe! U heeft ongeldige inloggegevens ingevoerd",
+                                        text: "U heeft ongeldige inloggegevens ingevoerd",
                                         icon: "warning",
                                         buttonsStyling: !1,
                                         confirmButtonText: "Oké, snap het!",
@@ -87,7 +87,7 @@ var KTSignupGeneral = (function () {
                             },
                             error: function (response) {
                                 Swal.fire({
-                                    text: "Oppe! U heeft ongeldige inloggegevens ingevoerd",
+                                    text: "U heeft ongeldige inloggegevens ingevoerd",
                                     icon: "warning",
                                     buttonsStyling: !1,
                                     confirmButtonText: "Oké, snap het!",

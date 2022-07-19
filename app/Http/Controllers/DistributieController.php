@@ -36,7 +36,7 @@ class DistributieController extends MyController
                 ->where('users.role', 'trainee')
                 ->leftJoin('user_forms', 'users.id', '=', 'user_forms.user_id')
                 ->leftjoin('webforms', 'user_forms.form_id', '=', 'webforms.id')
-                ->select('users.*', 'webforms.form_name', 'user_forms.progress_status', 'started_at', 'ended_at')
+                ->select('users.*', 'webforms.form_name', 'user_forms.progress_status', 'user_forms.id AS survey_id', 'started_at', 'ended_at')
                 ->get();
         
         $our_trainee = [];
@@ -139,5 +139,11 @@ class DistributieController extends MyController
             return response()->json(['code'=>202, 'message'=>'Kan e-mail niet verzenden'], 200);
 
         return response()->json(['code'=>200, 'message'=>count($queue) . ' e-mails succesvol verzonden'], 200);
+    }
+
+    public function deleteSurveyItem(Request $request){
+        $user = User_Form::where('id', $request->survey_id)->delete();
+   
+        return response()->json(['code'=>200, 'message'=>'Succesvol verwijderd'], 200);
     }
 }
