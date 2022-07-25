@@ -41,6 +41,8 @@ class EmailTrainees extends Command
      */
     public function handle()
     {
+        Log::info('Cron Job Started');
+
         $limit = Carbon::now()->subDay(env('MAIL_REMINDE_DAY'));
 
         $unresponsive_trainees = User_Form::where('emailled_at', '<', $limit)->where('emailled_times', '<', env('MAIL_REMINDE_TIMES'))->get();

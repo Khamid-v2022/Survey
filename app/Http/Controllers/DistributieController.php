@@ -19,7 +19,7 @@ class DistributieController extends MyController
 {
     //
     public function index(){
-        $title = "Distributie";
+        $title = __('Distribution');
         
         // get Company ID
         // company id = first digit part of tree code by separate "."
@@ -136,14 +136,14 @@ class DistributieController extends MyController
         }
 
         if(!$email_success_flag)
-            return response()->json(['code'=>202, 'message'=>'Kan e-mail niet verzenden'], 200);
+            return response()->json(['code'=>202, 'message'=>__('Unable to send email')], 200);
 
-        return response()->json(['code'=>200, 'message'=>count($queue) . ' e-mails succesvol verzonden'], 200);
+        return response()->json(['code'=>200, 'message'=>count($queue) . ' ' . __('emails sent successfully')], 200);
     }
 
     public function deleteSurveyItem(Request $request){
         $user = User_Form::where('id', $request->survey_id)->delete();
    
-        return response()->json(['code'=>200, 'message'=>'Succesvol verwijderd'], 200);
+        return response()->json(['code'=>200, 'message'=>__('Successfully removed')], 200);
     }
 }

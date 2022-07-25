@@ -20,7 +20,7 @@ class UserManagementController extends MyController
     // admin role for register company
     public function index()
     {
-        $title = "Registratie coachingsupport";
+        $title = __('Registration Coachingsupport');
 
         $companies = User::where('role', 'company')->get();
         return view('adminDashboard', [
@@ -58,13 +58,13 @@ class UserManagementController extends MyController
          // send email
         if($request->active == 'active'){
             $details = [
-                'title' => 'Welkom bij coachingsupport',
-                'body' => 'Uw account is geactiveerd.'
+                'title' => __('Welcome to coaching support'),
+                'body' => __('Your account has been activated.')
             ];
         }else{
             $details = [
                 'title' => 'Oope!',
-                'body' => 'Uw account is gedeactiveerd.'
+                'body' => __('Your account has been deactivated.')
             ];
         }
 
@@ -72,14 +72,14 @@ class UserManagementController extends MyController
             Mail::to($user['email'])->send(new SurveyMail($details));
         } catch (Exception $e) {
             if (count(Mail::failures()) > 0) {
-                return response()->json(['code'=>202, 'message'=>'Kan e-mail niet verzenden'], 200);
+                return response()->json(['code'=>202, 'message'=>__('Unable to send email')], 200);
             }
         }
         
         $user->active = $request->active;
         $user->save();
 
-        return response()->json(['code'=>200, 'message'=>'Er is een e-mail verzonden naar die gebruiker.','data' => $user], 200);
+        return response()->json(['code'=>200, 'message'=>__('An email has been sent to that user.'), 'data' => $user], 200);
     }
 
     /**
@@ -134,7 +134,7 @@ class UserManagementController extends MyController
     // User side
     public function user_manage_page(){
         
-        $title = "User Management";
+        $title = __('User Management');
         
         $my_role = $this->user['role'];
         $roles = Config::get('constants.roles.user');
@@ -198,7 +198,7 @@ class UserManagementController extends MyController
         }
 
         if(count($users) > 0)
-            return response()->json(['code'=>200, 'message'=>'Successfully deleted', 'data'=>$users], 200);
+            return response()->json(['code'=>200, 'message'=>__('Successfully removed'), 'data'=>$users], 200);
         else
             return response()->json(['code'=>201, 'message'=>'No user'], 200);
     }
@@ -211,7 +211,7 @@ class UserManagementController extends MyController
             $exist = User::where('email', strtolower($request->email))->get();
         }
         if(count($exist) > 0){
-            return response()->json(['code'=>422, 'message'=>'Het e-mailadres dat je hebt ingevoerd, is al in gebruik door een andere gebruiker.'], 200);
+            return response()->json(['code'=>422, 'message'=>__('The email address you entered is already in use by another user.')], 200);
         }
 
         $parent_user = User::find($request->parent_id);
@@ -277,12 +277,12 @@ class UserManagementController extends MyController
 
             $details = [
                 'title' => '',
-                'body' => 'Uw account is geactiveerd.<br>Gelieve in te loggen met dit wachtwoord: ' . $password
+                'body' => __('Your account has been activated.') . '<br/>' .  __('Please login with this password') . ': ' . $password
             ];
         }else{
             $details = [
                 'title' => 'Oope!',
-                'body' => 'Uw account is gedeactiveerd.'
+                'body' => __('Your account has been deactivated.')
             ];
         }
 
@@ -290,12 +290,12 @@ class UserManagementController extends MyController
             Mail::to($user['email'])->send(new SurveyMail($details));
         } catch (Exception $e) {
             if (count(Mail::failures()) > 0) {
-                return response()->json(['code'=>202, 'message'=>'Kan e-mail niet verzenden'], 200);
+                return response()->json(['code'=>202, 'message'=>__('Unable to send email')], 200);
             }
         }
 
         $user->save();
-        return response()->json(['code'=>200, 'message'=>'Status succesvol gewijzigd','data' => $user], 200);
+        return response()->json(['code'=>200, 'message'=>__('Status changed successfully'), 'data' => $user], 200);
     }
 
     public function deleteUser($id){
@@ -306,7 +306,7 @@ class UserManagementController extends MyController
         $user = User::find($id);
         User::where('tree_code', 'LIKE', $user['tree_code'] . '%')->delete();
    
-        return response()->json(['code'=>200, 'message'=>'Succesvol verwijderd'], 200);
+        return response()->json(['code'=>200, 'message'=>__('Successfully removed')], 200);
     }
 
 

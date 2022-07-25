@@ -40,13 +40,13 @@
                                     <!--begin::Table head-->
                                     <thead>
                                         <tr class="fw-bolder text-muted">
-                                            <th class="min-w-80px">Voornaam</th>
-                                            <th class="min-w-80px">Achternaam</th>
-                                            <th class="min-w-100px">Email</th>
-                                            <th class="min-w-100px">Rol</th>
-                                            <th class="min-w-100px">Aanmaakdatum</th>
+                                            <th class="min-w-80px">{{ __('First name') }}</th>
+                                            <th class="min-w-80px">{{ __('Last name') }}</th>
+                                            <th class="min-w-100px">{{ __('Email') }}</th>
+                                            <th class="min-w-100px">{{ __('Role') }}</th>
+                                            <th class="min-w-100px">{{ __('Creation date') }}</th>
                                             @if($user['role'] == 'company')
-                                                <th class="min-w-100px">Actie</th>
+                                                <th class="min-w-100px">{{ __('Action') }}</th>
                                             @endif
                                         </tr>
                                     </thead>

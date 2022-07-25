@@ -15,49 +15,49 @@
                 <!--begin::Heading-->
                 <div class="mb-10 text-center">
                     <!--begin::Title-->
-                    <h1 class="text-dark mb-3">Register a Company</h1>
+                    <h1 class="text-dark mb-3">{{ __('Register a Company') }}</h1>
                     <!--end::Title-->
                     <!--begin::Link-->
-                    <div class="text-gray-400 fw-bold fs-4">Already have an account?
-                    <a href="/login" class="link-success fw-bolder">Sign in here</a></div>
+                    <div class="text-gray-400 fw-bold fs-4">{{ __('Already have an account?') }}
+                    <a href="/login" class="link-success fw-bolder">{{ __('Sign in here') }}</a></div>
                     <!--end::Link-->
                 </div>
                 <!--end::Heading-->
                 <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">Bedrijfsnaam</label>
+                    <label class="form-label fw-bolder text-dark fs-6">{{ __('Company Name') }}</label>
                     <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" name="company_name" id="company_name" autocomplete="off" />
                 </div>
                 <!--begin::Input group-->
                 <div class="row fv-row mb-7">
                     <!--begin::Col-->
                     <div class="col-xl-6">
-                        <label class="form-label fw-bolder text-dark fs-6">Voornaam*</label>
+                        <label class="required form-label fw-bolder text-dark fs-6">{{ __('First name') }}</label>
                         <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" name="first_name" id="first_name" autocomplete="off" />
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
                     <div class="col-xl-6">
-                        <label class="form-label fw-bolder text-dark fs-6">Achternaam*</label>
+                        <label class="required form-label fw-bolder text-dark fs-6">{{ __('Last name') }}</label>
                         <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" name="last_name"  id="last_name" autocomplete="off" />
                     </div>
                     <!--end::Col-->
                 </div>
                 <!--end::Input group-->
                 <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">KvK#*</label>
+                    <label class="required form-label fw-bolder text-dark fs-6">KvK#</label>
                     <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" name="chamber_commerce" id="chamber_commerce" autocomplete="off" />
                 </div>
                 <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">Stad*</label>
+                    <label class="required form-label fw-bolder text-dark fs-6">{{ __('City') }}</label>
                     <input class="form-control form-control-lg form-control-solid" type="text" placeholder="" name="city" id="city" autocomplete="off" />
                 </div>
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">Email</label>
+                    <label class="form-label fw-bolder text-dark fs-6">{{ __('Email') }}</label>
                     <input class="form-control form-control-lg form-control-solid" type="email" placeholder="" name="email" id="email" autocomplete="off" />
                 </div>
                 <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">Tel*</label>
+                    <label class="required form-label fw-bolder text-dark fs-6">{{ __('Tel') }}</label>
                     <input class="form-control form-control-lg form-control-solid" type="tel" placeholder="" name="tel" id="tel" autocomplete="off" />
                 </div>
                 <!--end::Input group-->
@@ -66,7 +66,7 @@
                     <!--begin::Wrapper-->
                     <div class="mb-1">
                         <!--begin::Label-->
-                        <label class="form-label fw-bolder text-dark fs-6">Password</label>
+                        <label class="form-label fw-bolder text-dark fs-6">{{ __('Password') }}</label>
                         <!--end::Label-->
                         <!--begin::Input wrapper-->
                         <div class="position-relative mb-3">
@@ -88,13 +88,13 @@
                     </div>
                     <!--end::Wrapper-->
                     <!--begin::Hint-->
-                    <div class="text-muted">Use 8 or more characters with a mix of letters, numbers &amp; symbols.</div>
+                    <div class="text-muted">{{ __('Use 8 or more characters with a mix of letters, numbers & symbols.') }}</div>
                     <!--end::Hint-->
                 </div>
                 <!--end::Input group=-->
                 <!--begin::Input group-->
                 <div class="fv-row mb-5">
-                    <label class="form-label fw-bolder text-dark fs-6">Confirm Password</label>
+                    <label class="form-label fw-bolder text-dark fs-6">{{ __('Confirm Password') }}</label>
                     <input class="form-control form-control-lg form-control-solid" type="password" placeholder="" name="confirm-password" autocomplete="off" />
                 </div>
                 <!--end::Input group-->
@@ -102,8 +102,8 @@
                 <!--begin::Actions-->
                 <div class="text-center">
                     <button type="button" id="kt_sign_up_submit" class="btn btn-lg btn-success">
-                        <span class="indicator-label">Indienen</span>
-                        <span class="indicator-progress">Please wait...
+                        <span class="indicator-label">{{ __('Submit') }}</span>
+                        <span class="indicator-progress">{{ __('Please wait...') }}
                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                     </button>
                 </div>

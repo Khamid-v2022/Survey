@@ -11,7 +11,7 @@ class EnquetesController extends MyController
     //
     public function index(){
         
-        $title = "Enquetes";
+        $title = __('Surveys');
         
         // get Company ID
         // company id = first digit part of tree code by separate "."
@@ -64,6 +64,6 @@ class EnquetesController extends MyController
     public function deleteForm($id){
         $form = Webform::where('id', $id)->delete();
 
-        return response()->json(['code'=>200, 'message'=>'Successfully deleted'], 200);
+        return response()->json(['code'=>200, 'message'=>__('Successfully removed')], 200);
     }
 }

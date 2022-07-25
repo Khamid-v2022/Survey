@@ -16,7 +16,7 @@
                         <!--begin::Header-->
                         <div class="card-header border-0 pt-5">
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bolder fs-3 mb-1">Company Statistieken</span>
+                                <span class="card-label fw-bolder fs-3 mb-1">{{ __('Company Statistics') }}</span>
                                 {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                             </h3>
                             {{-- <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a company">
@@ -42,11 +42,11 @@
                                     <!--begin::Table head-->
                                     <thead>
                                         <tr class="fw-bolder text-muted">
-                                            <th class="min-w-100px">Bedrijfsnaam</th>
-                                            <th class="min-w-80px">Voornaam</th>
-                                            <th class="min-w-80px">Role</th>
-                                            <th class="min-w-100px">Email</th>
-                                            <th class="min-w-100px text-end">Acties</th>
+                                            <th class="min-w-100px">{{ __('Company Name') }}</th>
+                                            <th class="min-w-80px">{{ __('First name') }}</th>
+                                            <th class="min-w-80px">{{ __('Role') }}</th>
+                                            <th class="min-w-100px">{{ __('Email') }}</th>
+                                            <th class="min-w-100px text-end">{{__('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
@@ -68,11 +68,11 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end flex-shrink-0">
-                                                    <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Active">
+                                                    <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Active') }}">
                                                         <input class="form-check-input active-company-btn" type="checkbox" {{ $item['active']=='active'?'checked':'' }} />
                                                     </label>
                                                     
-                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-company-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Delete">
+                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-company-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Delete') }}">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

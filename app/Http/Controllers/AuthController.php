@@ -44,21 +44,21 @@ class AuthController extends Controller
 
         $user = User::where('email', strtolower($request->email))->first();
         if(!$user)
-            return response()->json(['code'=>201, 'message'=>'Dit is een niet-geregistreerde e-mail.'], 200);
+            return response()->json(['code'=>201, 'message'=>__('This is an unregistered email.')], 200);
 
         $new_pass = $this->randomPassword();
 
         $details = [
-            'title' => 'Coachingsupport Update wachtwoord',
-            'body' => 'Uw wachtwoord is successvol veranderd<br/>
-            U kunt inloggen met de volgende gegevens: <b>' . $new_pass . '</b>'
+            'title' => __('Coachingsupport Update password'),
+            'body' => __('Your password has been successfully changed') . '<br/>'
+            . __('You can login with the following details') . ': <b>' . $new_pass . '</b>'
         ];
 
         try {
             Mail::to($user['email'])->send(new SurveyMail($details));
         } catch (Exception $e) {
             if (count(Mail::failures()) > 0) {
-                return response()->json(['code'=>202, 'message'=>'Kan e-mail niet verzenden'], 200);
+                return response()->json(['code'=>202, 'message'=>__('Unable to send email')], 200);
             }
         }
 
@@ -96,12 +96,12 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             if(Auth::user()->active == 'inactive')
-                return response()->json(['code'=>201, 'message'=>'Wacht op goedkeuring van de beheerder'], 201);
+                return response()->json(['code'=>201, 'message'=>__('Waiting for admin approval')], 201);
             else
-                return response()->json(['code'=>200, 'message'=>'Je bent succesvol ingelogd'], 200);
+                return response()->json(['code'=>200, 'message'=>__('You have successfully logged in')], 200);
         }
   
-        return response()->json(['code'=>401, 'message'=>'U heeft ongeldige inloggegevens ingevoerd'], 401);
+        return response()->json(['code'=>401, 'message'=>__('You have entered invalid login details')], 401);
     }
 
     
@@ -120,7 +120,7 @@ class AuthController extends Controller
 
 
     public function profile_page(){
-        $title = "Profile";
+        $title = __('Profile');
         $user = Auth::user();
         
         if(!Auth::check()){
@@ -146,19 +146,19 @@ class AuthController extends Controller
         ]);
        
         if(!(Hash::check($request->password, Auth::user()->password))){
-            return response()->json(['code'=>401, 'message'=>'Verificatie mislukt'], 200);
+            return response()->json(['code'=>401, 'message'=>__('Authentication failed')], 200);
         }
         
         $exist = User::where('email', strtolower($request->email))->get();
         if(count($exist) > 0){
-            return response()->json(['code'=>422, 'message'=>'Het e-mailadres dat je hebt ingevoerd, is al in gebruik door een andere gebruiker'], 200);
+            return response()->json(['code'=>422, 'message'=>__("The email address you entered is already in use by another user.")], 200);
         }
 
         $user = Auth::user();
         $user->email = strtolower($request->email);
         $user->save();
  
-        return response()->json(['code'=>200, 'message'=>'E-mail geüpdatet'], 200);
+        return response()->json(['code'=>200, 'message'=>__('Email updated')], 200);
     }
 
      /**
@@ -174,12 +174,12 @@ class AuthController extends Controller
         ]);
        
         if(!(Hash::check($request->current_password, Auth::user()->password))){
-            return response()->json(['code'=>401, 'message'=>'Verificatie mislukt'], 200);
+            return response()->json(['code'=>401, 'message'=>__('Authentication failed')], 200);
         }
 
         if(strcmp($request->current_password, $request->new_password) == 0){
             //Current password and new password are same
-            return response()->json(['code'=>402, 'message'=>'Nieuw wachtwoord mag niet hetzelfde zijn als uw huidige wachtwoord. Kies een ander wachtwoord.'], 200);
+            return response()->json(['code'=>402, 'message'=>__('New password cannot be the same as your current password. Choose a different password.')], 200);
         }
         
         // change password
@@ -187,7 +187,7 @@ class AuthController extends Controller
         $user->password = Hash::make($request->new_password);
         $user->save();
  
-        return response()->json(['code'=>200, 'message'=>'Wachtwoord geüpdatet'], 200);
+        return response()->json(['code'=>200, 'message'=>__('Password updated')], 200);
     }
 
 
@@ -224,7 +224,7 @@ class AuthController extends Controller
         $user = new User;
         $users = $user->where('email', strtolower($request->email))->get();
         if(count($users) > 0){
-            return response()->json(['code'=>422, 'message'=>'Het e-mailadres dat je hebt ingevoerd, is al in gebruik door een andere gebruiker.'], 200);
+            return response()->json(['code'=>422, 'message'=>__('The email address you entered is already in use by another user.')], 200);
         }
  
         $user = User::updateOrCreate(['id' => $request->id], [
@@ -265,8 +265,8 @@ class AuthController extends Controller
         $info_body_html .= '<br/>Tel: <b>' . $info['tel'] . '</b><br/>';
 
         $details = [
-            'title' => 'Registratie coachingsupport',
-            'body' => 'Er heeft een nieuw bedrijf geregistreerd:' . $info_body_html
+            'title' => __('Registration Coachingsupport'),
+            'body' => __('A new company has registered') . ': ' . $info_body_html
         ];
         
         $resonse = Mail::to($admin['email'])->send(new SurveyMail($details));

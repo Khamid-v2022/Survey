@@ -30,8 +30,8 @@
                                 </div>
                                 <div class="d-flex align-items-center position-relative my-1 me-5 w-200px">
                                     <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer een formulier..." name="sel_form" id="sel_form">
-                                        <option value="">Selecteer een formulier...</option>
-                                        <option value=" ">Allemaal</option>
+                                        <option value="">{{ __('Select a form...') }}</option>
+                                        <option value=" ">{{ __('All') }}</option>
                                         @foreach($forms as $item)
                                             <option value="{{ $item['form_name'] }}">{{ $item['form_name'] }}</option>
                                         @endforeach
@@ -39,11 +39,10 @@
                                 </div>
                                 <div class="d-flex align-items-center position-relative my-1 me-5 w-200px">
                                     <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer een status..." name="sel_status" id="sel_status">
-                                        <option value="">Selecteer een status...</option>
-                                        <option value=" ">Allemaal</option>
-                                        <option value="pendding">In afwachting</option>
-                                        <option value="progressing">Vordert</option>
-                                        <option value="submitted">Ingediend</option>
+                                        <option value="">{{ __('Select a status...') }}</option>
+                                        <option value=" ">{{ __('All') }}</option>
+                                        <option value="pending">{{ __('Pending') }}</option>
+                                        <option value="submitted">{{ __('Submitted') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -58,7 +57,7 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                Versturen</button>
+                                {{ __('Send') }}</button>
                             </div>
                         </div>
                         <!--end::Header-->
@@ -76,13 +75,13 @@
                                                     <input class="form-check-input" type="checkbox" value="1" data-kt-check="true" data-kt-check-target=".widget-9-check" />
                                                 </div>
                                             </th>
-                                            <th class="min-w-80px">Naam</th>
-                                            <th class="min-w-100px">Email</th>
-                                            <th class="min-w-100px">Trainer</th>
-                                            <th class="min-w-100px">Coach</th>
-                                            <th class="min-w-100px">Enquete</th>
-                                            <th class="min-w-70px">Toestand</th>
-                                            <th class="min-w-70px">Actie</th>
+                                            <th class="min-w-80px">{{ __('Name') }}</th>
+                                            <th class="min-w-100px">{{ __('Email') }}</th>
+                                            <th class="min-w-100px">{{ __('Trainer') }}</th>
+                                            <th class="min-w-100px">{{ __('Coach') }}</th>
+                                            <th class="min-w-100px">{{ __('Survey') }}</th>
+                                            <th class="min-w-70px">{{ __('Status') }}</th>
+                                            <th class="min-w-70px">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
@@ -129,23 +128,18 @@
                                             </td>
                                             <td>
                                                 @switch($item['progress_status'])
-                                                    @case('start')
-                                                        <span class="badge badge-light-danger fs-7 m-1">in afwachting</span>
+                                                    @case('pending')
+                                                        <span class="badge badge-light-danger fs-7 m-1">{{ __('Pending') }}</span>
                                                         @break
-                                                    @case('progressing')
-                                                        <span class="badge badge-light-info fs-7 m-1">vordert</span>
+                                                    @case('submitted')
+                                                        <span class="badge badge-light-success fs-7 m-1">{{ __('Submitted') }}</span>
                                                         <br>
-                                                        <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="Started Datetime">{{ $item['started_at'] }}</span>
-                                                        @break
-                                                    @case('end')
-                                                        <span class="badge badge-light-success fs-7 m-1">ingediend</span>
-                                                        <br>
-                                                        <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="Submitted Datetime">{{ $item['ended_at'] }}</span>
+                                                        <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="{{ __('Submitted Datetime') }}">{{ $item['ended_at'] }}</span>
                                                         @break
                                                 @endswitch
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Verwijderen">
+                                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Delete') }}">
                                                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                     <span class="svg-icon svg-icon-3">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -210,13 +204,13 @@
                     <!--begin::Heading-->
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
-                        <h1 class="mb-3">Versturen Het formulier</h1>
+                        <h1 class="mb-3">{{ __('Submit The form') }}</h1>
                         <!--end::Title-->
                     </div>
                     <!--end::Heading-->
                       
                     <div class="flex-column mb-8 fv-row">
-                        <label class="required fs-6 fw-bold mb-2">Het formulier naam</label>
+                        <label class="required fs-6 fw-bold mb-2">{{ __('Form name') }}</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Form" name="m_sel_form" id="m_sel_form">
                             @foreach($forms as $item)
                                 <option value="{{ $item['id'] }}">{{ $item['form_name'] }}</option>
@@ -226,10 +220,10 @@
 
                     <!--begin::Actions-->
                     <div class="text-center">
-                        <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">Annuleren</button>
+                        <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">{{ __('Cancel') }}</button>
                         <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
-                            <span class="indicator-label">Versturen</span>
-                            <span class="indicator-progress">Even geduld aub...
+                            <span class="indicator-label">{{ __('Submit') }}</span>
+                            <span class="indicator-progress">{{ __('Please wait...') }}
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
                     </div>

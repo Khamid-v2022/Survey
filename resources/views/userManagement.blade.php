@@ -30,8 +30,8 @@
                                 </div>
                                 <div class="d-flex align-items-center position-relative my-1 me-5 w-150px">
                                     <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer een rol" name="target_assign" id="target_assign">
-                                        <option value="">Selecteer rol...</option>
-                                        <option value=" ">Allemaal</option>
+                                        <option value="">{{ __('Select role...') }}</option>
+                                        <option value=" ">{{ __('All') }}</option>
                                         @foreach($roles as $item)
                                             <option value="{{ $item }}">{{ $item }}</option>
                                         @endforeach
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a company">
+                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Click to add a company') }}">
                                 <a href="#" class="btn btn-sm btn-success btn-active-success" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -49,7 +49,7 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                Nieuwe gebruiker</a>
+                                {{ __('New user') }}</a>
                             </div>
                         </div>
                         <!--end::Header-->
@@ -62,11 +62,11 @@
                                     <!--begin::Table head-->
                                     <thead>
                                         <tr class="fw-bolder text-muted">
-                                            <th class="min-w-80px">Voornaam</th>
-                                            <th class="min-w-80px">Achternaam</th>
-                                            <th class="min-w-100px">Email</th>
-                                            <th class="min-w-100px">Rol</th>
-                                            <th class="min-w-100px text-end">Acties</th>
+                                            <th class="min-w-80px">{{ __('First name') }}</th>
+                                            <th class="min-w-80px">{{ __('Last name') }}</th>
+                                            <th class="min-w-100px">{{ __('Email') }}</th>
+                                            <th class="min-w-100px">{{ __('Role') }}</th>
+                                            <th class="min-w-100px text-end">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
@@ -106,11 +106,11 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end flex-shrink-0">
-                                                    <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Actief">
+                                                    <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Active') }}">
                                                         <input class="form-check-input active-company-btn" type="checkbox" {{ $item['active']=='active'?'checked':'' }} />
                                                     </label>
                                                     
-                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-company-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Verwijderen">
+                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-company-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Delete') }}">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -186,8 +186,8 @@
                         <input type="hidden" id="m_user_id" value="">
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row">
-                            <label class="required fs-6 fw-bold mb-2">Rol</label>
-                            <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select a Role" name="m_user_role" id="m_user_role">
+                            <label class="required fs-6 fw-bold mb-2">{{ __('Role') }}</label>
+                            <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="{{ __('Select role...') }}" name="m_user_role" id="m_user_role">
                                 {{-- @foreach($roles as $item) --}}
                                 @for($i = 0; $i < count($roles); $i++)
                                     <option value="{{ $roles[$i] }}" {{ $i==0?'selected':'' }}>{{ $roles[$i] }}</option>
@@ -213,7 +213,7 @@
                             <!--end::Col-->
                         @if($user['role'] == 'coach' || $user['role'] == 'trainer')
                         <div class="col-md-6 fv-row">
-                            <label class="fs-6 fw-bold mb-2">Company</label>
+                            <label class="fs-6 fw-bold mb-2">{{ __('Company') }}</label>
                             <input type="text" class="form-control form-control-solid" value={{ $user['company_name'] }} readonly/>
                         </div>
                         @endif
@@ -226,14 +226,14 @@
 
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row">
-                            <label class="fs-6 fw-bold mb-2">Department</label>
+                            <label class="fs-6 fw-bold mb-2">{{ __('Department') }}</label>
                             <input type="text" class="form-control form-control-solid" value={{ $user['department_name'] }} readonly/>
                         </div>
                         <!--end::Col-->
                         
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row">
-                            <label class="fs-6 fw-bold mb-2">Program</label>
+                            <label class="fs-6 fw-bold mb-2">{{ __('Program') }}</label>
                             <input type="text" class="form-control form-control-solid" value={{ $user['program_name'] }} readonly/>
                         </div>
                         <!--end::Col-->
@@ -258,7 +258,7 @@
                         <div class="col-md-6 fv-row">
                             <!--begin::Label-->
                             <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                                <span class="required">Voornaam</span>
+                                <span class="required">{{ __('First name') }}</span>
                             </label>
                             <!--end::Label-->
                             <input type="text" class="form-control form-control-solid" placeholder="" id="m_first_name" name="m_first_name" />
@@ -268,7 +268,7 @@
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row">
                             <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                                <span class="required">Achternaam</span>
+                                <span class="required">{{ __('Last name') }}</span>
                             </label>
                             <!--end::Label-->
                             <input type="text" class="form-control form-control-solid" placeholder="" id="m_last_name" name="m_last_name" />
@@ -278,14 +278,14 @@
 
                     <div class="d-flex flex-column mb-8 fv-row">
                         <label for="m_email" class="form-label fs-6 fw-bolder mb-3">
-                            <span class="required">Email</span>
+                            <span class="required">{{ __('Email') }}</span>
                         </label>
                         <input type="email" class="form-control form-control-lg form-control-solid" id="m_email" placeholder="Email Address" name="m_email" />
                     </div>
 
                     <div class="flex-column mb-8 fv-row coach-trainer">
                         <label for="m_address" class="form-label fs-6 fw-bolder mb-3">
-                            Adres
+                            {{ __('Address') }}
                         </label>
                         <input type="text" class="form-control form-control-lg form-control-solid" id="m_address" name="m_address" placeholder="" />
                     </div>
@@ -293,7 +293,7 @@
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row  coach-trainer">
                             <!--begin::Label-->
-                            <label class="d-flex align-items-center fs-6 fw-bold mb-2">Stad</label>
+                            <label class="d-flex align-items-center fs-6 fw-bold mb-2">{{ __('City') }}</label>
                             <!--end::Label-->
                             <input type="text" class="form-control form-control-solid" placeholder="" id="m_city" name="m_city" />
                         </div>
@@ -302,7 +302,7 @@
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row  coach-trainer">
                             <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                                Postcode
+                                {{ __('Postcode') }}
                             </label>
                             <!--end::Label-->
                             <input type="text" class="form-control form-control-solid" placeholder="" id="m_post_code" name="m_post_code" />
@@ -313,7 +313,7 @@
                         <!--begin::Col-->
                         <div class="col-md-4 fv-row  coach-trainer">
                             <!--begin::Label-->
-                            <label class="d-flex align-items-center fs-6 fw-bold mb-2">Nummer</label>
+                            <label class="d-flex align-items-center fs-6 fw-bold mb-2">{{ __('Number') }}</label>
                             <!--end::Label-->
                             <input type="number" min=0 class="form-control form-control-solid" placeholder="" id="m_num_add" name="m_num_add" />
                         </div>
@@ -322,7 +322,7 @@
                         <!--begin::Col-->
                         <div class="col-md-8 fv-row  coach-trainer">
                             <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                                Telefoon
+                                {{ __('Tel') }}
                             </label>
                             <!--end::Label-->
                             <input type="text" class="form-control form-control-solid" placeholder="" id="m_tel" name="m_tel" />
@@ -333,10 +333,10 @@
 
                     <!--begin::Actions-->
                     <div class="text-center">
-                        <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">Annuleren</button>
+                        <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">{{ __('Cancel') }}</button>
                         <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
-                            <span class="indicator-label">Indienen</span>
-                            <span class="indicator-progress">Even geduld aub...
+                            <span class="indicator-label">{{ __('Submit') }}</span>
+                            <span class="indicator-progress">{{ __('Please wait...') }}
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
                     </div>

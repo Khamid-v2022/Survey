@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('form_id');
             $table->string('unique_str')->nullable();
-            $table->enum('progress_status', ['start', 'progressing', 'end'])->default('start');
+            $table->enum('progress_status', ['pending', 'submitted'])->default('pending');
             $table->timestamps();
         });
     }

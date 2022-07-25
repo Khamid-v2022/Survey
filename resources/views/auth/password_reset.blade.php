@@ -15,27 +15,27 @@
                 <!--begin::Heading-->
                 <div class="text-center mb-10">
                     <!--begin::Title-->
-                    <h1 class="text-dark mb-3">Wachtwoord vergeten ?</h1>
+                    <h1 class="text-dark mb-3">{{ __('Forgot password?') }}</h1>
                     <!--end::Title-->
                     <!--begin::Link-->
-                    <div class="text-gray-400 fw-bold fs-4">Voer uw e-mailadres in om uw wachtwoord opnieuw in te stellen.</div>
+                    <div class="text-gray-400 fw-bold fs-4">{{ __('Enter your email address to reset your password') }}</div>
                     <!--end::Link-->
                 </div>
                 <!--begin::Heading-->
                 <!--begin::Input group-->
                 <div class="fv-row mb-10">
-                    <label class="form-label fw-bolder text-gray-900 fs-6">Email</label>
+                    <label class="form-label fw-bolder text-gray-900 fs-6">{{ __('Email') }}</label>
                     <input class="form-control form-control-solid" type="email" placeholder="" name="email" autocomplete="off" id="email"/>
                 </div>
                 <!--end::Input group-->
                 <!--begin::Actions-->
                 <div class="d-flex flex-wrap justify-content-center pb-lg-0">
                     <button type="button" id="kt_password_reset_submit" class="btn btn-lg btn-success fw-bolder me-4">
-                        <span class="indicator-label">Verstuur</span>
-                        <span class="indicator-progress">Even geduld aub...
+                        <span class="indicator-label">{{ __('Send') }}</span>
+                        <span class="indicator-progress">{{ __('Please wait...') }}
                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                     </button>
-                    <a href="{{ route('login') }}" class="btn btn-lg btn-light-success fw-bolder">Annuleren</a>
+                    <a href="{{ route('login') }}" class="btn btn-lg btn-light-success fw-bolder">{{ __('Cancel') }}</a>
                 </div>
                 <!--end::Actions-->
             </form>
