@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 use Session;
 
 use App\Models\User;
@@ -25,7 +26,10 @@ class AuthController extends Controller
     }
 
     public function signup_page(){
-        return view('auth.register');
+        $org_types = Config::get('constants.org_type');
+        return view('auth.register', [
+            'org_types' => $org_types
+        ]);
     }
 
     public function signin_page(){
@@ -228,6 +232,7 @@ class AuthController extends Controller
         }
  
         $user = User::updateOrCreate(['id' => $request->id], [
+            'org_type' => $request->org_type,
             'name' => $request->company_name,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -256,13 +261,14 @@ class AuthController extends Controller
         $admin = User::where('role', 'admin')->where('active', 'active')->first();
 
         $info_body_html = '';
-        $info_body_html .= '<br/>Bedrijfsnaam: <b>' . $info['name'] . '</b>';
-        $info_body_html .= '<br/>Voornaam: <b>' . $info['first_name'] . '</b>';
-        $info_body_html .= '<br/>Achternaam: <b>' . $info['last_name'] . '</b>';
+        $info_body_html .= '<br/>' . __('Organisation Type') . ': <b>' . $info['org_type'] . '</b>';
+        $info_body_html .= '<br/>' . __('Company Name') . ': <b>' . $info['name'] . '</b>';
+        $info_body_html .= '<br/>' . __('First name') . ': <b>' . $info['first_name'] . '</b>';
+        $info_body_html .= '<br/>' . __('Last name') . ': <b>' . $info['last_name'] . '</b>';
         $info_body_html .= '<br/>KvK#: <b>' . $info['chamber_commerce'] . '</b>';
-        $info_body_html .= '<br/>Stad: <b>' . $info['city'] . '</b>';
-        $info_body_html .= '<br/>Email: <b>' . $info['email'] . '</b>';
-        $info_body_html .= '<br/>Tel: <b>' . $info['tel'] . '</b><br/>';
+        $info_body_html .= '<br/>' . __('City') . ': <b>' . $info['city'] . '</b>';
+        $info_body_html .= '<br/>' . __('Email') . ': <b>' . $info['email'] . '</b>';
+        $info_body_html .= '<br/>' . __('Tel') . ': <b>' . $info['tel'] . '</b><br/>';
 
         $details = [
             'title' => __('Registration Coachingsupport'),

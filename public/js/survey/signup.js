@@ -18,6 +18,13 @@ var KTSignupGeneral = (function () {
             );
             a = FormValidation.formValidation(e, {
                 fields: {
+                    org_type: {
+                        validators: {
+                            notEmpty: {
+                                message: "Organisatietype is verplicht",
+                            },
+                        },
+                    },
                     first_name: {
                         validators: {
                             notEmpty: { message: "Voornaam is verplicht" },
@@ -107,6 +114,7 @@ var KTSignupGeneral = (function () {
                         );
 
                         let data = {
+                            org_type: $("#org_type").val(),
                             company_name: $("#company_name").val(),
                             first_name: $("#first_name").val(),
                             last_name: $("#last_name").val(),

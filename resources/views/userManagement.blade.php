@@ -180,15 +180,53 @@
                         <!--end::Title-->
                     </div>
                     <!--end::Heading-->
-                    
+                    <input type="hidden" id="m_user_id" value="">
+
+                    <div class="row g-9 mb-8">
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="fs-6 fw-bold mb-2">{{ __('Organisation') }}</label>
+                            <input type="text" class="form-control form-control-solid" value={{ $user['company_name'] }} readonly/>
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="fs-6 fw-bold mb-2">{{ __('Organisation Type') }}</label>
+                            <input type="text" class="form-control form-control-solid" value={{ $user['org_type'] }} readonly/>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+
+                    <div class="row g-9 mb-8">
+                        @if(isset($user['department_name']))
+                            <!--begin::Col-->
+                            <div class="col-md-6 fv-row department-field">
+                        @else
+                            <div class="col-md-6 fv-row department-field" style="display:none">
+                        @endif
+                                <label class="fs-6 fw-bold mb-2">Afdelingnaam</label>
+                                <input type="text" class="form-control form-control-solid" readonly value={{ isset($user['department_name']) ? $user['department_name'] : "" }}  >
+                            </div>
+                            <!--end::Col-->
+                        
+                        @if(isset($user['program_name']))
+                            <!--begin::Col-->
+                            <div class="col-md-6 fv-row program-field">
+                        @else
+                            <div class="col-md-6 fv-row program-field" style="display:none">
+                        @endif
+                                <label class="fs-6 fw-bold mb-2">Opleidingsnaam</label>
+                                <input type="text" class="form-control form-control-solid" readonly value={{ isset($user['program_name']) ?  $user['program_name'] : "" }}  >
+                            </div>
+                            <!--end::Col-->
+                    </div>
+
                     <!--begin::Input group-->
                     <div class="row g-9 mb-8">
-                        <input type="hidden" id="m_user_id" value="">
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row">
                             <label class="required fs-6 fw-bold mb-2">{{ __('Role') }}</label>
                             <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="{{ __('Select role...') }}" name="m_user_role" id="m_user_role">
-                                {{-- @foreach($roles as $item) --}}
                                 @for($i = 0; $i < count($roles); $i++)
                                     <option value="{{ $roles[$i] }}" {{ $i==0?'selected':'' }}>{{ $roles[$i] }}</option>
                                 @endfor
@@ -198,11 +236,11 @@
 
                         <!--begin::Col-->
                         @if($user['role'] == 'coach' || $user['role'] == 'trainer')
-                            <div class="col-md-6 fv-row" style="display: none">
+                            <div class="col-md-6 fv-row parent-div" style="display: none">
                         @else
-                            <div class="col-md-6 fv-row">
+                            <div class="col-md-6 fv-row parent-div">
                         @endif
-                                <label class="required fs-6 fw-bold mb-2">Organisatie</label>
+                                <label class="required fs-6 fw-bold mb-2 parent-org-name">Parent Org</label>
                                 <!--begin::Input-->
                                 <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Organisatie" id="m_user_parent" name="m_user_parent">
                                     <option value="{{ $user['id'] }}">{{ $user['first_name'] . ' ' . $user['last_name'] }} ({{ $user['role'] }})
@@ -211,36 +249,8 @@
                                 <!--end::Input-->
                             </div>
                             <!--end::Col-->
-                        @if($user['role'] == 'coach' || $user['role'] == 'trainer')
-                        <div class="col-md-6 fv-row">
-                            <label class="fs-6 fw-bold mb-2">{{ __('Company') }}</label>
-                            <input type="text" class="form-control form-control-solid" value={{ $user['company_name'] }} readonly/>
-                        </div>
-                        @endif
                     </div>
                     <!--end::Input group-->
-
-                    @if($user['role'] == 'coach' || $user['role'] == 'trainer')
-                    <!--begin::Input group-->
-                    <div class="row g-9 mb-8">
-
-                        <!--begin::Col-->
-                        <div class="col-md-6 fv-row">
-                            <label class="fs-6 fw-bold mb-2">{{ __('Department') }}</label>
-                            <input type="text" class="form-control form-control-solid" value={{ $user['department_name'] }} readonly/>
-                        </div>
-                        <!--end::Col-->
-                        
-                        <!--begin::Col-->
-                        <div class="col-md-6 fv-row">
-                            <label class="fs-6 fw-bold mb-2">{{ __('Program') }}</label>
-                            <input type="text" class="form-control form-control-solid" value={{ $user['program_name'] }} readonly/>
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    @endif
-
 
                     <!--begin::Input group-->
                     <div class="flex-column mb-8 fv-row department-program">

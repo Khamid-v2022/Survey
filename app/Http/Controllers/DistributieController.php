@@ -84,7 +84,7 @@ class DistributieController extends MyController
             // check if registred already or not
             $exist = User_Form::where('user_id', $trainee_id)
                 ->where('form_id', $request->form_id)
-                ->where('progress_status', '!=', 'end')->get();
+                ->where('progress_status', '!=', 'submitted')->get();
             
 
 
@@ -96,7 +96,7 @@ class DistributieController extends MyController
                     'user_id' => $trainee_id, 
                     'form_id' => $request->form_id,
                     'unique_str' => base64_encode(Hash::make($request->form_id . '.' . $trainee_id . '.' . $timestamp)),
-                    'progress_status' => 'start',
+                    'progress_status' => 'pending',
                     'active' => 'active',
                 ]);
 

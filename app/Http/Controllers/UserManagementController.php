@@ -145,29 +145,35 @@ class UserManagementController extends MyController
         $include_roles = array_slice($roles, $index + 1);
         
         $users = User::wherein('role', $include_roles)
-        ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')
-        ->orderBy('tree_code', 'asc')
-        ->get();
+                        ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')
+                        ->orderBy('tree_code', 'asc')
+                        ->get();
         
         $user_info = $this->user;
+        
+        // get higher level ogrs
         // if user role = trainer or coarch  need to get company, department, program
-        if($my_role == 'coach' || $my_role == 'trainer'){
-            $codes = explode('.', $this->user['tree_code']);
-            
-            $program_code = array_slice($codes, 0, 3);
-            $the_code = implode('.', $program_code);
-            $program = User::where('tree_code', 'LIKE', $the_code)->first();
-            $user_info['program_name'] = $program['first_name'] . ' ' . $program['last_name'];
+        $codes = explode('.', $this->user['tree_code']);
+        
+        $company_code = array_slice($codes, 0, 1);
+        $the_code = implode('.', $company_code);
+        $company = User::where('tree_code', 'LIKE', $the_code)->first();
+        $user_info['company_name'] = $company['name'];
+        $user_info['org_type'] = $company['org_type'];
 
+        if($my_role == 'coach' || $my_role == 'trainer' || $my_role == 'department' || $my_role == 'program'){
+            
             $department_code = array_slice($codes, 0, 2);
             $the_code = implode('.', $department_code); 
             $department = User::where('tree_code', 'LIKE', $the_code)->first();
-            $user_info['department_name'] = $department['first_name'] . ' ' . $department['last_name'];
-
-            $company_code = array_slice($codes, 0, 1);
-            $the_code = implode('.', $company_code);
-            $company = User::where('tree_code', 'LIKE', $the_code)->first();
-            $user_info['company_name'] = $company['first_name'] . ' ' . $company['last_name'];
+            $user_info['department_name'] = $department['name'];
+           
+            if($my_role == 'coach' || $my_role == 'trainer' || $my_role == 'program') {
+                $program_code = array_slice($codes, 0, 3);
+                $the_code = implode('.', $program_code);
+                $program = User::where('tree_code', 'LIKE', $the_code)->first();
+                $user_info['program_name'] = $program['name'];
+            }       
         }
        
         return view('userManagement', [
@@ -186,9 +192,36 @@ class UserManagementController extends MyController
         if($request->role == 'trainee'){
             $users = User::wherein('role', ['coach', 'trainer'])
             ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->get();
+            
+            // get Department, program info
+            for($index = 0; $index < count($users); $index++){
+                $codes = explode('.', $users[$index]['tree_code']);
+                
+                $department_code = array_slice($codes, 0, 2);
+                $the_code = implode('.', $department_code); 
+                $department = User::where('tree_code', 'LIKE', $the_code)->first();
+                $users[$index]['department_name'] = $department['name'];
+
+                $program_code = array_slice($codes, 0, 3);
+                $the_code = implode('.', $program_code);
+                $program = User::where('tree_code', 'LIKE', $the_code)->first();
+                $users[$index]['program_name'] = $program['name'];
+
+            }
+
         }else if($request->role == 'coach' || $request->role == 'trainer'){
             $users = User::where('role', 'program')
             ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->get();
+
+            // get program info
+            for($index = 0; $index < count($users); $index++){
+                $codes = explode('.', $users[$index]['tree_code']);
+                
+                $department_code = array_slice($codes, 0, 2);
+                $the_code = implode('.', $department_code); 
+                $department = User::where('tree_code', 'LIKE', $the_code)->first();
+                $users[$index]['department_name'] = $department['name'];
+            }
         }else{
             $index = array_search($request->role, $roles);
         
@@ -227,7 +260,8 @@ class UserManagementController extends MyController
             'num_add' => $request->num_add,
             'tel' => $request->tel,
             'role' => $request->role,
-            'parent_id' => $request->parent_id
+            'parent_id' => $request->parent_id,
+            'active' => 'active'
         ]);
 
 
@@ -236,12 +270,29 @@ class UserManagementController extends MyController
         $user->tree_code = $new_tree_code;
         
         if($request->action_type == "Add"){
-            $user->password = Hash::make('123456!');
-            // $user->password = Hash::make($this->randomPassword()); 
-            // send email 
-        }
+            // $user->password = Hash::make('123456!');
+            $password = $this->randomPassword();
+            $user->password = Hash::make($password); 
             
-        $user->save();
+            // send email
+            $details = [
+                'title' => '',
+                'body' => __('Your account has been activated.') . '<br/>' .  __('Please login with this password') . ': ' . $password
+            ];
+            
+            try {
+                Mail::to($user['email'])->send(new SurveyMail($details));
+                // success set random password
+                $user->save();
+            } catch (Exception $e) {
+                if (count(Mail::failures()) > 0) {
+                    // sending email failed then set default password as 123456!
+                    $user->password = Hash::make('123456!'); 
+                    $user->save();
+                    return response()->json(['code'=>202, 'message'=>__('Unable to send email')], 200);
+                }
+            }
+        }
 
         return response()->json(['code'=>200, 'message'=>'Successfully','data' => $user], 200);
     }
@@ -327,11 +378,48 @@ class UserManagementController extends MyController
             ->orderBy('tree_code', 'asc')
             ->get();
         }        
+        
+        $user_info = $this->user;
+
+        $roles = Config::get('constants.roles.user');
+
+        $index = array_search($my_role, $roles);
+        if($my_role == 'coach')
+            $index++;
+        $include_roles = array_slice($roles, $index + 1);
+        
+        // get higher level ogrs
+        // if user role = trainer or coarch  need to get company, department, program
+        $codes = explode('.', $this->user['tree_code']);
+        
+        $company_code = array_slice($codes, 0, 1);
+        $the_code = implode('.', $company_code);
+        $company = User::where('tree_code', 'LIKE', $the_code)->first();
+        $user_info['company_name'] = $company['name'];
+        $user_info['org_type'] = $company['org_type'];
+
+        if($my_role == 'coach' || $my_role == 'trainer' || $my_role == 'department' || $my_role == 'program'){
+            
+            $department_code = array_slice($codes, 0, 2);
+            $the_code = implode('.', $department_code); 
+            $department = User::where('tree_code', 'LIKE', $the_code)->first();
+            $user_info['department_name'] = $department['name'];
+           
+            if($my_role == 'coach' || $my_role == 'trainer' || $my_role == 'program') {
+                $program_code = array_slice($codes, 0, 3);
+                $the_code = implode('.', $program_code);
+                $program = User::where('tree_code', 'LIKE', $the_code)->first();
+                $user_info['program_name'] = $program['name'];
+            }       
+        }
+
+
        
         return view('treineeManagement', [
             'title' => $title,
-            'user' => $this->user, 
-            'users' => $users
+            'user' => $user_info, 
+            'users' => $users,
+            'roles' => $include_roles
         ]);
     }
 

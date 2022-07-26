@@ -77,8 +77,8 @@
                                             </th>
                                             <th class="min-w-80px">{{ __('Name') }}</th>
                                             <th class="min-w-100px">{{ __('Email') }}</th>
-                                            <th class="min-w-100px">{{ __('Trainer') }}</th>
                                             <th class="min-w-100px">{{ __('Coach') }}</th>
+                                            <th class="min-w-100px">{{ __('Trainer') }}</th>
                                             <th class="min-w-100px">{{ __('Survey') }}</th>
                                             <th class="min-w-70px">{{ __('Status') }}</th>
                                             <th class="min-w-70px">{{ __('Action') }}</th>
@@ -139,6 +139,7 @@
                                                 @endswitch
                                             </td>
                                             <td>
+                                                @if($item['progress_status'])
                                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Delete') }}">
                                                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                     <span class="svg-icon svg-icon-3">
@@ -150,6 +151,7 @@
                                                     </span>
                                                     <!--end::Svg Icon-->
                                                 </a>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach

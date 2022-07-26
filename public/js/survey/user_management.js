@@ -1,6 +1,7 @@
 var parent_set_flag = false;
 
 let nIntervId;
+var arr_parentOrg_info = [];
 
 $(function () {
     $.ajaxSetup({
@@ -99,17 +100,28 @@ $(function () {
 
             $(".coach-trainer").css("display", "none");
             $(".department-program").css("display", "block");
+
+            $(".parent-div").css("display", "none");
         } else if (role == "program") {
             $("#m_name_type").html("Opleidings");
             $(".coach-trainer").find("input").val("");
 
             $(".coach-trainer").css("display", "none");
             $(".department-program").css("display", "block");
+
+            $(".parent-org-name").html("Afdelingnaam");
+            $(".parent-div").css("display", "block");
         } else if (role == "coach" || role == "trainer" || role == "trainee") {
             $(".department-program").find("input").val("");
 
             $(".department-program").css("display", "none");
             $(".coach-trainer").css("display", "block");
+
+            $(".parent-org-name").html("Opleidingsnaam");
+            if (role == "trainee") {
+                $(".parent-org-name").html("Coach / Trainer Naam");
+            }
+            $(".parent-div").css("display", "block");
         }
 
         let _url = "/user_management/getUserTreeByRole";
@@ -124,36 +136,76 @@ $(function () {
             data: data,
             success: function (response) {
                 if (response.code == 200) {
-                    // console.log(response);
                     let users = response.data;
+                    console.log(users);
                     let html = "";
                     for (let index = 0; index < users.length; index++) {
-                        html +=
-                            '<option value="' +
-                            users[index].id +
-                            '">' +
-                            users[index].first_name +
-                            " " +
-                            users[index].last_name +
-                            "(" +
-                            users[index].role +
-                            ")</option>";
+                        arr_parentOrg_info.push(users[index]);
+
+                        html += '<option value="' + users[index].id + '">';
+                        if (role == "trainee") {
+                            html +=
+                                users[index].first_name +
+                                " " +
+                                users[index].last_name +
+                                "(" +
+                                users[index].role +
+                                ")</option>";
+                        } else {
+                            html +=
+                                users[index].name +
+                                "(" +
+                                users[index].role +
+                                ")</option>";
+                        }
                     }
 
                     $("#m_user_parent").html(html);
+                    $("#m_user_parent").trigger("change");
+                    // if target =  trainee then show department, program fields
+                    $(".department-field").css("display", "none");
+                    $(".program-field").css("display", "none");
+                    if (role == "trainee") {
+                        $(".department-field").css("display", "block");
+                        $(".program-field").css("display", "block");
+                    } else if (role == "trainer" || role == "coach") {
+                        $(".department-field").css("display", "block");
+                    }
                 } else {
                     $("#m_user_parent").html("");
                 }
                 parent_set_flag = true;
             },
             error: function (data) {
-                console.log("Error:", data);
                 parent_set_flag = true;
             },
         });
     });
 
     $("#m_user_role").trigger("change");
+
+    $("#m_user_parent").on("change", function () {
+        $(".department-field input").val("");
+        $(".program-field input").val("");
+
+        let sel_parent_id = $(this).val();
+
+        if (arr_parentOrg_info.length > 0) {
+            for (index = 0; index < arr_parentOrg_info.length; index++) {
+                let item = arr_parentOrg_info[index];
+                if (item["id"] == sel_parent_id) {
+                    if (item["department_name"]) {
+                        $(".department-field input").val(
+                            item["department_name"]
+                        );
+                    }
+                    if (item["program_name"]) {
+                        $(".program-field input").val(item["program_name"]);
+                    }
+                }
+            }
+        }
+    });
 
     // edit mode
     $(".user-email").on("click", function () {

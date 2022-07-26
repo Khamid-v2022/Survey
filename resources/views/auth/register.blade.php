@@ -22,6 +22,14 @@
                     <a href="/login" class="link-success fw-bolder">{{ __('Sign in here') }}</a></div>
                     <!--end::Link-->
                 </div>
+                <div class="fv-row mb-7">
+                    <label class="required form-label fw-bolder text-dark fs-6">{{ __('Organisation Type') }}</label>
+                    <select  class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="" name="org_type" id="org_type">
+                        @foreach($org_types as $org_type)
+                        <option value="{{ $org_type }}">{{ $org_type }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <!--end::Heading-->
                 <div class="fv-row mb-7">
                     <label class="form-label fw-bolder text-dark fs-6">{{ __('Company Name') }}</label>
@@ -53,7 +61,7 @@
                 </div>
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">{{ __('Email') }}</label>
+                    <label class="required form-label fw-bolder text-dark fs-6">{{ __('Email') }}</label>
                     <input class="form-control form-control-lg form-control-solid" type="email" placeholder="" name="email" id="email" autocomplete="off" />
                 </div>
                 <div class="fv-row mb-7">
