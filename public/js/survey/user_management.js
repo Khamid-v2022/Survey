@@ -208,7 +208,7 @@ $(function () {
     });
 
     // edit mode
-    $(".user-email").on("click", function () {
+    $(".user-email, .edit-btn").on("click", function () {
         let id = $(this).parents("tr").attr("user_id");
 
         $("#m_user_id").val(id);
