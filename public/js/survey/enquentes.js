@@ -8,7 +8,8 @@ $(function () {
     $("#kt_modal_add_form").on("hidden.bs.modal", function (event) {
         $(this).find("form").trigger("reset");
         $(this).find("select").trigger("change");
-        $(".action-type").html("Add");
+        $(".action-type").html("Toevoegen");
+        $("#action_type").val("Add");
         $("#kt_modal_new_target_submit .indicator-label").html("Submit");
         $("#m_form_id").val("");
     });
@@ -65,6 +66,7 @@ $(function () {
             .trigger("change");
 
         $(".action-type").html("Edit");
+        $("#action_type").val("Edit");
         $("#kt_modal_new_target_submit .indicator-label").html("Update");
         o.show();
     });
@@ -83,10 +85,10 @@ $(function () {
                         let data = {
                             form_name: $("#m_form_name").val(),
                             active: $("#m_active").val(),
-                            action_type: $(".action-type").html(),
+                            action_type: $("#action_type").val(),
                         };
 
-                        if ($(".action-type").html() == "Edit") {
+                        if ($("#action_type").val() == "Edit") {
                             data["id"] = $("#m_form_id").val();
                         }
                         $.ajax({

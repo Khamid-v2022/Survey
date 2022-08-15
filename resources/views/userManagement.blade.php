@@ -192,7 +192,7 @@
                     </div>
                     <!--end::Heading-->
                     <input type="hidden" id="m_user_id" value="">
-
+                    <input type="hidden" id="action_type" value="Add">
                     <div class="row g-9 mb-8">
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row">

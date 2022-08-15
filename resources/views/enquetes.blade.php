@@ -183,7 +183,7 @@
                     
                     
                     <input type="hidden" id="m_form_id" value="">
-                        
+                    <input type="hidden" id="action_type" value="Add">
                     <!--begin::Input group-->
                     <div class="flex-column mb-8 fv-row">
                         <!--begin::Label-->

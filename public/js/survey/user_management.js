@@ -13,7 +13,8 @@ $(function () {
     $("#kt_modal_add_user").on("hidden.bs.modal", function (event) {
         $(this).find("form").trigger("reset");
         $(this).find("select").trigger("change");
-        $(".action-type").html("Add");
+        $(".action-type").html("Toevoegen");
+        $("#action_type").val("Add");
         $("#kt_modal_new_target_submit .indicator-label").html("Submit");
         $("#m_user_id").val("");
     });
@@ -72,6 +73,9 @@ $(function () {
                 validators: {
                     notEmpty: {
                         message: "E-mail is verplicht",
+                    },
+                    emailAddress: {
+                        message: "De waarde is geen geldig e-mailadres",
                     },
                 },
             },
@@ -137,7 +141,6 @@ $(function () {
             success: function (response) {
                 if (response.code == 200) {
                     let users = response.data;
-                    console.log(users);
                     let html = "";
                     for (let index = 0; index < users.length; index++) {
                         arr_parentOrg_info.push(users[index]);
@@ -237,6 +240,7 @@ $(function () {
                 $("#m_tel").val(data.tel);
 
                 $(".action-type").html("Edit");
+                $("#action_type").val("Edit");
                 $("#kt_modal_new_target_submit .indicator-label").html(
                     "Update"
                 );
@@ -271,10 +275,10 @@ $(function () {
                             city: $("#m_city").val(),
                             num_add: $("#m_num_add").val(),
                             tel: $("#m_tel").val(),
-                            action_type: $(".action-type").html(),
+                            action_type: $("#action_type").val(),
                         };
 
-                        if ($(".action-type").html() == "Edit") {
+                        if ($("#action_type").val() == "Edit") {
                             data["id"] = $("#m_user_id").val();
                         }
                         $.ajax({
