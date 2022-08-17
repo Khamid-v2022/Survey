@@ -253,7 +253,7 @@ class AuthController extends Controller
         // send Email
         $code = $this->send_signup_email($user);
 
-        return response()->json(['code'=>200, 'message'=>'Met succes gemaakt', 'data'=>$code], 200);
+        return response()->json(['code'=>200, 'message'=>'Met succes geregistreerd', 'data'=>$code], 200);
     }
 
     private function send_signup_email($info){

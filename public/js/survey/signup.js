@@ -138,7 +138,7 @@ var KTSignupGeneral = (function () {
                                         text: response.message,
                                         icon: "success",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Oké, snap het!",
+                                        confirmButtonText: "Sluiten",
                                         customClass: {
                                             confirmButton: "btn btn-success",
                                         },
@@ -151,7 +151,7 @@ var KTSignupGeneral = (function () {
                                         text: response.message,
                                         icon: "error",
                                         buttonsStyling: !1,
-                                        confirmButtonText: "Oké, snap het!",
+                                        confirmButtonText: "Sluiten",
                                         customClass: {
                                             confirmButton: "btn btn-success",
                                         },
@@ -163,7 +163,7 @@ var KTSignupGeneral = (function () {
                                     text: "Sorry, het lijkt erop dat er fouten zijn gedetecteerd, probeer het later opnieuw.",
                                     icon: "warning",
                                     buttonsStyling: !1,
-                                    confirmButtonText: "Oké, snap het!",
+                                    confirmButtonText: "Sluiten",
                                     customClass: {
                                         confirmButton: "btn btn-success",
                                     },
@@ -177,7 +177,7 @@ var KTSignupGeneral = (function () {
                             text: "Sorry, het lijkt erop dat er enkele fouten zijn gedetecteerd, probeer het opnieuw.",
                             icon: "error",
                             buttonsStyling: !1,
-                            confirmButtonText: "Oké, snap het!",
+                            confirmButtonText: "Sluiten",
                             customClass: {
                                 confirmButton: "btn btn-success",
                             },

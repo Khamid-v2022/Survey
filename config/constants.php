@@ -5,5 +5,5 @@ return [
         'user' => ['company', 'department', 'program', 'coach', 'trainer', 'trainee'],
     ],
 
-    'org_type' => ['stichting', 'bond', 'sportvereniging', 'school'],
+    'org_type' => ['Bond', 'School', 'Sportvereniging', 'Stichting'],
 ];

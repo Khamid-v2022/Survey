@@ -113,7 +113,7 @@ $(function () {
                             text: "Sorry, het lijkt erop dat er enkele fouten zijn gedetecteerd, probeer het opnieuw.",
                             icon: "error",
                             buttonsStyling: !1,
-                            confirmButtonText: "OK ik snap het!",
+                            confirmButtonText: "Sluiten",
                             customClass: {
                                 confirmButton: "btn btn-success",
                             },

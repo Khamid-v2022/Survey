@@ -61,7 +61,7 @@ var KTPasswordResetGeneral = (function () {
                                                 icon: "success",
                                                 buttonsStyling: !1,
                                                 confirmButtonText:
-                                                    "OK ik snap het!",
+                                                    "Sluiten",
                                                 customClass: {
                                                     confirmButton:
                                                         "btn btn-success",
@@ -75,7 +75,7 @@ var KTPasswordResetGeneral = (function () {
                                                 icon: "warning",
                                                 buttonsStyling: !1,
                                                 confirmButtonText:
-                                                    "Oké, snap het!",
+                                                    "Sluiten",
                                                 customClass: {
                                                     confirmButton:
                                                         "btn btn-success",
@@ -90,7 +90,7 @@ var KTPasswordResetGeneral = (function () {
                                             text: "Kan e-mail niet verzenden",
                                             icon: "warning",
                                             buttonsStyling: !1,
-                                            confirmButtonText: "Oké, snap het!",
+                                            confirmButtonText: "Sluiten",
                                             customClass: {
                                                 confirmButton:
                                                     "btn btn-success",
@@ -103,7 +103,7 @@ var KTPasswordResetGeneral = (function () {
                                     text: "Sorry, het lijkt erop dat er enkele fouten zijn gedetecteerd, probeer het opnieuw.",
                                     icon: "error",
                                     buttonsStyling: !1,
-                                    confirmButtonText: "OK ik snap het!",
+                                    confirmButtonText: "Sluiten",
                                     customClass: {
                                         confirmButton: "btn btn-success",
                                     },
