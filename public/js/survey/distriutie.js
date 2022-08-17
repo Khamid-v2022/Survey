@@ -56,29 +56,6 @@ $(function () {
         datatable.columns(6).search($(this).val()).draw();
     });
 
-    $(".delete-btn").on("click", function () {
-        let survey_id = $(this).parents("tr").attr("survey_id");
-
-        let _url = "/distributie/deleteSurveyItem";
-        let data = {
-            survey_id: survey_id,
-        };
-
-        $.ajax({
-            type: "DELETE",
-            url: _url,
-            data: data,
-            success: function (response) {
-                if (response.code == 200) {
-                    location.reload();
-                }
-            },
-            error: function (data) {
-                console.log("Error:", data);
-            },
-        });
-    });
-
     var t, e, n, a, o, i;
     i = document.querySelector("#kt_modal_add_form");
     o = new bootstrap.Modal(i);
@@ -199,5 +176,28 @@ $(function () {
     e.addEventListener("click", function (t) {
         t.preventDefault();
         a.reset(), o.hide();
+    });
+
+    $("#kt_datatable").on("click", ".delete-btn", function () {
+        let survey_id = $(this).parents("tr").attr("survey_id");
+
+        let _url = "/distributie/deleteSurveyItem";
+        let data = {
+            survey_id: survey_id,
+        };
+
+        $.ajax({
+            type: "DELETE",
+            url: _url,
+            data: data,
+            success: function (response) {
+                if (response.code == 200) {
+                    location.reload();
+                }
+            },
+            error: function (data) {
+                console.log("Error:", data);
+            },
+        });
     });
 });

@@ -37,6 +37,7 @@ class User extends Authenticatable
         'role',
         'parent_id',
         'tree_code',
+        'trainer_id_for_trainee',
         'active'
     ];
 

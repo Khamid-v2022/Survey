@@ -142,7 +142,7 @@ class UserManagementController extends MyController
         $roles = Config::get('constants.roles.user');
 
         $index = array_search($my_role, $roles);
-        if($my_role == 'coach')
+        if($my_role == 'Coach')
             $index++;
         $include_roles = array_slice($roles, $index + 1);
         
@@ -163,21 +163,22 @@ class UserManagementController extends MyController
         $user_info['company_name'] = $company['name'];
         $user_info['org_type'] = $company['org_type'];
 
-        if($my_role == 'coach' || $my_role == 'trainer' || $my_role == 'department' || $my_role == 'program'){
+        if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Department' || $my_role == 'Program'){
             
             $department_code = array_slice($codes, 0, 2);
             $the_code = implode('.', $department_code); 
             $department = User::where('tree_code', 'LIKE', $the_code)->first();
             $user_info['department_name'] = $department['name'];
            
-            if($my_role == 'coach' || $my_role == 'trainer' || $my_role == 'program') {
+            if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Program') {
                 $program_code = array_slice($codes, 0, 3);
                 $the_code = implode('.', $program_code);
                 $program = User::where('tree_code', 'LIKE', $the_code)->first();
                 $user_info['program_name'] = $program['name'];
             }       
         }
-       
+
+        sort($include_roles);
         return view('userManagement', [
             'title' => $title,
             'user' => $user_info, 
@@ -191,9 +192,9 @@ class UserManagementController extends MyController
 
         // register target_role : trainee => coach, trainer
         // register target_role : coach or trainer => program
-        if($request->role == 'trainee'){
-            $users = User::wherein('role', ['coach', 'trainer'])
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->get();
+        if($request->role == 'Trainee'){
+            $users = User::where('role', 'Coach')
+            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->orderBy('first_name', 'asc')->get();
             
             // get Department, program info
             for($index = 0; $index < count($users); $index++){
@@ -211,9 +212,12 @@ class UserManagementController extends MyController
 
             }
 
-        }else if($request->role == 'coach' || $request->role == 'trainer'){
-            $users = User::where('role', 'program')
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->get();
+            $trainers = User::where('role', 'Trainer')
+            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->orderBy('first_name', 'asc')->get();
+
+        }else if($request->role == 'Coach' || $request->role == 'Trainer'){
+            $users = User::where('role', 'Program')
+            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->orderBy('name', 'asc')->get();
 
             // get program info
             for($index = 0; $index < count($users); $index++){
@@ -229,11 +233,11 @@ class UserManagementController extends MyController
         
             $target_role = $roles[$index - 1];
             $users = User::where('role', $target_role)
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->get();
+            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->orderBy('name', 'asc')->get();
         }
 
         if(count($users) > 0)
-            return response()->json(['code'=>200, 'message'=>__('Successfully removed'), 'data'=>$users], 200);
+            return response()->json(['code'=>200, 'message'=>__('Successfully removed'), 'data'=>$users, 'trainers' => isset($trainers)?$trainers:[]], 200);
         else
             return response()->json(['code'=>201, 'message'=>'No user'], 200);
     }
@@ -251,6 +255,8 @@ class UserManagementController extends MyController
 
         $parent_user = User::find($request->parent_id);
 
+        if($request->trainer_id_for_trainee == -1)
+            $request->trainer_id_for_trainee = NULL;
         $user = User::updateOrCreate(['id' => $request->id], [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -263,6 +269,7 @@ class UserManagementController extends MyController
             'tel' => $request->tel,
             'role' => $request->role,
             'parent_id' => $request->parent_id,
+            'trainer_id_for_trainee' => $request->trainer_id_for_trainee,
             'active' => 'active'
         ]);
 
@@ -270,7 +277,8 @@ class UserManagementController extends MyController
         // tree code update
         $new_tree_code = $parent_user['tree_code'] . '.' . $user['id'];
         $user->tree_code = $new_tree_code;
-        
+        $user->save();
+
         if($request->action_type == "Add"){
             // $user->password = Hash::make('123456!');
             $password = $this->randomPassword();
@@ -368,25 +376,41 @@ class UserManagementController extends MyController
         $title = "Trainee";
         
         $my_role = $this->user['role'];
-        if($my_role == 'company'){
-            $users = User::wherein('role', ['trainee', 'coach', 'trainer'])
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')
-            ->orderBy('tree_code', 'asc')
-            ->get();
+       
+        $users = User::where('users.role', 'Trainee')
+        ->where('users.tree_code', 'LIKE', $this->user['tree_code'] . '%')
+        ->leftjoin('users AS u2', 'users.trainer_id_for_trainee', '=', 'u2.id')
+        ->orderBy('tree_code', 'asc')
+        ->select('users.*', 'u2.first_name AS trainee_first', 'u2.last_name AS trainee_last')
+        ->get();
+       
+      
+        // get Coach
+        $i = 0;
+        if(count($users) > 0){
+            for($i == 0; $i < count($users); $i++){
+                $item = $users[$i];
+                
+                // get Parent tree code (coach)
+                $last_dot_position = strrpos($item['tree_code'], ".");
+                $parent_tree_code = substr($item['tree_code'], 0, $last_dot_position);
+
+                $parentUser = User::where('tree_code', $parent_tree_code)->first();
+                $users[$i]['parent_name'] = '';
+                $users[$i]['parent_email'] = '';
+                if($parentUser){
+                    $users[$i]['parent_name'] = $parentUser['first_name'] . ' ' . $parentUser['last_name'];
+                    $users[$i]['parent_email'] = $parentUser['email'];
+                }
+            }
         }
-        else {
-            $users = User::where('role', 'trainee')
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')
-            ->orderBy('tree_code', 'asc')
-            ->get();
-        }        
-        
+
         $user_info = $this->user;
 
         $roles = Config::get('constants.roles.user');
 
         $index = array_search($my_role, $roles);
-        if($my_role == 'coach')
+        if($my_role == 'Coach')
             $index++;
         $include_roles = array_slice($roles, $index + 1);
         
@@ -400,14 +424,14 @@ class UserManagementController extends MyController
         $user_info['company_name'] = $company['name'];
         $user_info['org_type'] = $company['org_type'];
 
-        if($my_role == 'coach' || $my_role == 'trainer' || $my_role == 'department' || $my_role == 'program'){
+        if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Department' || $my_role == 'Program'){
             
             $department_code = array_slice($codes, 0, 2);
             $the_code = implode('.', $department_code); 
             $department = User::where('tree_code', 'LIKE', $the_code)->first();
             $user_info['department_name'] = $department['name'];
            
-            if($my_role == 'coach' || $my_role == 'trainer' || $my_role == 'program') {
+            if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Program') {
                 $program_code = array_slice($codes, 0, 3);
                 $the_code = implode('.', $program_code);
                 $program = User::where('tree_code', 'LIKE', $the_code)->first();
@@ -416,7 +440,7 @@ class UserManagementController extends MyController
         }
 
 
-       
+        sort($include_roles);
         return view('treineeManagement', [
             'title' => $title,
             'user' => $user_info, 

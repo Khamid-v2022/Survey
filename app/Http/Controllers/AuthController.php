@@ -240,7 +240,7 @@ class AuthController extends Controller
             'city' => $request->city,
             'email' => strtolower($request->email),
             'tel' => $request->tel,
-            'role' => 'company',
+            'role' => 'Company',
             'active' => 'inactive',
             'password' => Hash::make($request->password),
             'parent_id' => 0                // company: parent 0
@@ -258,7 +258,7 @@ class AuthController extends Controller
 
     private function send_signup_email($info){
         // get SuperAdmin Email
-        $admin = User::where('role', 'admin')->where('active', 'active')->first();
+        $admin = User::where('role', 'Admin')->where('active', 'active')->first();
 
         $info_body_html = '';
         $info_body_html .= '<br/>' . __('Organisation Type') . ': <b>' . $info['org_type'] . '</b>';

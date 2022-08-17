@@ -54,8 +54,8 @@
                                     <thead>
                                         <tr class="fw-bolder text-muted">
                                             <th class="min-w-80px">{{ __('Name') }}</th>
-                                            <th class="min-w-80px">{{ __('Name of the registrant') }}</th>
-                                            <th class="min-w-80px">{{ __('Role of registrant') }}</th>
+                                            <th class="min-w-80px">{{ __('Name') }}</th>
+                                            <th class="min-w-80px">{{ __('Role') }}</th>
                                             <th class="min-w-100px">{{ __('Creation date') }}</th>
                                             <th class="min-w-100px text-end">{{ __('Action') }}</th>
                                         </tr>
@@ -73,19 +73,19 @@
                                             </td>
                                             <td>
                                                 @switch($item['role'])
-                                                    @case('department')
+                                                    @case('Department')
                                                         <span class="badge badge-light-danger fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
-                                                    @case('program')
+                                                    @case('Program')
                                                         <span class="badge badge-light-primary fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
-                                                    @case('coach')
+                                                    @case('Coach')
                                                         <span class="badge badge-light-info fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
-                                                    @case('trainer')
+                                                    @case('Trainer')
                                                         <span class="badge badge-light-success fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
-                                                    @case('trainee')
+                                                    @case('Trainee')
                                                         <span class="badge badge-light-warning fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
                                                     @default

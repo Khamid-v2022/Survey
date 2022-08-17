@@ -41,13 +41,13 @@
                                     <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer een status..." name="sel_status" id="sel_status">
                                         <option value="">{{ __('Select a status...') }}</option>
                                         <option value=" ">{{ __('All') }}</option>
-                                        <option value="pending">{{ __('Pending') }}</option>
-                                        <option value="submitted">{{ __('Submitted') }}</option>
+                                        <option value="{{ __('Pending') }}">{{ __('Pending') }}</option>
+                                        <option value="{{ __('Submitted') }}">{{ __('Submitted') }}</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a company">
+                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover">
                                 <button href="#" class="btn btn-sm btn-success btn-active-success" data-bs-toggle="modal" data-bs-target="#kt_modal_add_form" id="send_form_btn" disabled>
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                 <span class="svg-icon svg-icon-3">
@@ -103,25 +103,10 @@
                                                 {{ $item['email'] }}
                                             </td>
                                             <td>
-                                                @if($item['parent_role'] == 'coach')
-                                                    <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
-                                                @endif
+                                                <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
                                             </td>
                                             <td>
-                                                @if($item['parent_role'] == 'trainer')
-                                                    <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
-                                                @endif
-                                                {{-- <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
-                                                @switch($item['parent_role'])
-                                                    @case('coach')
-                                                        <span class="badge badge-light-info fs-7 m-1">{{ $item['parent_role'] }}</span>
-                                                        @break
-                                                    @case('trainer')
-                                                        <span class="badge badge-light-success fs-7 m-1">{{ $item['parent_role'] }}</span>
-                                                        @break
-                                                @endswitch
-                                                <br/>
-                                                <span class="text-muted">{{ $item['parent_email'] }}</span> --}}
+                                                <a href="#" class="text-dark fs-6">{{ $item['trainee_first'] . " " . $item['trainee_last'] }}</a>
                                             </td>
                                             <td>
                                                {{ $item['form_name'] }}
@@ -224,7 +209,7 @@
                     <div class="text-center">
                         <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">{{ __('Cancel') }}</button>
                         <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
-                            <span class="indicator-label">{{ __('Submit') }}</span>
+                            <span class="indicator-label">{{ __('Send') }}</span>
                             <span class="indicator-progress">{{ __('Please wait...') }}
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>

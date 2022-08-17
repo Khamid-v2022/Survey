@@ -85,19 +85,19 @@
                                             </td>
                                             <td>
                                                 @switch($item['role'])
-                                                    @case('department')
+                                                    @case('Department')
                                                         <span class="badge badge-light-danger fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
-                                                    @case('program')
+                                                    @case('Program')
                                                         <span class="badge badge-light-primary fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
-                                                    @case('coach')
+                                                    @case('Coach')
                                                         <span class="badge badge-light-info fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
-                                                    @case('trainer')
+                                                    @case('Trainer')
                                                         <span class="badge badge-light-success fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
-                                                    @case('trainee')
+                                                    @case('Trainee')
                                                         <span class="badge badge-light-warning fs-7 m-1">{{ $item['role'] }}</span>
                                                         @break
                                                     @default
@@ -246,11 +246,12 @@
                         <!--end::Col-->
 
                         <!--begin::Col-->
-                        @if($user['role'] == 'coach' || $user['role'] == 'trainer')
+                        {{-- @if($user['role'] == 'Coach' || $user['role'] == 'Trainer')
                             <div class="col-md-6 fv-row parent-div" style="display: none">
                         @else
                             <div class="col-md-6 fv-row parent-div">
-                        @endif
+                        @endif --}}
+                            <div class="col-md-6 fv-row parent-div">
                                 <label class="required fs-6 fw-bold mb-2 parent-org-name">Parent Org</label>
                                 <!--begin::Input-->
                                 <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Organisatie" id="m_user_parent" name="m_user_parent">
@@ -260,6 +261,19 @@
                                 <!--end::Input-->
                             </div>
                             <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+
+
+                    <!--begin:: Trainer selection for Trainee input opti-->
+                    <div class="flex-column mb-8 fv-row trainer-div">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold mb-2">Trainer Naam</label>
+                        <!--end::Label-->
+                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Trainer" id="m_trainer" name="m_trainer">
+                            {{-- <option value="{{ $user['id'] }}">{{ $user['first_name'] . ' ' . $user['last_name'] }} ({{ $user['role'] }})
+                            </option> --}}
+                        </select>
                     </div>
                     <!--end::Input group-->
 

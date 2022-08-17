@@ -29,14 +29,15 @@ class DistributieController extends MyController
         // get WebForms for our company
         $forms = Webform::select('webforms.*', 'users.first_name', 'users.last_name', 'users.role')
             ->join('users', 'webforms.created_id', '=', 'users.id')
-            ->where('company_id', $company_id)->get();
+            ->where('company_id', $company_id)->orderBy('form_name', 'asc')->get();
 
         // get Tranees for out company
         $users = User::where('users.active', 'active')
-                ->where('users.role', 'trainee')
+                ->where('users.role', 'Trainee')
                 ->leftJoin('user_forms', 'users.id', '=', 'user_forms.user_id')
                 ->leftjoin('webforms', 'user_forms.form_id', '=', 'webforms.id')
-                ->select('users.*', 'webforms.form_name', 'user_forms.progress_status', 'user_forms.id AS survey_id', 'started_at', 'ended_at')
+                ->leftjoin('users AS u2', 'users.trainer_id_for_trainee', '=', 'u2.id')
+                ->select('users.*', 'u2.first_name AS trainee_first', 'u2.last_name AS trainee_last', 'webforms.form_name', 'user_forms.progress_status', 'user_forms.id AS survey_id', 'started_at', 'ended_at')
                 ->get();
         
         $our_trainee = [];
@@ -47,23 +48,21 @@ class DistributieController extends MyController
             }
         }
 
-        // get coach/trainer for each trainee
+        // get coach for each trainee
         $i = 0;
         if(count($our_trainee) > 0){
             for($i == 0; $i < count($our_trainee); $i++){
                 $item = $our_trainee[$i];
                 
-                // get Parent tree code (coach/trainer)
+                // get Parent tree code (coach)
                 $last_dot_position = strrpos($item['tree_code'], ".");
                 $parent_tree_code = substr($item['tree_code'], 0, $last_dot_position);
 
                 $parentUser = User::where('tree_code', $parent_tree_code)->first();
                 $our_trainee[$i]['parent_name'] = '';
-                $our_trainee[$i]['parent_role'] = '';
                 $our_trainee[$i]['parent_email'] = '';
                 if($parentUser){
                     $our_trainee[$i]['parent_name'] = $parentUser['first_name'] . ' ' . $parentUser['last_name'];
-                    $our_trainee[$i]['parent_role'] = $parentUser['role'];
                     $our_trainee[$i]['parent_email'] = $parentUser['email'];
                 }
             }

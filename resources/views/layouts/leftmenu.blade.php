@@ -25,7 +25,7 @@
         <div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0">
             <!--begin::Menu-->
             <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
-                @if($user['role'] == 'admin')
+                @if($user['role'] == 'Admin')
                     <div class="menu-item">
                         <a class="menu-link {{ Illuminate\Support\Facades\Route::is('admin_dashboard.index')?'active':'' }}" href="/admin_dashboard">
                             <span class="menu-icon">
@@ -55,7 +55,7 @@
                             <span class="menu-arrow"></span>
                         </a>
                     </div>
-                    @if(in_array($user['role'], ['company', 'department', 'program', 'coach', 'trainer']))
+                    @if(in_array($user['role'], ['Company', 'Department', 'Program', 'Coach', 'Trainer']))
                     <div class="menu-item">
                         <a class="menu-link {{ Illuminate\Support\Facades\Route::is('user_management')?'active':'' }}" href="{{ route('user_management') }}">
                             <span class="menu-icon">
@@ -71,7 +71,7 @@
                         </a>
                     </div>
                     @endif
-                    @if(in_array($user['role'], ['company', 'coach', 'trainer']))
+                    @if(in_array($user['role'], ['Company', 'Coach', 'Trainer']))
                         <div class="menu-item">
                             <a class="menu-link {{ Illuminate\Support\Facades\Route::is('trainee_management')?'active':'' }}" href="{{ route('trainee_management') }}">
                                 <span class="menu-icon">

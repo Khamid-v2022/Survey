@@ -1,8 +1,8 @@
 <?php
 return [
     'roles' => [
-        'admin' => ['admin'],
-        'user' => ['company', 'department', 'program', 'coach', 'trainer', 'trainee'],
+        'admin' => ['Admin'],
+        'user' => ['Company', 'Department', 'Program', 'Coach', 'Trainer', 'Trainee'],
     ],
 
     'org_type' => ['Bond', 'School', 'Sportvereniging', 'Stichting'],

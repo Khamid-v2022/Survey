@@ -54,23 +54,6 @@ $(function () {
         },
     });
 
-    // edit mode
-    $(".edit-form-btn").on("click", function () {
-        let id = $(this).parents("tr").attr("form_id");
-
-        $("#m_form_id").val(id);
-
-        $("#m_form_name").val($(this).parents("tr").attr("form_name"));
-        $("#m_active")
-            .val($(this).parents("tr").attr("form_active"))
-            .trigger("change");
-
-        $(".action-type").html("Edit");
-        $("#action_type").val("Edit");
-        $("#kt_modal_new_target_submit .indicator-label").html("Update");
-        o.show();
-    });
-
     // modal submit button
     t.addEventListener("click", function (e) {
         e.preventDefault(),
@@ -129,7 +112,7 @@ $(function () {
     });
 
     // active button
-    $(".active-form-btn").on("click", function () {
+    $("#kt_datatable").on("click", ".active-form-btn", function () {
         let active;
         if ($(this).prop("checked") == true) {
             active = "active";
@@ -156,8 +139,25 @@ $(function () {
         });
     });
 
+    // edit mode
+    $("#kt_datatable").on("click", ".edit-form-btn", function () {
+        let id = $(this).parents("tr").attr("form_id");
+
+        $("#m_form_id").val(id);
+
+        $("#m_form_name").val($(this).parents("tr").attr("form_name"));
+        $("#m_active")
+            .val($(this).parents("tr").attr("form_active"))
+            .trigger("change");
+
+        $(".action-type").html("Edit");
+        $("#action_type").val("Edit");
+        $("#kt_modal_new_target_submit .indicator-label").html("Update");
+        o.show();
+    });
+
     // delete button -> user Delete
-    $(".delete-form-btn").on("click", function () {
+    $("#kt_datatable").on("click", ".delete-form-btn", function () {
         let id = $(this).parents("tr").attr("form_id");
         let _url = "/enquetes/deleteForm/" + id;
 

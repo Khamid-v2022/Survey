@@ -43,9 +43,10 @@
                                             <th class="min-w-80px">{{ __('First name') }}</th>
                                             <th class="min-w-80px">{{ __('Last name') }}</th>
                                             <th class="min-w-100px">{{ __('Email') }}</th>
-                                            <th class="min-w-100px">{{ __('Role') }}</th>
+                                            <th class="min-w-100px">{{ __('Coach') }}</th>
+                                            <th class="min-w-100px">{{ __('Trainer') }}</th>
                                             <th class="min-w-100px">{{ __('Creation date') }}</th>
-                                            @if($user['role'] == 'company')
+                                            @if($user['role'] == 'Company')
                                                 <th class="min-w-100px">{{ __('Action') }}</th>
                                             @endif
                                         </tr>
@@ -65,22 +66,15 @@
                                                 <a href="#" class="user-email">{{ $item['email'] }}</a>
                                             </td>
                                             <td>
-                                                @switch($item['role'])
-                                                    @case('coach')
-                                                        <span class="badge badge-light-info fs-7 m-1">{{ $item['role'] }}</span>
-                                                        @break
-                                                    @case('trainer')
-                                                        <span class="badge badge-light-success fs-7 m-1">{{ $item['role'] }}</span>
-                                                        @break
-                                                    @case('trainee')
-                                                        <span class="badge badge-light-warning fs-7 m-1">{{ $item['role'] }}</span>
-                                                        @break
-                                                @endswitch
+                                                <a href="#" class="text-dark fs-6">{{ $item['parent_name'] }}</a>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="text-dark fs-6">{{ $item['trainee_first'] . " " . $item['trainee_last'] }}</a>
                                             </td>
                                             <td>
                                                 {{ $item['created_at'] }}
                                             </td>
-                                            @if($user['role'] == 'company')
+                                            @if($user['role'] == 'Company')
                                             <td>
                                                 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1 edit-btn">
                                                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
@@ -217,11 +211,12 @@
                         <!--end::Col-->
 
                         <!--begin::Col-->
-                        @if($user['role'] == 'coach' || $user['role'] == 'trainer')
+                        {{-- @if($user['role'] == 'Coach' || $user['role'] == 'Trainer')
                             <div class="col-md-6 fv-row parent-div" style="display: none">
                         @else
                             <div class="col-md-6 fv-row parent-div">
-                        @endif
+                        @endif --}}
+                            <div class="col-md-6 fv-row parent-div">
                                 <label class="required fs-6 fw-bold mb-2 parent-org-name">Parent Org</label>
                                 <!--begin::Input-->
                                 <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Organisatie" id="m_user_parent" name="m_user_parent">
@@ -233,6 +228,19 @@
                             <!--end::Col-->
                     </div>
                     <!--end::Input group-->
+
+                     <!--begin:: Trainer selection for Trainee input opti-->
+                     <div class="flex-column mb-8 fv-row trainer-div">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold mb-2">Trainer Naam</label>
+                        <!--end::Label-->
+                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Trainer" id="m_trainer" name="m_trainer">
+                            {{-- <option value="{{ $user['id'] }}">{{ $user['first_name'] . ' ' . $user['last_name'] }} ({{ $user['role'] }})
+                            </option> --}}
+                        </select>
+                    </div>
+                    <!--end::Input group-->
+
 
                     <!--begin::Input group-->
                     <div class="flex-column mb-8 fv-row department-program">

@@ -2,6 +2,7 @@ var parent_set_flag = false;
 
 let nIntervId;
 var arr_parentOrg_info = [];
+var selected_trainer = -1;
 
 $(function () {
     $.ajaxSetup({
@@ -111,6 +112,7 @@ $(function () {
                             city: $("#m_city").val(),
                             num_add: $("#m_num_add").val(),
                             tel: $("#m_tel").val(),
+                            trainer_id_for_trainee: $("#m_trainer").val(),
                             action_type: $("#action_type").val(),
                         };
 
@@ -171,7 +173,7 @@ $(function () {
         parent_set_flag = false;
 
         let role = $(this).val();
-        if (role == "department") {
+        if (role == "Department") {
             $("#m_name_type").html("Afdeling");
             $(".coach-trainer").find("input").val("");
 
@@ -179,7 +181,8 @@ $(function () {
             $(".department-program").css("display", "block");
 
             $(".parent-div").css("display", "none");
-        } else if (role == "program") {
+            $(".trainer-div").css("display", "none");
+        } else if (role == "Program") {
             $("#m_name_type").html("Opleidings");
             $(".coach-trainer").find("input").val("");
 
@@ -188,17 +191,21 @@ $(function () {
 
             $(".parent-org-name").html("Afdelingnaam");
             $(".parent-div").css("display", "block");
-        } else if (role == "coach" || role == "trainer" || role == "trainee") {
+            $(".trainer-div").css("display", "none");
+        } else if (role == "Coach" || role == "Trainer" || role == "Trainee") {
             $(".department-program").find("input").val("");
 
             $(".department-program").css("display", "none");
             $(".coach-trainer").css("display", "block");
 
             $(".parent-org-name").html("Opleidingsnaam");
-            if (role == "trainee") {
-                $(".parent-org-name").html("Coach / Trainer Naam");
-            }
+
             $(".parent-div").css("display", "block");
+            $(".trainer-div").css("display", "none");
+            if (role == "Trainee") {
+                $(".parent-org-name").html("Coach Naam");
+                $(".trainer-div").css("display", "block");
+            }
         }
 
         let _url = "/user_management/getUserTreeByRole";
@@ -214,20 +221,20 @@ $(function () {
             success: function (response) {
                 if (response.code == 200) {
                     let users = response.data;
-                    console.log(users);
                     let html = "";
+                    let trainer_html = "<option value='-1'>Unselect</option>";
+
+                    // parent data
                     for (let index = 0; index < users.length; index++) {
                         arr_parentOrg_info.push(users[index]);
 
                         html += '<option value="' + users[index].id + '">';
-                        if (role == "trainee") {
+                        if (role == "Trainee") {
                             html +=
                                 users[index].first_name +
                                 " " +
                                 users[index].last_name +
-                                "(" +
-                                users[index].role +
-                                ")</option>";
+                                "</option>";
                         } else {
                             html +=
                                 users[index].name +
@@ -237,19 +244,49 @@ $(function () {
                         }
                     }
 
+                    // trainer data
+                    if (role == "Trainee") {
+                        let trainers = response.trainers;
+                        if (trainers.length > 0) {
+                            for (
+                                let index = 0;
+                                index < trainers.length;
+                                index++
+                            ) {
+                                // arr_parentOrg_info.push(users[index]);
+
+                                trainer_html +=
+                                    '<option value="' +
+                                    trainers[index].id +
+                                    '">';
+
+                                trainer_html +=
+                                    trainers[index].first_name +
+                                    " " +
+                                    trainers[index].last_name +
+                                    "</option>";
+                            }
+                        }
+                    }
+
                     $("#m_user_parent").html(html);
                     $("#m_user_parent").trigger("change");
+
+                    $("#m_trainer").html(trainer_html);
+                    $("#m_trainer").val(selected_trainer).trigger("change");
+
                     // if target =  trainee then show department, program fields
                     $(".department-field").css("display", "none");
                     $(".program-field").css("display", "none");
-                    if (role == "trainee") {
+                    if (role == "Trainee") {
                         $(".department-field").css("display", "block");
                         $(".program-field").css("display", "block");
-                    } else if (role == "trainer" || role == "coach") {
+                    } else if (role == "Trainer" || role == "Coach") {
                         $(".department-field").css("display", "block");
                     }
                 } else {
                     $("#m_user_parent").html("");
+                    $("#m_trainer").html("");
                 }
                 parent_set_flag = true;
             },
@@ -284,24 +321,35 @@ $(function () {
         }
     });
 
-    $(".delete-btn").on("click", function () {
+    $("#kt_datatable").on("click", ".delete-btn", function () {
         let user_id = $(this).parents("tr").attr("user_id");
 
-        let _url = "/user_management/deleteUser/" + user_id;
+        Swal.fire({
+            text: "Wil je deze zeker verwijderen?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ja",
+            cancelButtonText: "Nee",
+        }).then(function (result) {
+            if (result.value) {
+                let _url = "/user_management/deleteUser/" + user_id;
 
-        $.ajax({
-            type: "DELETE",
-            url: _url,
-            success: function (response) {
-                if (response.code == 200) {
-                    location.reload();
-                }
-            },
-            error: function (data) {},
+                $.ajax({
+                    type: "DELETE",
+                    url: _url,
+                    success: function (response) {
+                        if (response.code == 200) {
+                            location.reload();
+                        }
+                    },
+                    error: function (data) {},
+                });
+            }
         });
     });
 
-    $(".edit-btn").on("click", function () {
+    $("#kt_datatable").on("click", ".edit-btn", function () {
+        selected_trainer = -1;
         let id = $(this).parents("tr").attr("user_id");
 
         $("#m_user_id").val(id);
@@ -328,6 +376,10 @@ $(function () {
                 $("#m_city").val(data.city);
                 $("#m_num_add").val(data.num_add);
                 $("#m_tel").val(data.tel);
+
+                if (data.trainer_id_for_trainee) {
+                    selected_trainer = data.trainer_id_for_trainee;
+                }
 
                 $(".action-type").html("Edit");
                 $("#action_type").val("Edit");
