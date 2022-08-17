@@ -91,6 +91,8 @@ class UserManagementController extends MyController
     public function show($id)
     {
         //
+        $company = User::where('id', $id)->first();
+        return response()->json(['code'=>200, 'message'=>"", 'data' => $company], 200);
     }
 
     /**

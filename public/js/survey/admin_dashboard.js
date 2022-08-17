@@ -51,6 +51,33 @@ $(function () {
         });
     });
 
+
+    $(".info-btn").on("click", function () {
+        let id = $(this).parents("tr").attr("company_id");
+        let _url = "/admin_dashboard";
+
+        $.ajax({
+            type: "GET",
+            url: _url + "/" + id,
+            success: function (data) {
+                let info = data.data;
+                $("#m_company_name").val(info.name);
+                $("#m_org_type").val(info.org_type);
+                $("#m_first_name").val(info.first_name);
+                $("#m_last_name").val(info.last_name);
+                $("#m_chamber_commerce").val(info.chamber_commerce);
+                $("#m_city").val(info.city);
+                $("#m_email").val(info.email);
+                $("#m_tel").val(info.tel);
+
+                $("#kt_modal").modal("show");
+            },
+            error: function (data) {
+                console.log("Error:", data);
+            },
+        });
+    });
+
     $(".delete-company-btn").on("click", function () {
         let id = $(this).parents("tr").attr("company_id");
         let _url = "/admin_dashboard";
@@ -65,5 +92,11 @@ $(function () {
                 console.log("Error:", data);
             },
         });
+    });
+
+    $("#kt_modal_cancel").on("click", function (t) {
+        t.preventDefault();
+        // a.reset(), o.hide();
+        $("#kt_modal").modal("toggle");
     });
 });

@@ -29,8 +29,8 @@
                                     <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="" />
                                 </div>
                                 <div class="d-flex align-items-center position-relative my-1 me-5 w-150px">
-                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer een rol" name="target_assign" id="target_assign">
-                                        <option value="">{{ __('Select role...') }}</option>
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer" name="target_assign" id="target_assign">
+                                        <option value="">{{ __('Select') }}</option>
                                         <option value=" ">{{ __('All') }}</option>
                                         @foreach($roles as $item)
                                             <option value="{{ $item }}">{{ $item }}</option>
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Click to add a company') }}">
+                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover">
                                 <a href="#" class="btn btn-sm btn-success btn-active-success" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                 <span class="svg-icon svg-icon-3">

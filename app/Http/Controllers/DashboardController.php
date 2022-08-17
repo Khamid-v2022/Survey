@@ -10,8 +10,7 @@ class DashboardController extends MyController
     public function index(){
         $title = "Mijn Dashboard";
 
-        $description = "Successvol ingelogd als <b> {$this->user['first_name']} {$this->user['last_name']} </b>. Welkom terug! <br/>
-        Bekijk je berichten, vervul taken en kom in contact met de juiste personen.";
+        $description = "Successvol ingelogd als <b> {$this->user['first_name']} {$this->user['last_name']} </b>. Welkom terug!";
 
         return view('dashboard', [
             'title' => $title,

@@ -71,7 +71,20 @@
                                                     <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Active') }}">
                                                         <input class="form-check-input active-company-btn" type="checkbox" {{ $item['active']=='active'?'checked':'' }} />
                                                     </label>
-                                                    
+
+                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm info-btn me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('View') }}">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path opacity="0.3" d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22ZM12.5 18C12.5 17.4 12.6 17.5 12 17.5H8.5C7.9 17.5 8 17.4 8 18C8 18.6 7.9 18.5 8.5 18.5L12 18C12.6 18 12.5 18.6 12.5 18ZM16.5 13C16.5 12.4 16.6 12.5 16 12.5H8.5C7.9 12.5 8 12.4 8 13C8 13.6 7.9 13.5 8.5 13.5H15.5C16.1 13.5 16.5 13.6 16.5 13ZM12.5 8C12.5 7.4 12.6 7.5 12 7.5H8C7.4 7.5 7.5 7.4 7.5 8C7.5 8.6 7.4 8.5 8 8.5H12C12.6 8.5 12.5 8.6 12.5 8Z" fill="currentColor"/>
+                                                            <rect x="7" y="17" width="6" height="2" rx="1" fill="currentColor"/>
+                                                            <rect x="7" y="12" width="10" height="2" rx="1" fill="currentColor"/>
+                                                            <rect x="7" y="7" width="6" height="2" rx="1" fill="currentColor"/>
+                                                            <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="currentColor"/>
+                                                        </svg>
+                                                            
+                                                        <!--end::Svg Icon-->
+                                                    </a>
+
                                                     <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm delete-company-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Delete') }}">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
@@ -113,7 +126,7 @@
 
 
 {{-- modal --}}
-{{-- <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="kt_modal" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog mw-650px">
         <!--begin::Modal content-->
@@ -138,39 +151,70 @@
             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
                 <!--begin::Heading-->
                 <div class="text-center mb-13">
-                    <h1 class="mb-3">Create Company</h1>
+                    <h1 class="mb-3">{{ _('Company Info') }}</h1>
                 </div>
                 <!--end::Heading-->
                
-                <div class="mb-10">
-                   
-                    <div class="mh-300px scroll-y me-n7 pe-7">
-                        
+                <div class="row g-9 mb-8">
+                    <!--begin::Col-->
+                    <div class="col-md-6 fv-row">
+                        <label class="fs-6 fw-bold mb-2">{{ __('Company Name') }}</label>
+                        <input type="text" class="form-control form-control-solid" id="m_company_name"  readonly/>
                     </div>
-                </div>
-                <!--begin::Notice-->
-                <div class="d-flex flex-stack">
-                    <!--begin::Label-->
-                    <div class="me-5 fw-bold">
-                        <label class="fs-6">Adding Users by Team Members</label>
-                        <div class="fs-7 text-muted">If you need more info, please check budget planning</div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6 fv-row">
+                        <label class="fs-6 fw-bold mb-2">{{ __('Organisation Type') }}</label>
+                        <input type="text" class="form-control form-control-solid" id="m_org_type" readonly/>
                     </div>
-                    <!--end::Label-->
-                    <!--begin::Switch-->
-                    <label class="form-check form-switch form-check-custom form-check-solid">
-                        <input class="form-check-input" type="checkbox" value="1" checked="checked" />
-                        <span class="form-check-label fw-bold text-muted">Allowed</span>
-                    </label>
-                    <!--end::Switch-->
+                    <!--end::Col-->
                 </div>
-                <!--end::Notice-->
+
+                <div class="row g-9 mb-8">
+                    <!--begin::Col-->
+                    <div class="col-md-6 fv-row">
+                        <label class="fs-6 fw-bold mb-2">{{ __('First name') }}</label>
+                        <input type="text" class="form-control form-control-solid" id="m_first_name" readonly/>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6 fv-row">
+                        <label class="fs-6 fw-bold mb-2">{{ __('Last name') }}</label>
+                        <input type="text" class="form-control form-control-solid" id="m_last_type" readonly/>
+                    </div>
+                    <!--end::Col-->
+                </div>
+
+                <div class="fv-row mb-7">
+                    <label class="form-label fw-bolder text-dark fs-6">KvK#</label>
+                    <input class="form-control form-control-solid" type="text" id="m_chamber_commerce" autocomplete="off" readonly/>
+                </div>
+                <div class="fv-row mb-7">
+                    <label class="form-label fw-bolder text-dark fs-6">{{ __('City') }}</label>
+                    <input class="form-control form-control-solid" type="text" id="m_city" autocomplete="off" readonly/>
+                </div>
+                <!--begin::Input group-->
+                <div class="fv-row mb-7">
+                    <label class="form-label fw-bolder text-dark fs-6">{{ __('Email') }}</label>
+                    <input class="form-control form-control-solid" type="email" id="m_email" autocomplete="off" readonly/>
+                </div>
+                <div class="fv-row mb-7">
+                    <label class="form-label fw-bolder text-dark fs-6">{{ __('Tel') }}</label>
+                    <input class="form-control form-control-solid" type="tel" id="m_tel" autocomplete="off" readonly/>
+                </div>
+                
+                <!--begin::Actions-->
+                <div class="text-center">
+                    <button type="reset" id="kt_modal_cancel" data-dismiss="modal" class="btn btn-light me-3">{{ __('Cancel') }}</button>
+                </div>
+                <!--end::Actions-->
             </div>
             <!--end::Modal body-->
         </div>
         <!--end::Modal content-->
     </div>
     <!--end::Modal dialog-->
-</div> --}}
+</div>
 
 
 
