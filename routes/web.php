@@ -37,6 +37,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['auth', 'user']], function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         
+        // Route::get('/testemail', [DashboardController::class, 'send_email_test'])->name('testemail');
+        
         // User Management
         Route::get('/user_management', [UserManagementController::class, 'user_manage_page'])->name('user_management');
         Route::post('/user_management/getUserTreeByRole', [UserManagementController::class, 'getUserTreeByRole'])->name('getUserTreeByRole');

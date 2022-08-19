@@ -1,21 +1,17 @@
 <?php 
-require_once "vendor/autoload.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+require_once "vendor/autoload.php";
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// $servername = $_ENV['DB_HOST'];
-// $username = $_ENV['DB_USERNAME'];
-// $password = $_ENV['DB_PASSWORD'];
-// $dbname = $_ENV['DB_DATABASE'];
-
-$servername = "localhost";
-$username = "u965508571_coach";
-$password = "1D$+0e~3fH";
-$dbname = "u965508571_coach";
+$servername = $_ENV['DB_HOST'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+$dbname = $_ENV['DB_DATABASE'];
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -24,8 +20,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// cron_job();
-test();
+cron_job();
 
 $conn->close();
 
@@ -49,7 +44,9 @@ function cron_job(){
         $user_info = $user_result->fetch_assoc();
   
         // send email   $user_info['email']
-        $root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+        // $root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+        $root = 'https://coachingsupport.solvware.online/';
+        $root = $_ENV['HOME_PAGE'];
         $url = $root . "survey/" . $row['unique_str'];
         
         $email_result = send_email($user_info, $url);
@@ -57,7 +54,7 @@ function cron_job(){
         if($email_result){
           // update
           $update_query = "UPDATE user_forms SET emailled_at = '" . $now . "', emailled_times = " . ($row['emailled_times'] + 1) . " WHERE id = " . $row['id'];
-          // echo $update_query;
+          
           if ($conn->query($update_query) === TRUE) {
             // echo "Record updated successfully";
           } else {
@@ -91,7 +88,20 @@ function send_email($user_info, $survey_url){
         
       $mail->isHTML(true);                                  
       $mail->Subject = 'Coachingsupport Herinnering';
-      $mail->Body    = 'Beste ' . $user_info['first_name'] . '<br/><br/>' . 'Je hebt de enquete nog niet ingevuld, gelieve dat via onderstaande link te doen:<br/>' . '<a href="' . $survey_url . '" target="_black">' . $survey_url . '</a>';
+
+      $div = "<div style='background-color:#edf2f7;color:#718096;padding: 50px 0'>";
+        $div .= "<div style='background-color:white; padding: 32px; width: 570px; margin: 0 auto; border-radius: 3px'>";
+        $div .= "<h2>Coachingsupport Herinnering</h2>"; 
+        $div .= "Beste " . $user_info['first_name'] . "<br/><br/>" . "Je hebt de enquete nog niet ingevuld, gelieve dat via onderstaande link te doen:<br/>" . "<a href='" . $survey_url . "' target='_black'>" . $survey_url . "</a>";
+        $div .= "</div>";
+
+        $div .= "<div style='text-align: center;font-size: 12px; margin-top: 30px'>";
+        $div .= "© 2022 Survey. All rights reserved.";
+        $div .= "</div>";
+      $div .= "</div>";
+
+      $mail->Body = $div;
+
       $mail->send();
       return true;
   } catch (Exception $e) {
@@ -99,17 +109,4 @@ function send_email($user_info, $survey_url){
   }
 }
 
-function test(){
-
-  global $conn;
-
-  $sql = "INSERT INTO webforms (unique_str, form_name, created_id, company_id, active)
-  VALUES ('sdkjfksdjflksdjiosafd', 'cron test form', 1, 1, 'active')";
-
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-}
 ?>

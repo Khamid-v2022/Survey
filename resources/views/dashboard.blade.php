@@ -7,7 +7,7 @@
             <!--begin::Container-->
             <div id="kt_content_container" class="container-xxl">
            
-               
+               {{-- <a class="btn btn-primary" href="{{ route('testemail') }}">send email</a> --}}
             </div>
             <!--end::Container-->
         </div>
