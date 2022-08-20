@@ -8,9 +8,6 @@
     "Coach": "Coach",
     "Trainer": "Trainer",
 
-    
-
-
     "Profile": "Profiel",
     "User Management": "Gebruikersbeheer",
     "Survey": "Enquete",
@@ -77,6 +74,10 @@
     "Form name": "Het formulier naam",
     "Submit The form": "Versturen Het formulier",
     "Submitted Datetime": "Datum/tijd ingediend",
+    "Question": "Vraag",
+    "New Question": "Nieuwe Vraag",
+    "Type": "Type",
+    "Preview": "Voorbeeld",
 
 
 
@@ -110,6 +111,8 @@
     "Waiting for admin approval": "Wacht op goedkeuring van de beheerder",
     "You have successfully logged in": "Je bent succesvol ingelogd",
     "You have entered invalid login details": "U heeft ongeldige inloggegevens ingevoerd",
-    "Authentication failed": "Verificatie mislukt"
+    "Authentication failed": "Verificatie mislukt",
+
+    "Answer will enter here": "Antwoord komt hier binnen"
     
 }

@@ -6,4 +6,6 @@ return [
     ],
 
     'org_type' => ['Bond', 'School', 'Sportvereniging', 'Stichting'],
+
+    'answer_type' => ['Option', 'Paragraph', 'Rating', 'Text']
 ];

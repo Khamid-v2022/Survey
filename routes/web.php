@@ -8,6 +8,7 @@ use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\EnquetesController;
 use App\Http\Controllers\DistributieController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\SurveyFormController;
 
 
 // Email
@@ -49,10 +50,17 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/trainee_management', [UserManagementController::class, 'trainee_manage_page'])->name('trainee_management');
 
+        // Survey
         Route::get('/enquetes', [EnquetesController::class, 'index'])->name('enquetes');
         Route::post('/enquetes/addUpdateForm', [EnquetesController::class, 'addUpdateForm']);
         Route::post('/enquetes/changeActive', [EnquetesController::class, 'changeActive']);
         Route::delete('/enquetes/deleteForm/{id}', [EnquetesController::class, 'deleteForm'])->where('id', '[0-9]+');
+
+        // Survey Form
+        Route::get('/survey_form/{form_id}', [SurveyFormController::class, 'index'])->where('form_id', '[0-9]+');;
+        Route::post('/survey_form/addUpdateQuestion', [SurveyFormController::class, 'addUpdateQuestion']);
+        Route::get('/survey_form/getQuestion/{question_id}', [SurveyFormController::class, 'getQuestion'])->where('question_id', '[0-9]+');;
+        Route::delete('/survey_form/deleteQuestion/{question_id}', [SurveyFormController::class, 'deleteQuestion'])->where('question_id', '[0-9]+');;
 
 
         Route::get('/distributie', [DistributieController::class, 'index'])->name('distributie');

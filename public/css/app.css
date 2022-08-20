@@ -51,3 +51,7 @@
 .menu-state-title-primary .menu-item.show > .menu-link .menu-title, .menu-state-icon-primary .menu-item.show > .menu-link .menu-icon, .menu-state-icon-primary .menu-item.show > .menu-link .menu-icon .svg-icon, .menu-state-icon-primary .menu-item.show > .menu-link .menu-icon i {
   color: #47BE7D;
 }
+
+svg.rating-star {
+  margin: 10px;
+}
