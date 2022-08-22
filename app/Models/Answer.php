@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Question;
+
 class Answer extends Model
 {
     use HasFactory;
@@ -18,4 +20,8 @@ class Answer extends Model
         'trainee_id',
         'answer'
     ];
+    public function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
 }

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Webform;
 use App\Models\User;
 use App\Models\User_Form;
+use App\Models\Question;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SurveyMail;
@@ -144,5 +146,18 @@ class DistributieController extends MyController
         $user = User_Form::where('id', $request->survey_id)->delete();
    
         return response()->json(['code'=>200, 'message'=>__('Successfully removed')], 200);
+    }
+
+    public function viewSurveyInfo($survey_id){
+        $user_form = User_Form::where('id', $survey_id)->first();
+        $form_info = Webform::where('id', $user_form['form_id'])->first();
+
+        $answer = Question::where('questions.form_id', $user_form['form_id'])
+                    ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+                    ->where('trainee_id', $user_form['user_id'])
+                    ->select('questions.*', 'answers.answer')->get();
+        $data = ['form_info' => $form_info, 'answers' => $answer];
+
+        return response()->json(['code'=>200, 'message'=>__(''), 'data' => $data], 200);
     }
 }

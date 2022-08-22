@@ -54,4 +54,7 @@
 
 svg.rating-star {
   margin: 10px;
+  cursor: pointer;
 }
+
+

@@ -57,15 +57,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/enquetes/deleteForm/{id}', [EnquetesController::class, 'deleteForm'])->where('id', '[0-9]+');
 
         // Survey Form
-        Route::get('/survey_form/{form_id}', [SurveyFormController::class, 'index'])->where('form_id', '[0-9]+');;
+        Route::get('/survey_form/{form_id}', [SurveyFormController::class, 'index'])->where('form_id', '[0-9]+');
         Route::post('/survey_form/addUpdateQuestion', [SurveyFormController::class, 'addUpdateQuestion']);
-        Route::get('/survey_form/getQuestion/{question_id}', [SurveyFormController::class, 'getQuestion'])->where('question_id', '[0-9]+');;
-        Route::delete('/survey_form/deleteQuestion/{question_id}', [SurveyFormController::class, 'deleteQuestion'])->where('question_id', '[0-9]+');;
+        Route::get('/survey_form/getQuestion/{question_id}', [SurveyFormController::class, 'getQuestion'])->where('question_id', '[0-9]+');
+        Route::delete('/survey_form/deleteQuestion/{question_id}', [SurveyFormController::class, 'deleteQuestion'])->where('question_id', '[0-9]+');
 
 
         Route::get('/distributie', [DistributieController::class, 'index'])->name('distributie');
         Route::post('/distributie/sendFormToTranees', [DistributieController::class, 'sendFormToTranees']);
         Route::delete('/distributie/deleteSurveyItem', [DistributieController::class, 'deleteSurveyItem']);
+        Route::get('/distributie/viewSurveyInfo/{survey_id}', [DistributieController::class, 'viewSurveyInfo'])->where('survey_id', '[0-9]+');
         
     });
 
@@ -87,7 +88,8 @@ Route::post('/password_reset', [AuthController::class, 'password_reset']);
 
 // Public Survey link
 Route::get('/survey/{unique_str}', [SurveyController::class, 'index'])->name('survey');
-
+Route::post('/survey', [SurveyController::class, 'postAnswer']);
+Route::get('/thanks', [SurveyController::class, 'thanks']);
 
 
 // Email

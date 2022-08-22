@@ -25,25 +25,18 @@
 		<!--begin::Main-->
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root">
-			<!--begin::Authentication - Sign-in -->
-			<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style="background-image: url(assets/media/illustrations/sketchy-1/14.png">
+			<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed">
 				<!--begin::Content-->
-				<div class="d-flex flex-column flex-column-fluid p-10 pb-lg-20" style="align-items:center">
+				<div class="d-flex flex-column p-10 pb-lg-10" style="align-items:center">
 					<!--begin::Logo-->
-					<a href="#" class="mb-5">
+					<a href="#" class="mb-10">
 						<img alt="Logo" src="{{ asset('images/logo.png') }}" class="h-60px" />
 					</a>
 					<!--end::Logo-->
-					<!--begin::Wrapper-->
-					<div>
-						<h1>{{ $form['form_name'] }}</h1>
-					</div>
-					@yield('content')
-					<!--end::Wrapper-->
 				</div>
+				@yield('content')
 				<!--end::Content-->
 			</div>
-			<!--end::Authentication - Sign-in-->
 		</div>
 		<!--end::Root-->
 		<!--end::Main-->

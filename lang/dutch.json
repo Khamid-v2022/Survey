@@ -55,6 +55,7 @@
     "No": "Nee",
     "Pending": "Verstuurd",
     "Submitted": "Gereageerd",
+    "Close": "Dichtbij",
    
 
     "Sign In": "Sign In",
@@ -113,6 +114,7 @@
     "You have entered invalid login details": "U heeft ongeldige inloggegevens ingevoerd",
     "Authentication failed": "Verificatie mislukt",
 
-    "Answer will enter here": "Antwoord komt hier binnen"
+    "Answer will enter here": "Antwoord komt hier binnen",
+    "Thank you! You have submitted an answer.": "Dank je! U heeft een antwoord ingestuurd."
     
 }
