@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/enquetes', [EnquetesController::class, 'index'])->name('enquetes');
         Route::post('/enquetes/addUpdateForm', [EnquetesController::class, 'addUpdateForm']);
         Route::post('/enquetes/changeActive', [EnquetesController::class, 'changeActive']);
+        Route::get('/enquetes/exportCSV/{id}', [EnquetesController::class, 'exportCSV'])->where('id', '[0-9]+');
         Route::delete('/enquetes/deleteForm/{id}', [EnquetesController::class, 'deleteForm'])->where('id', '[0-9]+');
 
         // Survey Form

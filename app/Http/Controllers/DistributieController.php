@@ -79,6 +79,13 @@ class DistributieController extends MyController
     }
 
     public function sendFormToTranees(Request $request){
+        // check form is empty or not
+        $form = Question::where('form_id', $request->form_id)->get();
+        if(count($form) == 0)
+        {
+            return response()->json(['code'=>204, 'message'=>__('This form has not been filled out yet. Please fill out the form')], 200);
+        }
+
         $queue = [];
 
         foreach($request->tranee_ids as $trainee_id){
@@ -87,8 +94,6 @@ class DistributieController extends MyController
                 ->where('form_id', $request->form_id)
                 ->where('progress_status', '!=', 'submitted')->get();
             
-
-
             $date = new DateTime();
             $timestamp = $date->getTimestamp();
 

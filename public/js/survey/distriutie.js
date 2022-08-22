@@ -149,6 +149,18 @@ $(function () {
                                             confirmButton: "btn btn-success",
                                         },
                                     }).then(function (t) {});
+                                } else if (response.code == 204) {
+                                    Swal.fire({
+                                        text: response.message,
+                                        icon: "warning",
+                                        buttonsStyling: !1,
+                                        confirmButtonText: "Sluiten",
+                                        customClass: {
+                                            confirmButton: "btn btn-success",
+                                        },
+                                    }).then(function (t) {
+                                        location.href = '/survey_form/' + $("#m_sel_form").val();
+                                    });
                                 }
                             },
                             error: function (data) {

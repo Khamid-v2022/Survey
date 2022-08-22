@@ -19,7 +19,7 @@ $(function () {
         order: [],
         // pageLength: 5,
         // lengthChange: !1,
-        columnDefs: [{ orderable: !1, targets: 3 }],
+        columnDefs: [{ orderable: !1, targets: 5 }],
     });
 
     document
@@ -172,4 +172,22 @@ $(function () {
             },
         });
     });
+
+    // csv export
+    $("#kt_datatable").on("click", ".excel-btn", function () {
+        let id = $(this).parents("tr").attr("form_id");
+        let _url = "/enquetes/exportCSV/" + id;
+        window.location.href = _url;
+        // $.ajax({
+        //     type: "get",
+        //     url: _url,
+        //     success: function (data) {
+        //         // $("tr[form_id = " + id + "]").remove();
+        //     },
+        //     error: function (data) {
+        //         console.log("Error:", data);
+        //     },
+        // });
+    });
+    
 });

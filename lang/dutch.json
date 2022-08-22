@@ -41,6 +41,7 @@
     "Role of registrant": "Rol van registrant",
     "Action": "Acties",
     "Status": "Status",
+    "Response": "Antwoord",
 
     "Send": "Verstuur",
     "Submit": "Indienen",
@@ -56,6 +57,7 @@
     "Pending": "Verstuurd",
     "Submitted": "Gereageerd",
     "Close": "Dichtbij",
+    "CSV Download": "CSV Download",
    
 
     "Sign In": "Sign In",
@@ -115,6 +117,7 @@
     "Authentication failed": "Verificatie mislukt",
 
     "Answer will enter here": "Antwoord komt hier binnen",
-    "Thank you! You have submitted an answer.": "Dank je! U heeft een antwoord ingestuurd."
+    "Thank you! You have submitted an answer.": "Dank je! U heeft een antwoord ingestuurd.",
+    "This form has not been filled out yet. Please fill out the form": "Dit formulier is nog niet ingevuld. Vul het formulier in"
     
 }
