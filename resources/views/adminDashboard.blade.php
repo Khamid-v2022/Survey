@@ -46,7 +46,7 @@
                                             <th class="min-w-80px">{{ __('First name') }}</th>
                                             <th class="min-w-80px">{{ __('Role') }}</th>
                                             <th class="min-w-100px">{{ __('Email') }}</th>
-                                            <th class="min-w-100px text-end">{{__('Action') }}</th>
+                                            <th class="min-w-100px text-center">{{__('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
@@ -67,19 +67,15 @@
                                                 {{ $item['email'] }}
                                             </td>
                                             <td>
-                                                <div class="d-flex justify-content-end flex-shrink-0">
+                                                <div class="d-flex justify-content-center flex-shrink-0">
                                                     <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Active') }}">
                                                         <input class="form-check-input active-company-btn" type="checkbox" {{ $item['active']=='active'?'checked':'' }} />
                                                     </label>
 
-                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm info-btn me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('View') }}">
+                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm info-btn me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
-                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path opacity="0.3" d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22ZM12.5 18C12.5 17.4 12.6 17.5 12 17.5H8.5C7.9 17.5 8 17.4 8 18C8 18.6 7.9 18.5 8.5 18.5L12 18C12.6 18 12.5 18.6 12.5 18ZM16.5 13C16.5 12.4 16.6 12.5 16 12.5H8.5C7.9 12.5 8 12.4 8 13C8 13.6 7.9 13.5 8.5 13.5H15.5C16.1 13.5 16.5 13.6 16.5 13ZM12.5 8C12.5 7.4 12.6 7.5 12 7.5H8C7.4 7.5 7.5 7.4 7.5 8C7.5 8.6 7.4 8.5 8 8.5H12C12.6 8.5 12.5 8.6 12.5 8Z" fill="currentColor"/>
-                                                            <rect x="7" y="17" width="6" height="2" rx="1" fill="currentColor"/>
-                                                            <rect x="7" y="12" width="10" height="2" rx="1" fill="currentColor"/>
-                                                            <rect x="7" y="7" width="6" height="2" rx="1" fill="currentColor"/>
-                                                            <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="currentColor"/>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                                            <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z" fill="#50cd89"/>
                                                         </svg>
                                                             
                                                         <!--end::Svg Icon-->
@@ -180,7 +176,7 @@
                     <!--begin::Col-->
                     <div class="col-md-6 fv-row">
                         <label class="fs-6 fw-bold mb-2">{{ __('Last name') }}</label>
-                        <input type="text" class="form-control form-control-solid" id="m_last_type" readonly/>
+                        <input type="text" class="form-control form-control-solid" id="m_last_name" readonly/>
                     </div>
                     <!--end::Col-->
                 </div>
@@ -205,7 +201,7 @@
                 
                 <!--begin::Actions-->
                 <div class="text-center">
-                    <button type="reset" id="kt_modal_cancel" data-dismiss="modal" class="btn btn-light me-3">{{ __('Cancel') }}</button>
+                    <button type="reset" id="kt_modal_cancel" data-dismiss="modal" class="btn btn-light me-3">Sluiten</button>
                 </div>
                 <!--end::Actions-->
             </div>

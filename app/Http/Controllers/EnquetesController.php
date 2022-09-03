@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Webform;
 use App\Models\User_Form;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use Hash;
 
@@ -81,11 +82,18 @@ class EnquetesController extends MyController
 
     public function exportCSV($id){
         $form_info = Webform::where('id', $id)->first();
-        $users = User_Form::select("users.*", "user_forms.unique_str", "user_forms.progress_status", "user_forms.ended_at")
-            ->leftjoin('users', 'user_forms.user_id', '=', 'users.id')    
+        $question_info = Question::where('form_id', $id)->get();
+        
+        $users = User_Form::select("users.*", "user_forms.unique_str", "user_forms.progress_status", "user_forms.ended_at", 'answers.question_id', 'answers.answer')
+            ->leftjoin('users', 'user_forms.user_id', '=', 'users.id')
+            ->leftjoin('answers', function($join){
+                $join->on('answers.form_id', '=', 'user_forms.form_id')
+                    ->on('answers.trainee_id', '=', 'user_forms.user_id');
+            })
             ->where('user_forms.form_id', $id)
+            ->orderby('users.id', 'ASC')
+            ->orderby('answers.question_id', 'ASC')
             ->get();
-
         $fileName = $form_info['form_name'] . '.csv';
         
         $headers = array(
@@ -95,23 +103,48 @@ class EnquetesController extends MyController
             "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
             "Expires"             => "0"
         );
+        
+        $columns = array(__('First name'), __('Last name'));
+        
+        foreach($question_info as $question){
+            array_push($columns, $question['question']);
+        }
 
-        $columns = array(__('First name'), __('Last name'), __('Status'), 'Unique URL');
-
-        $callback = function() use($users, $columns) {
+        $callback = function() use($users, $columns, $question_info) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
-            foreach ($users as $user) {
-                $row['first_name']  = $user->first_name;
-                $row['last_name']   = $user->last_name;
-                $row['url']         = route('survey', ['unique_str' => $user['unique_str']]);
-                $row['status'] = __('Pending');
-                if($user['progress_status'] == "submitted")
-                    $row['status'] = __('Submitted');
+            $prev_user_id = 0;
+            $first_flag = true;
 
-                fputcsv($file, array($row['first_name'], $row['last_name'], $row['status'], $row['url']));
+            foreach ($users as $user) {
+                if($prev_user_id != $user['id']){
+                    if(!$first_flag){
+                        fputcsv($file, $row);
+                    }
+
+                    $row = array();
+                    array_push($row, $user->first_name);
+                    array_push($row, $user->last_name);
+                    $prev_user_id = $user['id'];
+                    $first_flag = false;
+                }
+                
+                foreach($question_info as $question){
+                    if($question['id'] == $user['question_id'])
+                        array_push($row, $user->answer);
+                }
+                
+                // $row['url']         = route('survey', ['unique_str' => $user['unique_str']]);
+                // $row['status'] = __('Pending');
+                // if($user['progress_status'] == "submitted")
+                //     $row['status'] = __('Submitted');
+
+                // fputcsv($file, array($row['first_name'], $row['last_name'], $row['status'], $row['url']));
+                
+                
             }
+            fputcsv($file, $row);
 
             fclose($file);
         };

@@ -57,7 +57,7 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                {{ __('Send') }}</button>
+                                Versturen</button>
                             </div>
                         </div>
                         <!--end::Header-->
@@ -119,7 +119,7 @@
                                                     @case('submitted')
                                                         <span class="badge badge-light-success fs-7 m-1">{{ __('Submitted') }}</span>
                                                         <br>
-                                                        <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="{{ __('Submitted Datetime') }}">{{ $item['ended_at'] }}</span>
+                                                        <span class="text-muted card-toolbar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover" title="{{ __('Submitted Datetime') }}"> {{ date("d-m-Y H:i", strtotime($item['ended_at'])) }}</span>
                                                         @break
                                                 @endswitch
                                             </td>
@@ -137,7 +137,7 @@
                                                         <!--end::Svg Icon-->
                                                     </a>
                                                     @if($item['progress_status'] == 'submitted')
-                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm view-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('View') }}">
+                                                        <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm view-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                 <path d="M21.7 18.9L18.6 15.8C17.9 16.9 16.9 17.9 15.8 18.6L18.9 21.7C19.3 22.1 19.9 22.1 20.3 21.7L21.7 20.3C22.1 19.9 22.1 19.3 21.7 18.9Z" fill="currentColor"/>
                                                                 <path opacity="0.3" d="M11 20C6 20 2 16 2 11C2 6 6 2 11 2C16 2 20 6 20 11C20 16 16 20 11 20ZM11 4C7.1 4 4 7.1 4 11C4 14.9 7.1 18 11 18C14.9 18 18 14.9 18 11C18 7.1 14.9 4 11 4ZM8 11C8 9.3 9.3 8 11 8C11.6 8 12 7.6 12 7C12 6.4 11.6 6 11 6C8.2 6 6 8.2 6 11C6 11.6 6.4 12 7 12C7.6 12 8 11.6 8 11Z" fill="currentColor"/>
@@ -217,7 +217,7 @@
                     <div class="text-center">
                         <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">{{ __('Cancel') }}</button>
                         <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
-                            <span class="indicator-label">{{ __('Send') }}</span>
+                            <span class="indicator-label">Versturen</span>
                             <span class="indicator-progress">{{ __('Please wait...') }}
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>

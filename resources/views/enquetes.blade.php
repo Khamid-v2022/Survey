@@ -58,7 +58,7 @@
                                             <th class="min-w-80px">{{ __('Role') }}</th>
                                             <th class="min-w-100px">{{ __('Creation date') }}</th>
                                             <th class="min-w-100px">{{ __('Response') }}</th>
-                                            <th class="min-w-100px text-end">{{ __('Action') }}</th>
+                                            <th class="min-w-100px text-center">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <!--end::Table head-->
@@ -94,13 +94,13 @@
                                                 @endswitch
                                             </td>
                                             <td>
-                                                {{ $item['created_at'] }}
+                                                {{ date("d-m-Y H:i", strtotime($item['created_at'])) }}
                                             </td>
                                             <td>
                                                 {{ $item['sumitted'] }} / {{  $item['total_sent']  }}
                                             </td>
                                             <td>
-                                                <div class="d-flex justify-content-end flex-shrink-0">
+                                                <div class="d-flex justify-content-center flex-shrink-0">
                                                     <label class="form-check form-switch form-check-custom form-check-solid me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('Active') }}">
                                                         <input class="form-check-input active-form-btn" type="checkbox" {{ $item['active']=='active'?'checked':'' }} />
                                                     </label>
@@ -125,7 +125,7 @@
                                                         <!--end::Svg Icon-->
                                                     </a>
 
-                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm excel-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('CSV Download') }}">
+                                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-success me-1 btn-sm excel-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="{{ __('CSV Download') }}">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

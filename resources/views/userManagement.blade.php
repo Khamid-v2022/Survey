@@ -233,36 +233,33 @@
                     </div>
 
                     <!--begin::Input group-->
-                    <div class="row g-9 mb-8">
+                    <div class="fv-row mb-8 ">
+                        <label class="required fs-6 fw-bold mb-2">{{ __('Role') }}</label>
+                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="{{ __('Select role...') }}" name="m_user_role" id="m_user_role">
+                            @for($i = 0; $i < count($roles); $i++)
+                                <option value="{{ $roles[$i] }}" {{ $i==0?'selected':'' }}>{{ $roles[$i] }}</option>
+                            @endfor
+                        </select>
                         <!--begin::Col-->
-                        <div class="col-md-6 fv-row">
-                            <label class="required fs-6 fw-bold mb-2">{{ __('Role') }}</label>
-                            <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="{{ __('Select role...') }}" name="m_user_role" id="m_user_role">
-                                @for($i = 0; $i < count($roles); $i++)
-                                    <option value="{{ $roles[$i] }}" {{ $i==0?'selected':'' }}>{{ $roles[$i] }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <!--end::Col-->
-
-                        <!--begin::Col-->
-                        {{-- @if($user['role'] == 'Coach' || $user['role'] == 'Trainer')
-                            <div class="col-md-6 fv-row parent-div" style="display: none">
-                        @else
-                            <div class="col-md-6 fv-row parent-div">
-                        @endif --}}
-                            <div class="col-md-6 fv-row parent-div">
-                                <label class="required fs-6 fw-bold mb-2 parent-org-name">Parent Org</label>
-                                <!--begin::Input-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Organisatie" id="m_user_parent" name="m_user_parent">
-                                    <option value="{{ $user['id'] }}">{{ $user['first_name'] . ' ' . $user['last_name'] }} ({{ $user['role'] }})
-                                    </option>
-                                </select>
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Col-->
+                        
+                           
                     </div>
                     <!--end::Input group-->
+                    {{-- @if($user['role'] == 'Coach' || $user['role'] == 'Trainer')
+                            <div class="fv-row parent-div" style="display: none">
+                        @else
+                            <div class="fv-row parent-div">
+                        @endif --}}
+                    <div class="fv-row parent-div mb-8 ">
+                        
+                        <label class="required fs-6 fw-bold mb-2 parent-org-name">Parent Org</label>
+                        <!--begin::Input-->
+                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Organisatie" id="m_user_parent" name="m_user_parent">
+                            <option value="{{ $user['id'] }}">{{ $user['first_name'] . ' ' . $user['last_name'] }} ({{ $user['role'] }})
+                            </option>
+                        </select>
+                        <!--end::Input-->
+                    </div>
 
 
                     <!--begin:: Trainer selection for Trainee input opti-->
@@ -370,7 +367,7 @@
                     <div class="text-center">
                         <button type="reset" id="kt_modal_new_target_cancel" data-dismiss="modal" class="btn btn-light me-3">{{ __('Cancel') }}</button>
                         <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
-                            <span class="indicator-label">{{ __('Submit') }}</span>
+                            <span class="indicator-label">Toevoegen</span>
                             <span class="indicator-progress">{{ __('Please wait...') }}
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>

@@ -16,7 +16,7 @@ $(function () {
         $(this).find("select").trigger("change");
         $(".action-type").html("Toevoegen");
         $("#action_type").val("Add");
-        $("#kt_modal_new_target_submit .indicator-label").html("Submit");
+        $("#kt_modal_new_target_submit .indicator-label").html("Toevoegen");
         $("#m_user_id").val("");
     });
 
@@ -417,6 +417,7 @@ $(function () {
             showCancelButton: true,
             confirmButtonText: "Ja",
             cancelButtonText: "Nee",
+            confirmButtonColor: "#50cd89",
         }).then(function (result) {
             if (result.value) {
                 let _url = "/user_management/deleteUser/" + id;

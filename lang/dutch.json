@@ -56,7 +56,7 @@
     "No": "Nee",
     "Pending": "Verstuurd",
     "Submitted": "Gereageerd",
-    "Close": "Dichtbij",
+    "Close": "Sluiten",
     "CSV Download": "CSV Download",
    
 
@@ -117,7 +117,7 @@
     "Authentication failed": "Verificatie mislukt",
 
     "Answer will enter here": "Antwoord komt hier binnen",
-    "Thank you! You have submitted an answer.": "Dank je! U heeft een antwoord ingestuurd.",
+    "Thank you for your cooperation!": "Bedankt voor je medewerking!",
     "This form has not been filled out yet. Please fill out the form": "Dit formulier is nog niet ingevuld. Vul het formulier in"
     
 }
