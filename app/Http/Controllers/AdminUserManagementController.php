@@ -10,79 +10,160 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SurveyMail;
 
-class UserManagementController extends MyController
+class AdminUserManagementController extends MyController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
+    // admin role for register company
     public function index()
     {
+        $title = __('Registration Coachingsupport');
+
+        $companies = User::where('role', 'company')->get();
+        return view('adminDashboard', [
+            'title' => $title,
+            'user' => $this->user, 
+            'companies' => $companies
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        
+        // $user = User::updateOrCreate(['id' => $request->id], [
+        //             'active' => $request->active
+        //         ]);
+
+        $user = User::where('id', $request->id)->first();
+        
+         // send email
+        if($request->active == 'active'){
+            $details = [
+                'title' => __('Welcome to coaching support'),
+                'body' => __('Your account has been activated.')
+            ];
+        }else{
+            $details = [
+                'title' => 'Oope!',
+                'body' => __('Your account has been deactivated.')
+            ];
+        }
+
+        try {
+            Mail::to($user['email'])->send(new SurveyMail($details));
+        } catch (Exception $e) {
+            if (count(Mail::failures()) > 0) {
+                return response()->json(['code'=>202, 'message'=>__('Unable to send email')], 200);
+            }
+        }
+        
+        $user->active = $request->active;
+        $user->save();
+
+        return response()->json(['code'=>200, 'message'=>__('An email has been sent to that user.'), 'data' => $user], 200);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+        $company = User::where('id', $id)->first();
+        return response()->json(['code'=>200, 'message'=>"", 'data' => $company], 200);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $user = User::where('id', $id)->delete();
+   
+        return response()->json(['code'=>200, 'message'=>'Succesvol verwijderd'], 200);
     }
 
     public function user_manage_page(){
         
         $title = __('User Management');
-        
-        $my_role = $this->user['role'];
-        $roles = Config::get('constants.roles.user');
 
-        $index = array_search($my_role, $roles);
-        if($my_role == 'Coach')
-            $index++;
-        $include_roles = array_slice($roles, $index + 1);
+        $roles = Config::get('constants.roles.user');
         
-        $users = User::wherein('role', $include_roles)
-                        ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')
-                        ->orderBy('tree_code', 'asc')
+        $users = User::where('role', '!=', 'Admin')->orderBy('tree_code', 'asc')
+                        ->get();
+        $companies = User::where('role', '=', 'Company')->orderBy('tree_code', 'asc')
                         ->get();
         
         $user_info = $this->user;
         
-        // get higher level ogrs
-        // if user role = trainer or coarch  need to get company, department, program
-        $codes = explode('.', $this->user['tree_code']);
-        
-        $company_code = array_slice($codes, 0, 1);
-        $the_code = implode('.', $company_code);
-        $company = User::where('tree_code', 'LIKE', $the_code)->first();
-        $user_info['company_name'] = $company['name'];
-        $user_info['org_type'] = $company['org_type'];
-
-        if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Department' || $my_role == 'Program'){
-            
-            $department_code = array_slice($codes, 0, 2);
-            $the_code = implode('.', $department_code); 
-            $department = User::where('tree_code', 'LIKE', $the_code)->first();
-            $user_info['department_name'] = $department['name'];
-           
-            if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Program') {
-                $program_code = array_slice($codes, 0, 3);
-                $the_code = implode('.', $program_code);
-                $program = User::where('tree_code', 'LIKE', $the_code)->first();
-                $user_info['program_name'] = $program['name'];
-            }       
-        }
-
-        sort($include_roles);
-        return view('userManagement', [
+        return view('adminUserManagement', [
             'title' => $title,
             'user' => $user_info, 
             'users' => $users,
-            'roles' => $include_roles
+            'roles' => $roles,
+            'companies' => $companies
         ]);
     }
 
     public function getUserTreeByRole(Request $request){
         $roles = Config::get('constants.roles.user');
 
+        // get Company Tree code
+        $company = User::find($request->selected_company);
+
         // register target_role : trainee => coach, trainer
         // register target_role : coach or trainer => program
         if($request->role == 'Trainee'){
             $users = User::where('role', 'Coach')
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->orderBy('first_name', 'asc')->get();
+            ->where('tree_code', 'LIKE', $company['tree_code'] . '%')->orderBy('first_name', 'asc')->get();
             
             // get Department, program info
             for($index = 0; $index < count($users); $index++){
@@ -101,11 +182,11 @@ class UserManagementController extends MyController
             }
 
             $trainers = User::where('role', 'Trainer')
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->orderBy('first_name', 'asc')->get();
+            ->where('tree_code', 'LIKE', $company['tree_code'] . '%')->orderBy('first_name', 'asc')->get();
 
         }else if($request->role == 'Coach' || $request->role == 'Trainer'){
             $users = User::where('role', 'Program')
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->orderBy('name', 'asc')->get();
+            ->where('tree_code', 'LIKE', $company['tree_code'] . '%')->orderBy('name', 'asc')->get();
 
             // get program info
             for($index = 0; $index < count($users); $index++){
@@ -121,7 +202,7 @@ class UserManagementController extends MyController
         
             $target_role = $roles[$index - 1];
             $users = User::where('role', $target_role)
-            ->where('tree_code', 'LIKE', $this->user['tree_code'] . '%')->orderBy('name', 'asc')->get();
+            ->where('tree_code', 'LIKE', $company['tree_code'] . '%')->orderBy('name', 'asc')->get();
         }
 
         if(count($users) > 0)
@@ -206,10 +287,10 @@ class UserManagementController extends MyController
 	    return implode($pass);
 	}
 
-
-
     public function userInfo($id){
         $user = User::find($id);
+        $user['company_id'] = explode('.', $user['tree_code'])[0];
+
         return response()->json(['code'=>200, 'message'=>'Success','data' => $user], 200);
     }
 
@@ -262,18 +343,20 @@ class UserManagementController extends MyController
     // Trainee management
     public function trainee_manage_page(){
         $title = "Trainee";
+        $companies = User::where('role', '=', 'Company')->get();
+        $user_info = $this->user;
+
         
         $my_role = $this->user['role'];
        
         $users = User::where('users.role', 'Trainee')
-        ->where('users.tree_code', 'LIKE', $this->user['tree_code'] . '%')
         ->leftjoin('users AS u2', 'users.trainer_id_for_trainee', '=', 'u2.id')
         ->orderBy('tree_code', 'asc')
         ->select('users.*', 'u2.first_name AS trainee_first', 'u2.last_name AS trainee_last')
         ->get();
        
       
-        // get Coach
+        // get Coach, Company
         $i = 0;
         if(count($users) > 0){
             for($i == 0; $i < count($users); $i++){
@@ -290,50 +373,57 @@ class UserManagementController extends MyController
                     $users[$i]['parent_name'] = $parentUser['first_name'] . ' ' . $parentUser['last_name'];
                     $users[$i]['parent_email'] = $parentUser['email'];
                 }
+
+                // get Company Info
+                $company_code = explode('.', $item['tree_code'])[0];
+                $company = User::where('tree_code', '=', $company_code)->first();
+                $users[$i]['company_name'] = $company['name'];
             }
         }
 
-        $user_info = $this->user;
+        
 
         $roles = Config::get('constants.roles.user');
 
-        $index = array_search($my_role, $roles);
-        if($my_role == 'Coach')
-            $index++;
-        $include_roles = array_slice($roles, $index + 1);
+        // $index = array_search($my_role, $roles);
+        // if($my_role == 'Coach')
+        //     $index++;
+        // $include_roles = array_slice($roles, $index + 1);
         
-        // get higher level ogrs
-        // if user role = trainer or coarch  need to get company, department, program
-        $codes = explode('.', $this->user['tree_code']);
+        // // get higher level ogrs
+        // // if user role = trainer or coarch  need to get company, department, program
+        // $codes = explode('.', $this->user['tree_code']);
         
-        $company_code = array_slice($codes, 0, 1);
-        $the_code = implode('.', $company_code);
-        $company = User::where('tree_code', 'LIKE', $the_code)->first();
-        $user_info['company_name'] = $company['name'];
-        $user_info['org_type'] = $company['org_type'];
+        // $company_code = array_slice($codes, 0, 1);
+        // $the_code = implode('.', $company_code);
+        // $company = User::where('tree_code', 'LIKE', $the_code)->first();
+        // $user_info['company_name'] = $company['name'];
+        // $user_info['org_type'] = $company['org_type'];
 
-        if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Department' || $my_role == 'Program'){
+        // if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Department' || $my_role == 'Program'){
             
-            $department_code = array_slice($codes, 0, 2);
-            $the_code = implode('.', $department_code); 
-            $department = User::where('tree_code', 'LIKE', $the_code)->first();
-            $user_info['department_name'] = $department['name'];
+        //     $department_code = array_slice($codes, 0, 2);
+        //     $the_code = implode('.', $department_code); 
+        //     $department = User::where('tree_code', 'LIKE', $the_code)->first();
+        //     $user_info['department_name'] = $department['name'];
            
-            if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Program') {
-                $program_code = array_slice($codes, 0, 3);
-                $the_code = implode('.', $program_code);
-                $program = User::where('tree_code', 'LIKE', $the_code)->first();
-                $user_info['program_name'] = $program['name'];
-            }       
-        }
+        //     if($my_role == 'Coach' || $my_role == 'Trainer' || $my_role == 'Program') {
+        //         $program_code = array_slice($codes, 0, 3);
+        //         $the_code = implode('.', $program_code);
+        //         $program = User::where('tree_code', 'LIKE', $the_code)->first();
+        //         $user_info['program_name'] = $program['name'];
+        //     }       
+        // }
 
 
-        sort($include_roles);
-        return view('treineeManagement', [
+        // sort($include_roles);
+
+        return view('adminTreineeManagement', [
             'title' => $title,
-            'user' => $user_info, 
+            'user' => $user_info,
             'users' => $users,
-            'roles' => $include_roles
+            'companies' => $companies,
+            'roles' => $roles
         ]);
     }
 

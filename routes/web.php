@@ -4,9 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\AdminUserManagementController;
 
 use App\Http\Controllers\EnquetesController;
+use App\Http\Controllers\AdminEnquetesController;
+
 use App\Http\Controllers\DistributieController;
+use App\Http\Controllers\AdminDistributieController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\SurveyFormController;
 
@@ -73,7 +77,29 @@ Route::group(['middleware' => ['auth']], function () {
 
     // admin protected routes
     Route::group(['middleware' => ['auth', 'admin']], function () {
-        Route::resource('/admin_dashboard', UserManagementController::class);
+        Route::resource('/admin_dashboard', AdminUserManagementController::class);
+
+        // User Management
+        Route::get('/adminuser_management', [AdminUserManagementController::class, 'user_manage_page'])->name('admin_user_management');
+        Route::get('/adminuser_management/userInfo/{id}', [AdminUserManagementController::class, 'userInfo'])->where('id', '[0-9]+');
+        Route::post('/adminuser_management/getUserTreeByRole', [AdminUserManagementController::class, 'getUserTreeByRole']);
+        Route::post('/adminuser_management/addUpdateUser', [AdminUserManagementController::class, 'addUpdateUser']);
+        Route::post('/adminuser_management/changeActive', [AdminUserManagementController::class, 'changeActive']);
+        Route::delete('/adminuser_management/deleteUser/{id}', [AdminUserManagementController::class, 'deleteUser'])->where('id', '[0-9]+');
+
+        Route::get('/admin_trainee_management', [AdminUserManagementController::class, 'trainee_manage_page'])->name('admin_trainee_management');
+       
+        // Survey Form
+        Route::get('/admin_enquetes', [AdminEnquetesController::class, 'index'])->name('admin_enquetes');
+        Route::post('/admin_enquetes/addUpdateForm', [AdminEnquetesController::class, 'addUpdateForm']);
+        Route::post('/admin_enquetes/changeActive', [AdminEnquetesController::class, 'changeActive']);
+        Route::delete('/admin_enquetes/deleteForm/{id}', [AdminEnquetesController::class, 'deleteForm'])->where('id', '[0-9]+');
+
+        Route::get('/admin_distributie', [AdminDistributieController::class, 'index'])->name('admin_distributie');
+        Route::post('/admin_distributie/sendFormToTranees', [AdminDistributieController::class, 'sendFormToTranees']);
+        Route::delete('/admin_distributie/deleteSurveyItem', [AdminDistributieController::class, 'deleteSurveyItem']);
+        Route::get('/admin_distributie/viewSurveyInfo/{survey_id}', [AdminDistributieController::class, 'viewSurveyInfo'])->where('survey_id', '[0-9]+');
+        
     });
 });
 
