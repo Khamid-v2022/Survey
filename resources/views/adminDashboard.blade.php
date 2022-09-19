@@ -19,8 +19,8 @@
                                 <span class="card-label fw-bolder fs-3 mb-1">{{ __('Company Statistics') }}</span>
                                 {{-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> --}}
                             </h3>
-                            {{-- <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Click to add a company">
-                                <a href="#" class="btn btn-sm btn-success btn-active-success" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
+                            <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover">
+                                <a href="#" class="btn btn-sm btn-success btn-active-success" data-bs-toggle="modal" data-bs-target="#kt_modal">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                 <span class="svg-icon svg-icon-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -29,8 +29,8 @@
                                     </svg>
                                 </span>
                                 <!--end::Svg Icon-->
-                                New Company</a>
-                            </div> --}}
+                                Nieuw Company</a>
+                            </div>
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
@@ -119,8 +119,6 @@
 <!--end::Content-->
 
 
-
-
 {{-- modal --}}
 <div class="modal fade" id="kt_modal" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
@@ -150,60 +148,73 @@
                     <h1 class="mb-3">{{ _('Company Info') }}</h1>
                 </div>
                 <!--end::Heading-->
-               
-                <div class="row g-9 mb-8">
-                    <!--begin::Col-->
-                    <div class="col-md-6 fv-row">
-                        <label class="fs-6 fw-bold mb-2">{{ __('Company Name') }}</label>
-                        <input type="text" class="form-control form-control-solid" id="m_company_name"  readonly/>
-                    </div>
-                    <!--end::Col-->
-                    <!--begin::Col-->
-                    <div class="col-md-6 fv-row">
-                        <label class="fs-6 fw-bold mb-2">{{ __('Organisation Type') }}</label>
-                        <input type="text" class="form-control form-control-solid" id="m_org_type" readonly/>
-                    </div>
-                    <!--end::Col-->
-                </div>
+                <form id="kt_modal_new_target_form" class="form" action="#">
+                    <input type="hidden" value="Add" id="action_type">
+                    <input type="hidden" value="" id="m_user_id">
 
-                <div class="row g-9 mb-8">
-                    <!--begin::Col-->
-                    <div class="col-md-6 fv-row">
-                        <label class="fs-6 fw-bold mb-2">{{ __('First name') }}</label>
-                        <input type="text" class="form-control form-control-solid" id="m_first_name" readonly/>
+                    <div class="row g-9 mb-8">
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="fs-6 fw-bold mb-2 required">{{ __('Company Name') }}</label>
+                            <input type="text" class="form-control form-control-solid" id="m_company_name" name="m_company_name"/>
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="fs-6 fw-bold mb-2 required">{{ __('Organisation Type') }}</label>
+                            <select  class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="" name="m_org_type" id="m_org_type">
+                                @foreach($org_types as $org_type)
+                                <option value="{{ $org_type }}">{{ $org_type }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <!--end::Col-->
                     </div>
-                    <!--end::Col-->
-                    <!--begin::Col-->
-                    <div class="col-md-6 fv-row">
-                        <label class="fs-6 fw-bold mb-2">{{ __('Last name') }}</label>
-                        <input type="text" class="form-control form-control-solid" id="m_last_name" readonly/>
-                    </div>
-                    <!--end::Col-->
-                </div>
 
-                <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">KvK#</label>
-                    <input class="form-control form-control-solid" type="text" id="m_chamber_commerce" autocomplete="off" readonly/>
-                </div>
-                <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">{{ __('City') }}</label>
-                    <input class="form-control form-control-solid" type="text" id="m_city" autocomplete="off" readonly/>
-                </div>
-                <!--begin::Input group-->
-                <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">{{ __('Email') }}</label>
-                    <input class="form-control form-control-solid" type="email" id="m_email" autocomplete="off" readonly/>
-                </div>
-                <div class="fv-row mb-7">
-                    <label class="form-label fw-bolder text-dark fs-6">{{ __('Tel') }}</label>
-                    <input class="form-control form-control-solid" type="tel" id="m_tel" autocomplete="off" readonly/>
-                </div>
-                
-                <!--begin::Actions-->
-                <div class="text-center">
-                    <button type="reset" id="kt_modal_cancel" data-dismiss="modal" class="btn btn-light me-3">Sluiten</button>
-                </div>
-                <!--end::Actions-->
+                    <div class="row g-9 mb-8">
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="fs-6 fw-bold mb-2 required">{{ __('First name') }}</label>
+                            <input type="text" class="form-control form-control-solid" id="m_first_name" name="m_first_name"/>
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="fs-6 fw-bold mb-2 required">{{ __('Last name') }}</label>
+                            <input type="text" class="form-control form-control-solid" id="m_last_name" name="m_last_name"/>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+
+                    <div class="fv-row mb-7">
+                        <label class="form-label fw-bolder text-dark fs-6 required">KvK#</label>
+                        <input class="form-control form-control-solid" type="text" id="m_chamber_commerce" name="m_chamber_commerce" autocomplete="off"/>
+                    </div>
+                    <div class="fv-row mb-7">
+                        <label class="form-label fw-bolder text-dark fs-6 required">{{ __('City') }}</label>
+                        <input class="form-control form-control-solid" type="text" id="m_city" name="m_city" autocomplete="off"/>
+                    </div>
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <label class="form-label fw-bolder text-dark fs-6 required">{{ __('Email') }}</label>
+                        <input class="form-control form-control-solid" type="email" id="m_email" name="m_email" autocomplete="off"/>
+                    </div>
+                    <div class="fv-row mb-7">
+                        <label class="form-label fw-bolder text-dark fs-6 required">{{ __('Tel') }}</label>
+                        <input class="form-control form-control-solid" type="tel" id="m_tel" name="m_tel" autocomplete="off"/>
+                    </div>
+                    
+                    <!--begin::Actions-->
+                    <div class="text-center">
+                        <button type="reset" id="kt_modal_cancel" data-dismiss="modal" class="btn btn-light me-3">Sluiten</button>
+                        <button type="submit" id="kt_modal_new_target_submit" class="btn btn-success">
+                            <span class="indicator-label">Versturen</span>
+                            <span class="indicator-progress">{{ __('Please wait...') }}
+                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                        </button>
+                    </div>
+                    <!--end::Actions-->
+                </form>
             </div>
             <!--end::Modal body-->
         </div>
@@ -211,9 +222,6 @@
     </div>
     <!--end::Modal dialog-->
 </div>
-
-
-
 
 
 @endsection

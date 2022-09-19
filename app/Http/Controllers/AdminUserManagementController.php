@@ -21,12 +21,14 @@ class AdminUserManagementController extends MyController
     public function index()
     {
         $title = __('Registration Coachingsupport');
+        $org_types = Config::get('constants.org_type');
 
         $companies = User::where('role', 'company')->get();
         return view('adminDashboard', [
             'title' => $title,
             'user' => $this->user, 
-            'companies' => $companies
+            'companies' => $companies,
+            'org_types' => $org_types
         ]);
     }
 
@@ -113,9 +115,60 @@ class AdminUserManagementController extends MyController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        if(isset($request->id)){
+            $exist = User::where('id', '!=', $request->id)->where('email', strtolower($request->email))->get();
+        }else{
+            $exist = User::where('email', strtolower($request->email))->get();
+        }
+        if(count($exist) > 0){
+            return response()->json(['code'=>422, 'message'=>__('The email address you entered is already in use by another user.')], 200);
+        }
+
+        $request->validate([
+            'first_name'        => 'required|max:50',
+            'last_name'         => 'required|max:50',
+            'chamber_commerce'  => 'required',
+            'city'              => 'required',
+            'email'             => 'required',
+            'tel'               => 'required'
+        ]);
+
+        // check email has used or not
+        $user = new User;
+        if(isset($request->id)){
+            $exist = User::where('id', '!=', $request->id)->where('email', strtolower($request->email))->get();
+        }else{
+            $exist = User::where('email', strtolower($request->email))->get();
+        }
+        if(count($exist) > 0){
+            return response()->json(['code'=>422, 'message'=>__('The email address you entered is already in use by another user.')], 200);
+        }
+ 
+        $user = User::updateOrCreate(['id' => $request->id], [
+            'org_type' => $request->org_type,
+            'name' => $request->company_name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'chamber_commerce' => $request->chamber_commerce,
+            'city' => $request->city,
+            'email' => strtolower($request->email),
+            'tel' => $request->tel,
+            'role' => 'Company',
+            'active' => 'active',
+            'parent_id' => 0                // company: parent 0
+        ]);
+
+        // tree_code update
+        // company tree_code is own id
+        User::where('id', $user['id'])->update(['tree_code' => $user['id']]);
+
+        // send Email
+        if($request->action_type == "Add")
+            $code = $this->send_signup_email($user);
+
+        return response()->json(['code'=>200, 'message'=>'Met succes geregistreerd'], 200);
     }
 
     /**
@@ -131,6 +184,30 @@ class AdminUserManagementController extends MyController
         return response()->json(['code'=>200, 'message'=>'Succesvol verwijderd'], 200);
     }
 
+    private function send_signup_email($info){
+        // get SuperAdmin Email
+        $admin = User::where('role', 'Admin')->where('active', 'active')->first();
+
+        $info_body_html = '';
+        $info_body_html .= '<br/>' . __('Organisation Type') . ': <b>' . $info['org_type'] . '</b>';
+        $info_body_html .= '<br/>' . __('Company Name') . ': <b>' . $info['name'] . '</b>';
+        $info_body_html .= '<br/>' . __('First name') . ': <b>' . $info['first_name'] . '</b>';
+        $info_body_html .= '<br/>' . __('Last name') . ': <b>' . $info['last_name'] . '</b>';
+        $info_body_html .= '<br/>KvK#: <b>' . $info['chamber_commerce'] . '</b>';
+        $info_body_html .= '<br/>' . __('City') . ': <b>' . $info['city'] . '</b>';
+        $info_body_html .= '<br/>' . __('Email') . ': <b>' . $info['email'] . '</b>';
+        $info_body_html .= '<br/>' . __('Tel') . ': <b>' . $info['tel'] . '</b><br/>';
+
+        $details = [
+            'title' => __('Registration Coachingsupport'),
+            'body' => __('A new company has registered') . ': ' . $info_body_html
+        ];
+        
+        $resonse = Mail::to($admin['email'])->send(new SurveyMail($details));
+        
+        return $resonse;
+    }
+
     public function user_manage_page(){
         
         $title = __('User Management');
@@ -143,6 +220,17 @@ class AdminUserManagementController extends MyController
                         ->get();
         
         $user_info = $this->user;
+
+        if(count($users) > 0){
+            for($i = 0; $i < count($users); $i++){
+                $item = $users[$i];
+                
+                // get Company Info
+                $company_code = explode('.', $item['tree_code'])[0];
+                $company = User::where('tree_code', '=', $company_code)->first();
+                $users[$i]['company_name'] = $company['name'];
+            }
+        }
         
         return view('adminUserManagement', [
             'title' => $title,
@@ -357,9 +445,8 @@ class AdminUserManagementController extends MyController
        
       
         // get Coach, Company
-        $i = 0;
         if(count($users) > 0){
-            for($i == 0; $i < count($users); $i++){
+            for($i = 0; $i < count($users); $i++){
                 $item = $users[$i];
                 
                 // get Parent tree code (coach)

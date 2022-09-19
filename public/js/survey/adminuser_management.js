@@ -177,6 +177,9 @@ $(function () {
         selected_trainer = -1;
     });
 
+    $("#sel_company").on("change", function () {
+        datatable.columns(2).search($(this).val()).draw();
+    });
     $("#target_assign").on("change", function () {
         datatable.columns(3).search($(this).val()).draw();
     });

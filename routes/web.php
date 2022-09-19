@@ -78,6 +78,7 @@ Route::group(['middleware' => ['auth']], function () {
     // admin protected routes
     Route::group(['middleware' => ['auth', 'admin']], function () {
         Route::resource('/admin_dashboard', AdminUserManagementController::class);
+        Route::put('/admin_dashboard', [AdminUserManagementController::class, 'update']);
 
         // User Management
         Route::get('/adminuser_management', [AdminUserManagementController::class, 'user_manage_page'])->name('admin_user_management');

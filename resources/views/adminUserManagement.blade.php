@@ -29,6 +29,15 @@
                                     <input type="text" data-kt-permissions-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="" />
                                 </div>
                                 <div class="d-flex align-items-center position-relative my-1 me-5 w-150px">
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer" name="sel_company" id="sel_company">
+                                        <option value="">{{ __('Select') }}</option>
+                                        <option value=" ">{{ __('All') }}</option>
+                                        @foreach($companies as $item)
+                                            <option value="{{ $item['name'] }}">{{ $item['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="d-flex align-items-center position-relative my-1 me-5 w-150px">
                                     <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Selecteer" name="target_assign" id="target_assign">
                                         <option value="">{{ __('Select') }}</option>
                                         <option value=" ">{{ __('All') }}</option>
@@ -64,7 +73,7 @@
                                         <tr class="fw-bolder text-muted">
                                             <th class="min-w-80px">{{ __('First name') }}</th>
                                             <th class="min-w-80px">{{ __('Last name') }}</th>
-                                            <th class="min-w-100px">{{ __('Email') }}</th>
+                                            <th class="min-w-100px">{{ __('Company') }}</th>
                                             <th class="min-w-100px">{{ __('Role') }}</th>
                                             <th class="min-w-100px text-end">{{ __('Action') }}</th>
                                         </tr>
@@ -81,7 +90,7 @@
                                                 {{ $item['last_name'] }}
                                             </td>
                                             <td>
-                                                <a href="#" class="user-email">{{ $item['email'] }}</a>
+                                                <a href="#" class="user-email">{{ $item['company_name'] }}</a>
                                             </td>
                                             <td>
                                                 @switch($item['role'])
