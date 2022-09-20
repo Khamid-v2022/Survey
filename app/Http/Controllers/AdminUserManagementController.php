@@ -23,7 +23,7 @@ class AdminUserManagementController extends MyController
         $title = __('Registration Coachingsupport');
         $org_types = Config::get('constants.org_type');
 
-        $companies = User::where('role', 'company')->get();
+        $companies = User::where('role', '=', 'company')->orderBy('name', 'asc')->get();
         return view('adminDashboard', [
             'title' => $title,
             'user' => $this->user, 
@@ -117,24 +117,6 @@ class AdminUserManagementController extends MyController
      */
     public function update(Request $request)
     {
-        if(isset($request->id)){
-            $exist = User::where('id', '!=', $request->id)->where('email', strtolower($request->email))->get();
-        }else{
-            $exist = User::where('email', strtolower($request->email))->get();
-        }
-        if(count($exist) > 0){
-            return response()->json(['code'=>422, 'message'=>__('The email address you entered is already in use by another user.')], 200);
-        }
-
-        $request->validate([
-            'first_name'        => 'required|max:50',
-            'last_name'         => 'required|max:50',
-            'chamber_commerce'  => 'required',
-            'city'              => 'required',
-            'email'             => 'required',
-            'tel'               => 'required'
-        ]);
-
         // check email has used or not
         $user = new User;
         if(isset($request->id)){
@@ -156,7 +138,6 @@ class AdminUserManagementController extends MyController
             'email' => strtolower($request->email),
             'tel' => $request->tel,
             'role' => 'Company',
-            'active' => 'active',
             'parent_id' => 0                // company: parent 0
         ]);
 
@@ -164,9 +145,14 @@ class AdminUserManagementController extends MyController
         // company tree_code is own id
         User::where('id', $user['id'])->update(['tree_code' => $user['id']]);
 
-        // send Email
-        if($request->action_type == "Add")
-            $code = $this->send_signup_email($user);
+       
+        if($request->action_type == "Add"){
+            // set password
+            User::where('id', $user['id'])->update(['password' => Hash::make($request->password), 'active' => 'active']);
+            // send Email
+            $this->send_signup_email($user);
+        }
+            
 
         return response()->json(['code'=>200, 'message'=>'Met succes geregistreerd'], 200);
     }
@@ -179,6 +165,10 @@ class AdminUserManagementController extends MyController
      */
     public function destroy($id)
     {
+        // delete all of member in this company
+        $company = User::where('id', '=', $id)->first();
+        User::where('tree_code', 'LIKE', $company['tree_code'] . '%')->delete();
+
         $user = User::where('id', $id)->delete();
    
         return response()->json(['code'=>200, 'message'=>'Succesvol verwijderd'], 200);
@@ -216,17 +206,18 @@ class AdminUserManagementController extends MyController
         
         $users = User::where('role', '!=', 'Admin')->orderBy('tree_code', 'asc')
                         ->get();
-        $companies = User::where('role', '=', 'Company')->orderBy('tree_code', 'asc')
+        $companies = User::where('role', '=', 'Company')->orderBy('name', 'asc')
                         ->get();
         
         $user_info = $this->user;
-
+        
         if(count($users) > 0){
             for($i = 0; $i < count($users); $i++){
                 $item = $users[$i];
                 
                 // get Company Info
                 $company_code = explode('.', $item['tree_code'])[0];
+                
                 $company = User::where('tree_code', '=', $company_code)->first();
                 $users[$i]['company_name'] = $company['name'];
             }
@@ -431,7 +422,7 @@ class AdminUserManagementController extends MyController
     // Trainee management
     public function trainee_manage_page(){
         $title = "Trainee";
-        $companies = User::where('role', '=', 'Company')->get();
+        $companies = User::where('role', '=', 'Company')->orderBy('name', 'asc')->get();
         $user_info = $this->user;
 
         

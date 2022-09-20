@@ -16,7 +16,7 @@ class AdminEnquetesController extends MyController
         
         $title = __('Surveys');
         
-        $companies = User::where('role', '=', 'Company')->get();
+        $companies = User::where('role', '=', 'Company')->orderBy('name', 'asc')->get();
 
         $forms = Webform::select('webforms.*', 'users.first_name', 'users.last_name', 'users.role', 'company.name AS company_name')
             ->join('users', 'webforms.created_id', '=', 'users.id')

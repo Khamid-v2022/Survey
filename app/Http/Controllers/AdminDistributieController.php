@@ -24,7 +24,7 @@ class AdminDistributieController extends MyController
         $title = __('Distribution');
         
         // get Company
-        $companies = User::where('role', '=', 'Company')->get();
+        $companies = User::where('role', '=', 'Company')->orderBy('name', 'asc')->get();
 
 
         // get WebForms for our company

@@ -72,7 +72,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/distributie/sendFormToTranees', [DistributieController::class, 'sendFormToTranees']);
         Route::delete('/distributie/deleteSurveyItem', [DistributieController::class, 'deleteSurveyItem']);
         Route::get('/distributie/viewSurveyInfo/{survey_id}', [DistributieController::class, 'viewSurveyInfo'])->where('survey_id', '[0-9]+');
-        
     });
 
     // admin protected routes
