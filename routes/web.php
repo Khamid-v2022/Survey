@@ -89,7 +89,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/admin_trainee_management', [AdminUserManagementController::class, 'trainee_manage_page'])->name('admin_trainee_management');
        
-        // Survey Form
         Route::get('/admin_enquetes', [AdminEnquetesController::class, 'index'])->name('admin_enquetes');
         Route::post('/admin_enquetes/addUpdateForm', [AdminEnquetesController::class, 'addUpdateForm']);
         Route::post('/admin_enquetes/changeActive', [AdminEnquetesController::class, 'changeActive']);
@@ -100,6 +99,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/admin_distributie/deleteSurveyItem', [AdminDistributieController::class, 'deleteSurveyItem']);
         Route::get('/admin_distributie/viewSurveyInfo/{survey_id}', [AdminDistributieController::class, 'viewSurveyInfo'])->where('survey_id', '[0-9]+');
         
+
+        Route::get('/survey_form/{form_id}', [SurveyFormController::class, 'index'])->where('form_id', '[0-9]+');
+        Route::post('/survey_form/addUpdateQuestion', [SurveyFormController::class, 'addUpdateQuestion']);
+        Route::get('/survey_form/getQuestion/{question_id}', [SurveyFormController::class, 'getQuestion'])->where('question_id', '[0-9]+');
+        Route::delete('/survey_form/deleteQuestion/{question_id}', [SurveyFormController::class, 'deleteQuestion'])->where('question_id', '[0-9]+');
     });
 });
 

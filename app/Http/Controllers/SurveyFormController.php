@@ -15,11 +15,14 @@ class SurveyFormController extends MyController
         $title = __('Survey') . " " . __('Form');
         
         // get Company ID
-        $my_code = $this->user['tree_code'];
-        $company_id = explode('.', $my_code)[0];
-        
-
-        $form_info = Webform::where('id', $form_id)->where('company_id', $company_id)->first();
+        if($this->user['role'] != 'Admin'){
+            $my_code = $this->user['tree_code'];
+            $company_id = explode('.', $my_code)[0];
+            $form_info = Webform::where('id', $form_id)->where('company_id', $company_id)->first();
+        } else {
+            $form_info = Webform::where('id', $form_id)->first();
+        }
+      
         if(!$form_info){
             abort(403);
             exit;
